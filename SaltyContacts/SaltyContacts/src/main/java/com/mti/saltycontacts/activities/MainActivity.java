@@ -36,6 +36,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
         ListView list = (ListView) findViewById(R.id.my_contacts_list);
 
         List<Contact> contacts = new ArrayList<Contact>();
+
         Tag tag1 = new Tag("Maison");
         Tag tag2 = new Tag("Perso");
         PhoneNumber phoneNumber1 = new PhoneNumber("01.11.11.11.11", tag1);
@@ -47,7 +48,10 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
         contacts.add(contact1);
 
-        ContactsListAdapter adapter = new ContactsListAdapter(this, R.layout.contacts_list, contacts);
+        Contact[] contacts_array = new Contact[contacts.size()];
+        contacts.toArray(contacts_array);
+
+        ContactsListAdapter adapter = new ContactsListAdapter(this, R.layout.contacts_list, contacts_array);
         list.setAdapter(adapter);
 
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
