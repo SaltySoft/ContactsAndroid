@@ -42,31 +42,31 @@ public class ContactsListAdapter extends ArrayAdapter<Contact> {
         return this._adapterData.get(position);
     }
 
-//    @Override
-//    public View getView(int position, View convertView, ViewGroup parent) {
+    @Override
+    public View getView(int position, View convertView, ViewGroup parent) {
+
+        ViewHolder holder;
+
+        if (convertView == null) {
+            holder = new ViewHolder();
+            LayoutInflater inflater = (LayoutInflater) this._context
+                    .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            convertView = inflater.inflate(this._ressource, parent, false);
+            holder.textView = (TextView) convertView.findViewById(R.id.list_text);
+            convertView.setTag(holder);
+        } else {
+            holder = (ViewHolder) convertView.getTag();
+        }
+
+        Contact contact = this._adapterData.get(position);
+        holder.textView.setText(contact.getFullName());
+        //holder.imageView.setImageResource(R.drawable.ic_launcher);
+
+        return convertView;
+    }
 //
-//        ViewHolder holder;
-//
-//        if (convertView == null) {
-//            holder = new ViewHolder();
-//            LayoutInflater inflater = (LayoutInflater) this._context
-//                    .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-//            convertView = inflater.inflate(this._ressource, parent, false);
-//            holder.textView = (TextView) convertView.findViewById(R.id.list_text);
-//            convertView.setTag(holder);
-//        } else {
-//            holder = (ViewHolder) convertView.getTag();
-//        }
-//
-//        Contact contact = this._adapterData.get(position);
-//        holder.textView.setText(contact.getFullName());
-//        //holder.imageView.setImageResource(R.drawable.ic_launcher);
-//
-//        return convertView;
-//    }
-//
-//    private class ViewHolder {
-//        TextView textView;
-//        ImageView imageView;
-//    }
+    private class ViewHolder {
+        TextView textView;
+        ImageView imageView;
+    }
 }
