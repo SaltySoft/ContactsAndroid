@@ -1,15 +1,9 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".MainActivity" >
-    <item android:id="@+id/add_contact_button"
-        android:title="@string/action_add_contact"
-        android:icon="@android:drawable/ic_menu_add"
-        android:orderInCategory="100"
-        android:showAsAction="always" />
-
+    tools:context=".ContactEdition" >
+    
     <item android:id="@+id/action_settings"
         android:title="@string/action_settings"
         android:orderInCategory="100"
         android:showAsAction="never" />
-
 </menu>
