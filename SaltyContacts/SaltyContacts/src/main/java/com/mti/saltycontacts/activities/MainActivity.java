@@ -12,9 +12,19 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.os.Build;
+import android.widget.Adapter;
+import android.widget.AdapterView;
+import android.widget.ListView;
+import android.widget.Toast;
+
 import android.widget.Button;
 
 import com.mti.saltycontacts.R;
+import com.mti.saltycontacts.adapters.ContactsListAdapter;
+import com.mti.saltycontacts.models.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends Activity implements View.OnClickListener {
 
@@ -23,12 +33,39 @@ public class MainActivity extends Activity implements View.OnClickListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        ListView list = (ListView) findViewById(R.id.my_contacts_list);
+
+        List<Contact> contacts = new ArrayList<Contact>();
+        Tag tag1 = new Tag("Maison");
+        Tag tag2 = new Tag("Perso");
+        PhoneNumber phoneNumber1 = new PhoneNumber("01.11.11.11.11", tag1);
+        EmailAddress emailAddress1 = new EmailAddress("vinc.lefebv@gmail.com", tag2);
+
+        Contact contact1 = new Contact("Vincent", "Lefebvre", "Villejuif Paul Vaillant", "url1");
+        contact1.addPhoneNumber(phoneNumber1);
+        contact1.addEmailAddress(emailAddress1);
+
+        contacts.add(contact1);
+
+        ContactsListAdapter adapter = new ContactsListAdapter(this, R.layout.contacts_list, contacts);
+        list.setAdapter(adapter);
+
+        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view,
+                                    int pos, long l) {
+                Adapter adapter = adapterView.getAdapter();
+                Contact contact = (Contact) adapter.getItem(pos);
+                Toast.makeText(MainActivity.this, "Click sur un item = " + contact.getFullName(),
+                        Toast.LENGTH_LONG).show();
+            }
+        });
+
         if (savedInstanceState == null) {
             getFragmentManager().beginTransaction()
                     .add(R.id.container, new PlaceholderFragment())
                     .commit();
         }
-
     }
 
 
@@ -55,7 +92,6 @@ public class MainActivity extends Activity implements View.OnClickListener {
                 Log.d("ANTOINE", "tried to start");
                 return true;
         }
-
         return super.onOptionsItemSelected(item);
     }
 

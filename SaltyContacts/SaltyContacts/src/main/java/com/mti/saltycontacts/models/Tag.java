@@ -10,8 +10,8 @@ import android.util.Log;
 public class Tag implements Parcelable {
     private String _name;
 
-    public Tag() {
-        this._name = "";
+    public Tag(String name) {
+        this._name = name;
     }
 
     public void setName(String name) {
