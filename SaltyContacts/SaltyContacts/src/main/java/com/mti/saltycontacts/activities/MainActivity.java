@@ -51,17 +51,17 @@ public class MainActivity extends Activity implements View.OnClickListener {
         ListView list = (ListView) findViewById(R.id.my_contacts_list);
         ContactsListAdapter adapter = new ContactsListAdapter(this, R.layout.contacts_list, contacts_array);
         list.setAdapter(adapter);
-//
-//        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> adapterView, View view,
-//                                    int pos, long l) {
-//                Adapter adapter = adapterView.getAdapter();
-//                Contact contact = (Contact) adapter.getItem(pos);
-//                Toast.makeText(MainActivity.this, "Click sur un item = " + contact.getFullName(),
-//                        Toast.LENGTH_LONG).show();
-//            }
-//        });
+
+        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view,
+                                    int pos, long l) {
+                Adapter adapter = adapterView.getAdapter();
+                Contact contact = (Contact) adapter.getItem(pos);
+                Toast.makeText(MainActivity.this, "Click sur un item = " + contact.getFullName(),
+                        Toast.LENGTH_LONG).show();
+            }
+        });
 
 
     }
