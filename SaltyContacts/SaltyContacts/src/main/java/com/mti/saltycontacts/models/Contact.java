@@ -29,6 +29,13 @@ public class Contact implements Parcelable {
         this._emailsAddress = new ArrayList<EmailAddress>();
     }
 
+    public Contact(String firstname, String lastname, String postalAddress, String pictureUrl) {
+        this._firstname = firstname;
+        this._lastname = lastname;
+        this._postalAddress = postalAddress;
+        this._picture_url = pictureUrl;
+    }
+
     public String getFullName() {
         return this._lastname + " " + this._firstname;
     }
@@ -97,13 +104,6 @@ public class Contact implements Parcelable {
 
     public boolean removeEmailAddress(EmailAddress emailAddress) {
         return this._emailsAddress.remove(emailAddress);
-    }
-
-    public Contact(String firstname, String lastname, String postalAddress, String pictureUrl) {
-        this._firstname = firstname;
-        this._lastname = lastname;
-        this._postalAddress = postalAddress;
-        this._picture_url = pictureUrl;
     }
 
     public Contact(Parcel in) {
