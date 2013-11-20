@@ -45,7 +45,6 @@ public class MainActivity extends Activity implements View.OnClickListener {
         }
         //End Passed data management
 
-
         Tag tag1 = new Tag("Maison");
         Tag tag2 = new Tag("Perso");
         PhoneNumber phoneNumber1 = new PhoneNumber("01.11.11.11.11", tag1);
@@ -69,12 +68,13 @@ public class MainActivity extends Activity implements View.OnClickListener {
                                     int pos, long l) {
                 Adapter adapter = adapterView.getAdapter();
                 Contact contact = (Contact) adapter.getItem(pos);
-                Toast.makeText(MainActivity.this, "Click sur un item = " + contact.getFullName(),
+                Toast.makeText(MainActivity.this, "Click sur l'item = " + contact.getFullName(),
                         Toast.LENGTH_LONG).show();
+                Intent intent = new Intent(MainActivity.this, ContactShow.class);
+                intent.putExtra("CONTACT", contact);
+                startActivity(intent);
             }
         });
-
-
     }
 
 
