@@ -5,6 +5,7 @@ import android.app.ActionBar;
 import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -13,20 +14,54 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.os.Build;
 import android.widget.Button;
+import android.widget.EditText;
 
 import com.mti.saltycontacts.R;
+import com.mti.saltycontacts.models.Contact;
 
+import java.util.ArrayList;
 import java.util.logging.Logger;
 
 public class ContactEdition extends Activity implements View.OnClickListener {
+
+    Contact contact;
+
+    EditText firstname_input;
+    EditText lastname_input;
+    EditText address_input;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_contact_edition);
 
+        firstname_input = (EditText) findViewById(R.id.edition_firstname_input);
+        lastname_input = (EditText) findViewById(R.id.edition_lastname_input);
+        address_input = (EditText) findViewById(R.id.edition_address_input);
+
         Button save_button = (Button) findViewById(R.id.edition_save_button);
         save_button.setOnClickListener(this);
+
+
+
+        ArrayList<Parcelable> contacts;
+        Bundle bundle = this.getIntent().getExtras();
+        if (bundle != null) {
+            contacts = bundle.getParcelableArrayList("contacts");
+            if (contacts.size() > 0) {
+                this.contact = (Contact) contacts.get(0);
+                this.fillForm();
+            }
+        }
+    }
+
+    private void fillForm() {
+        if (this.contact != null) {
+            firstname_input.setText(this.contact.getFirstName());
+            lastname_input.setText(this.contact.getLastName());
+            address_input.setText(this.contact.getPostalAddress());
+        }
     }
 
 
@@ -54,8 +89,17 @@ public class ContactEdition extends Activity implements View.OnClickListener {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.edition_save_button:
+
+                this.contact.setFirstName(firstname_input.getText().toString());
+                this.contact.setLastName(lastname_input.getText().toString());
+                this.contact.setPostalAddress(address_input.getText().toString());
+
+
                 Intent intent = new Intent(ContactEdition.this, MainActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                ArrayList<Parcelable> array = new ArrayList<Parcelable>();
+                array.add(this.contact);
+                intent.putParcelableArrayListExtra("contact_edited", array);
                 startActivity(intent);
                 break;
         }

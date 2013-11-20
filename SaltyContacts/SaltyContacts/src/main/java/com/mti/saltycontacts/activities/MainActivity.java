@@ -33,8 +33,22 @@ public class MainActivity extends Activity implements View.OnClickListener {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         List<Contact> contacts = new ArrayList<Contact>();
+
+        //Passed data management
+
+        Bundle bundle = this.getIntent().getExtras();
+        if (bundle != null) {
+            ArrayList<Parcelable> contacts_edited;
+            contacts_edited = bundle.getParcelableArrayList("contact_edited");
+            if (contacts_edited.size() > 0) {
+                Contact contact_edited = (Contact) contacts_edited.get(0);
+                contacts.add(contact_edited);
+            }
+        }
+        //End Passed data management
+
+
 
         Tag tag1 = new Tag("Maison");
         Tag tag2 = new Tag("Perso");
@@ -63,6 +77,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
                         Toast.LENGTH_LONG).show();
             }
         });
+
 
 
     }
