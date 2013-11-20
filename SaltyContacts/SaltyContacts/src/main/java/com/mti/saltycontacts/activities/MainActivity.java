@@ -36,18 +36,14 @@ public class MainActivity extends Activity implements View.OnClickListener {
         List<Contact> contacts = new ArrayList<Contact>();
 
         //Passed data management
-
         Bundle bundle = this.getIntent().getExtras();
         if (bundle != null) {
-            ArrayList<Parcelable> contacts_edited;
-            contacts_edited = bundle.getParcelableArrayList("contact_edited");
-            if (contacts_edited.size() > 0) {
-                Contact contact_edited = (Contact) contacts_edited.get(0);
+            Contact contact_edited = bundle.getParcelable("contact_edited");
+            if (contact_edited != null) {
                 contacts.add(contact_edited);
             }
         }
         //End Passed data management
-
 
 
         Tag tag1 = new Tag("Maison");
@@ -75,9 +71,11 @@ public class MainActivity extends Activity implements View.OnClickListener {
                 Contact contact = (Contact) adapter.getItem(pos);
                 Toast.makeText(MainActivity.this, "Click sur un item = " + contact.getFullName(),
                         Toast.LENGTH_LONG).show();
+                Intent intent = new Intent(MainActivity.this, ContactEdition.class);
+                intent.putExtra("contact", contact);
+                startActivity(intent);
             }
         });
-
 
 
     }
@@ -107,7 +105,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
                 array.add(new_contact);
 
                 Intent intent = new Intent(this, ContactEdition.class);
-                intent.putParcelableArrayListExtra("contacts", array);
+                intent.putExtra("contact", new_contact);
                 startActivity(intent);
                 return true;
         }
@@ -117,8 +115,8 @@ public class MainActivity extends Activity implements View.OnClickListener {
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-           default:
-               break;
+            default:
+                break;
         }
     }
 

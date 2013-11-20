@@ -45,15 +45,11 @@ public class ContactEdition extends Activity implements View.OnClickListener {
 
 
 
-        ArrayList<Parcelable> contacts;
         Bundle bundle = this.getIntent().getExtras();
         if (bundle != null) {
-            contacts = bundle.getParcelableArrayList("contacts");
-            if (contacts.size() > 0) {
-                this.contact = (Contact) contacts.get(0);
-                this.fillForm();
-            }
+            this.contact = (Contact) bundle.getParcelable("contact");
         }
+
     }
 
     private void fillForm() {
@@ -94,12 +90,9 @@ public class ContactEdition extends Activity implements View.OnClickListener {
                 this.contact.setLastName(lastname_input.getText().toString());
                 this.contact.setPostalAddress(address_input.getText().toString());
 
-
                 Intent intent = new Intent(ContactEdition.this, MainActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                ArrayList<Parcelable> array = new ArrayList<Parcelable>();
-                array.add(this.contact);
-                intent.putParcelableArrayListExtra("contact_edited", array);
+                intent.putExtra("contact_edited", this.contact);
                 startActivity(intent);
                 break;
         }
