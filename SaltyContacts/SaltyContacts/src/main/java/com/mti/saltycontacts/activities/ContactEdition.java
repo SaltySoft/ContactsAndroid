@@ -48,7 +48,8 @@ public class ContactEdition extends Activity implements View.OnClickListener {
 
         Bundle bundle = this.getIntent().getExtras();
         if (bundle != null) {
-            this.contact = (Contact) bundle.getParcelable("contact");
+            this.contact = (Contact) bundle.getParcelable("CONTACT");
+            fillForm();
         }
 
     }

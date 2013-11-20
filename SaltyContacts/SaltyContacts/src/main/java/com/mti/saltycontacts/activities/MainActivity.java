@@ -35,39 +35,11 @@ public class MainActivity extends Activity implements View.OnClickListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         List<Contact> contacts = new ArrayList<Contact>();
-
-        //Passed data management
-//        Bundle bundle = this.getIntent().getExtras();
-//        if (bundle != null) {
-//            Contact contact_edited = bundle.getParcelable("contact_edited");
-//            if (contact_edited != null) {
-//                contacts.add(contact_edited);
-//            }
-//        }
-        //End Passed data management
-
-
-//        Tag tag1 = new Tag("Maison");
-//        Tag tag2 = new Tag("Perso");
-//        PhoneNumber phoneNumber1 = new PhoneNumber("01.11.11.11.11", tag1);
-//        EmailAddress emailAddress1 = new EmailAddress("vinc.lefebv@gmail.com", tag2);
-//
-//        Contact contact1 = new Contact("Vincent", "Lefebvre", "Villejuif Paul Vaillant", "url1");
-//        Contact contact2 = new Contact("Antoine", "Jackson", "Kremlin Bicetre Leclerc", "url2");
-
         ContactsBDD contactsBDD = new ContactsBDD(this);
         contactsBDD.openForRead();
-//        contactsBDD.insertOrUpdateContact(contact1);
-//        contactsBDD.insertOrUpdateContact(contact2);
 
         contacts = contactsBDD.getAllContacts();
         contactsBDD.close();
-
-//        contact1.addPhoneNumber(phoneNumber1);
-//        contact1.addEmailAddress(emailAddress1);
-//
-//        contacts.add(contact1);
-
 
 
         Contact[] contacts_array = new Contact[contacts.size()];
@@ -126,8 +98,8 @@ public class MainActivity extends Activity implements View.OnClickListener {
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-           default:
-               break;
+            default:
+                break;
         }
     }
 
