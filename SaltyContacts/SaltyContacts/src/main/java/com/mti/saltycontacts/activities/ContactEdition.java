@@ -13,12 +13,20 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.os.Build;
+import android.widget.Adapter;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListView;
+import android.widget.Toast;
 
 import com.mti.saltycontacts.R;
+import com.mti.saltycontacts.adapters.ContactsListAdapter;
+import com.mti.saltycontacts.adapters.PhoneNumbersEditionAdapter;
 import com.mti.saltycontacts.dataAccess.ContactsBDD;
 import com.mti.saltycontacts.models.Contact;
+import com.mti.saltycontacts.models.PhoneNumber;
+import com.mti.saltycontacts.models.Tag;
 
 import java.util.ArrayList;
 import java.util.logging.Logger;
@@ -48,9 +56,22 @@ public class ContactEdition extends Activity implements View.OnClickListener {
 
         Bundle bundle = this.getIntent().getExtras();
         if (bundle != null) {
-            this.contact = (Contact) bundle.getParcelable("contact");
+            this.contact = (Contact) bundle.getParcelable("CONTACT");
             this.fillForm();
         }
+
+        Tag tag = new Tag("tag");
+        PhoneNumber pn = new PhoneNumber("03030303", tag);
+        contact.addPhoneNumber(pn);
+
+
+
+        PhoneNumber[] phone_numbers_array = new PhoneNumber[contact.getPhoneNumbers().size()];
+        contact.getPhoneNumbers().toArray(phone_numbers_array);
+        ListView list = (ListView) findViewById(R.id.edition_phone_list);
+        PhoneNumbersEditionAdapter adapter = new PhoneNumbersEditionAdapter(this, R.layout.phone_list, phone_numbers_array);
+        list.setAdapter(adapter);
+
 
     }
 
