@@ -62,8 +62,6 @@ public class MainActivity extends Activity implements View.OnClickListener {
                         Toast.LENGTH_LONG).show();
             }
         });
-
-
     }
 
 
