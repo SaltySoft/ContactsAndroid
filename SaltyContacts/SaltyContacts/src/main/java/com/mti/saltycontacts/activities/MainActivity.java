@@ -5,6 +5,7 @@ import android.app.ActionBar;
 import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -82,10 +83,15 @@ public class MainActivity extends Activity implements View.OnClickListener {
             case R.id.action_settings:
                 return true;
             case R.id.add_contact_button:
+                //Contact creation
+                Contact new_contact = new Contact("", "", "", "");
+                ArrayList<Parcelable> array = new ArrayList<Parcelable>();
+
+                array.add(new_contact);
+
                 Intent intent = new Intent(this, ContactEdition.class);
-                Log.d("ANTOINE", "trying to start");
+                intent.putParcelableArrayListExtra("contacts", array);
                 startActivity(intent);
-                Log.d("ANTOINE", "tried to start");
                 return true;
         }
         return super.onOptionsItemSelected(item);

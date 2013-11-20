@@ -7,4 +7,10 @@
     <string name="action_add_contact">Add contact</string>
     <string name="title_activity_contact_edition">ContactEdition</string>
 
+
+    <!-- EDITION ACTIVITY -->
+    <string name="edition_title">Contact edition</string>
+    <string name="firstname_label">Firstname</string>
+    <string name="lastname_label">Lastname</string>
+    <string name="address_label">Address</string>
 </resources>
