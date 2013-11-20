@@ -118,13 +118,14 @@ public class Contact implements Parcelable {
         this._lastname = in.readString();
         this._postalAddress = in.readString();
         this._picture_url = in.readString();
-
-        this._phoneNumbers.clear();
+        this._phoneNumbers = new ArrayList<PhoneNumber>();
+//        this._phoneNumbers.clear();
         for (int i = 0; i < this._phoneNumbers.size(); i++) {
             PhoneNumber phoneNumber = in.readParcelable(PhoneNumber.class.getClassLoader());
             this._phoneNumbers.add(phoneNumber);
         }
-        this._emailsAddress.clear();
+        this._emailsAddress = new ArrayList<EmailAddress>();
+//        this._emailsAddress.clear();
         for (int i = 0; i < this._emailsAddress.size(); i++) {
             EmailAddress emailsAddress = in.readParcelable(EmailAddress.class.getClassLoader());
             this._emailsAddress.add(emailsAddress);

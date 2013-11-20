@@ -33,8 +33,18 @@ public class MainActivity extends Activity implements View.OnClickListener {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         List<Contact> contacts = new ArrayList<Contact>();
+
+        //Passed data management
+        Bundle bundle = this.getIntent().getExtras();
+        if (bundle != null) {
+            Contact contact_edited = bundle.getParcelable("contact_edited");
+            if (contact_edited != null) {
+                contacts.add(contact_edited);
+            }
+        }
+        //End Passed data management
+
 
         Tag tag1 = new Tag("Maison");
         Tag tag2 = new Tag("Perso");
@@ -61,12 +71,10 @@ public class MainActivity extends Activity implements View.OnClickListener {
                 Contact contact = (Contact) adapter.getItem(pos);
                 Toast.makeText(MainActivity.this, "Click sur un item = " + contact.getFullName(),
                         Toast.LENGTH_LONG).show();
-
-                Intent intent = new Intent(MainActivity.this, ContactShow.class);
-                intent.putExtra("CONTACT", contact);
-                startActivity(intent);
             }
         });
+
+
     }
 
 
