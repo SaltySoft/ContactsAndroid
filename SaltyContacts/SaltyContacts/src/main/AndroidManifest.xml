@@ -26,6 +26,10 @@
             android:name="com.mti.saltycontacts.activities.ContactEdition"
             android:label="@string/title_activity_contact_edition" >
         </activity>
+        <activity
+            android:name="com.mti.saltycontacts.activities.ContactShow"
+            android:label="@string/contact_show_title" >
+        </activity>
     </application>
 
 </manifest>

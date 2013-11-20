@@ -61,7 +61,6 @@ public class ContactEdition extends Activity implements View.OnClickListener {
         }
     }
 
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
 

@@ -82,15 +82,13 @@ public class MainActivity extends Activity implements View.OnClickListener {
                                     int pos, long l) {
                 Adapter adapter = adapterView.getAdapter();
                 Contact contact = (Contact) adapter.getItem(pos);
-                Toast.makeText(MainActivity.this, "Click sur un item = " + contact.getFullName(),
+                Toast.makeText(MainActivity.this, "Click sur l'item = " + contact.getFullName(),
                         Toast.LENGTH_LONG).show();
-                Intent intent = new Intent(MainActivity.this, ContactEdition.class);
-                intent.putExtra("contact", contact);
+                Intent intent = new Intent(MainActivity.this, ContactShow.class);
+                intent.putExtra("CONTACT", contact);
                 startActivity(intent);
             }
         });
-
-
     }
 
 
@@ -128,8 +126,8 @@ public class MainActivity extends Activity implements View.OnClickListener {
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            default:
-                break;
+           default:
+               break;
         }
     }
 
