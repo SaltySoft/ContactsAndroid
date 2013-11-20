@@ -13,6 +13,8 @@ import java.util.List;
  * Created by lefebv_b on 19/11/13.
  */
 public class Contact implements Parcelable {
+
+    private long id;
     private String _firstname;
     private String _lastname;
     private String _postalAddress;
@@ -21,6 +23,7 @@ public class Contact implements Parcelable {
     private List<EmailAddress> _emailsAddress;
 
     public Contact() {
+        this.id = 0;
         this._firstname = "";
         this._lastname = "";
         this._postalAddress = "";
@@ -30,6 +33,7 @@ public class Contact implements Parcelable {
     }
 
     public Contact(String firstname, String lastname, String postalAddress, String pictureUrl) {
+        this.id = 0;
         this._firstname = firstname;
         this._lastname = lastname;
         this._postalAddress = postalAddress;
@@ -82,6 +86,14 @@ public class Contact implements Parcelable {
         this._picture_url = pictureUrl;
     }
 
+    public long getId() {
+        return this.id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
     public boolean addPhoneNumber(PhoneNumber phoneNumber) {
         if (this._phoneNumbers != null) {
             this._phoneNumbers.add(phoneNumber);
@@ -109,11 +121,13 @@ public class Contact implements Parcelable {
     }
 
     public Contact(Parcel in) {
+        this.id = 0;
         this.getFromParcel(in);
     }
 
     //On va ici hydrater notre objet à partir du Parcel
     public void getFromParcel(Parcel in) {
+        this.id = in.readLong();
         this._firstname = in.readString();
         this._lastname = in.readString();
         this._postalAddress = in.readString();
@@ -140,6 +154,7 @@ public class Contact implements Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         Log.v("ContactParcel", "writeToParcel..." + flags);
+        dest.writeLong(this.id);
         dest.writeString(this._firstname);
         dest.writeString(this._lastname);
         dest.writeString(this._postalAddress);
