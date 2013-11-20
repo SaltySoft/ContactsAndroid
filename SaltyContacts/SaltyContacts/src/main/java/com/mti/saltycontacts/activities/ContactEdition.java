@@ -17,6 +17,7 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.mti.saltycontacts.R;
+import com.mti.saltycontacts.dataAccess.ContactsBDD;
 import com.mti.saltycontacts.models.Contact;
 
 import java.util.ArrayList;
@@ -89,6 +90,10 @@ public class ContactEdition extends Activity implements View.OnClickListener {
                 this.contact.setFirstName(firstname_input.getText().toString());
                 this.contact.setLastName(lastname_input.getText().toString());
                 this.contact.setPostalAddress(address_input.getText().toString());
+
+                ContactsBDD contactsBDD = new ContactsBDD(this);
+                contactsBDD.openForWrite();
+                contactsBDD.insertOrUpdateContact(this.contact);
 
                 Intent intent = new Intent(ContactEdition.this, MainActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
