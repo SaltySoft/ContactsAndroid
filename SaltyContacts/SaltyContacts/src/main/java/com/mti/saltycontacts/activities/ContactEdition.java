@@ -3,6 +3,7 @@ package com.mti.saltycontacts.activities;
 import android.app.Activity;
 import android.app.ActionBar;
 import android.app.Fragment;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -11,29 +12,27 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.os.Build;
+import android.widget.Button;
+
 import com.mti.saltycontacts.R;
 
 import java.util.logging.Logger;
 
-public class ContactEdition extends Activity {
+public class ContactEdition extends Activity implements View.OnClickListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.d("ANTOINE", "started activity");
         setContentView(R.layout.activity_contact_edition);
-        Log.d("ANTOINE", "created view");
-        if (savedInstanceState == null) {
-            getFragmentManager().beginTransaction()
-                    .add(R.id.container, new PlaceholderFragment())
-                    .commit();
-        }
+
+        Button save_button = (Button) findViewById(R.id.edition_save_button);
+        save_button.setOnClickListener(this);
     }
 
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        
+
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.contact_edition, menu);
         return true;
@@ -51,20 +50,14 @@ public class ContactEdition extends Activity {
         return super.onOptionsItemSelected(item);
     }
 
-    /**
-     * A placeholder fragment containing a simple view.
-     */
-    public static class PlaceholderFragment extends Fragment {
-
-        public PlaceholderFragment() {
-        }
-
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.fragment_contact_edition, container, false);
-            return rootView;
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.edition_save_button:
+                Intent intent = new Intent(ContactEdition.this, MainActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+                break;
         }
     }
-
 }

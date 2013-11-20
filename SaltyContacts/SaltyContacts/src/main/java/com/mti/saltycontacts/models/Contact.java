@@ -34,6 +34,8 @@ public class Contact implements Parcelable {
         this._lastname = lastname;
         this._postalAddress = postalAddress;
         this._picture_url = pictureUrl;
+        this._phoneNumbers = new ArrayList<PhoneNumber>();
+        this._emailsAddress = new ArrayList<EmailAddress>();
     }
 
     public String getFullName() {
