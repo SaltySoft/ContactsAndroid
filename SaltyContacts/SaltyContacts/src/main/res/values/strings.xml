@@ -10,6 +10,9 @@
 
     <!-- Contact Show ACTIVITY -->
     <string name="contact_show_title">Show Title</string>
+    <string name="postal_address_label">Postal address</string>
+    <string name="phone_numbers_label">Phone number(s)</string>
+    <string name="email_address_label">Email(s)</string>
 
     <!-- EDITION ACTIVITY -->
     <string name="edition_title">Contact edition</string>

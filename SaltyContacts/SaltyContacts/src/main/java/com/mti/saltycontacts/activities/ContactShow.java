@@ -5,16 +5,19 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.mti.saltycontacts.R;
+import com.mti.saltycontacts.adapters.ContactsListAdapter;
+import com.mti.saltycontacts.adapters.PhoneNumbersAdapter;
 import com.mti.saltycontacts.models.Contact;
+import com.mti.saltycontacts.models.PhoneNumber;
 
 /**
  * Created by lefebv_b on 20/11/13.
  */
 public class ContactShow extends Activity implements View.OnClickListener {
-
     private Contact _contact;
 
     @Override
@@ -44,6 +47,12 @@ public class ContactShow extends Activity implements View.OnClickListener {
             firstname.setText(this._contact.getFirstName());
             lastname.setText(this._contact.getLastName());
             address.setText(this._contact.getPostalAddress());
+
+            PhoneNumber[] phone_numbers_array = new PhoneNumber[this._contact.getPhoneNumbers().size()];
+            this._contact.getPhoneNumbers().toArray(phone_numbers_array);
+            ListView list = (ListView) findViewById(R.id.phone_numbers_list);
+            PhoneNumbersAdapter adapter = new PhoneNumbersAdapter(this, R.layout.phone_numbers_list, phone_numbers_array);
+            list.setAdapter(adapter);
         }
     }
 
