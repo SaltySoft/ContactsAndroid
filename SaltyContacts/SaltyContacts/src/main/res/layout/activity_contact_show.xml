@@ -39,14 +39,16 @@
 
         <LinearLayout
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="fill_parent">
 
             <ImageView
                 android:id="@+id/contact_show_picture"
                 android:src="@android:drawable/ic_menu_camera"
                 android:layout_height="150dp"
                 android:layout_width="100dp"
-                android:layout_margin="15dp" />
+                android:layout_marginTop="15dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginBottom="15dp" />
 
             <LinearLayout
                 android:layout_width="fill_parent"
@@ -65,7 +67,7 @@
                         android:layout_weight="1"
                         android:layout_width="0dp"
                         android:layout_height="fill_parent"
-                        android:text="@string/firstname_label"/>
+                        android:text="@string/firstname_label" />
 
                     <TextView
                         android:id="@+id/contact_show_firstname"
@@ -107,13 +109,39 @@
                         android:layout_weight="1"
                         android:layout_width="0dp"
                         android:layout_height="fill_parent"
-                        android:text="@string/address_label" />
+                        android:text="@string/postal_address_label" />
 
                     <TextView
                         android:id="@+id/contact_show_address"
                         android:layout_weight="1"
                         android:layout_width="0dp"
                         android:layout_height="fill_parent" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginRight="10dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:gravity="center"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/phone_numbers_label" />
+
+                    <LinearLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <ListView
+                            android:id="@+id/phone_numbers_list"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"></ListView>
+                    </LinearLayout>
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>
