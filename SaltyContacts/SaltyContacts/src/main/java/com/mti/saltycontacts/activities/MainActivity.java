@@ -41,16 +41,16 @@ public class MainActivity extends Activity implements View.OnClickListener {
         contacts = contactsBDD.getAllContacts();
         contactsBDD.close();
 
-        Tag tag1 = new Tag("Maison");
-        Tag tag2 = new Tag("Perso");
-        EmailAddress emailAddress = new EmailAddress("vinc.lefebv@gmail.com", tag2);
-        PhoneNumber phoneNumber = new PhoneNumber("01.02.03.04.05", tag1);
-        Contact contact1 = new Contact("Vincent", "Lefebvre", "Paul Vaillant Villejuif", "");
-        contact1.addPhoneNumber(phoneNumber);
-        contact1.addEmailAddress(emailAddress);
-        contacts = new ArrayList<Contact>();
-        contacts.add(contact1);
-        
+//        Tag tag1 = new Tag("Maison");
+//        Tag tag2 = new Tag("Perso");
+//        EmailAddress emailAddress = new EmailAddress("vinc.lefebv@gmail.com", tag2);
+//        PhoneNumber phoneNumber = new PhoneNumber("01.02.03.04.05", tag1);
+//        Contact contact1 = new Contact("Vincent", "Lefebvre", "Paul Vaillant Villejuif", "");
+//        contact1.addPhoneNumber(phoneNumber);
+//        contact1.addEmailAddress(emailAddress);
+//        contacts = new ArrayList<Contact>();
+//        contacts.add(contact1);
+//
         Contact[] contacts_array = new Contact[contacts.size()];
         contacts.toArray(contacts_array);
         ListView list = (ListView) findViewById(R.id.my_contacts_list);
@@ -97,7 +97,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
                 array.add(new_contact);
 
                 Intent intent = new Intent(this, ContactEdition.class);
-                intent.putExtra("contact", new_contact);
+                intent.putExtra("CONTACT", new_contact);
                 startActivity(intent);
                 return true;
         }

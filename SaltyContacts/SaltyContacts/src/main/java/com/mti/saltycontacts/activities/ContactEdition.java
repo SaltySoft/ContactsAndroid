@@ -58,6 +58,8 @@ public class ContactEdition extends Activity implements View.OnClickListener {
         if (bundle != null) {
             this.contact = (Contact) bundle.getParcelable("CONTACT");
             this.fillForm();
+        } else {
+            this.contact = new Contact("", "", "", "");
         }
 
         Tag tag = new Tag("tag");
