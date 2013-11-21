@@ -30,6 +30,8 @@ public class ContactShow extends Activity implements View.OnClickListener {
         if (bundle != null) {
             this._contact = (Contact) bundle.getParcelable("CONTACT");
             this.fillContactShow();
+        } else {
+            this._contact = null;
         }
         Button go_edit_button = (Button) findViewById(R.id.show_edit_button);
         go_edit_button.setOnClickListener(this);

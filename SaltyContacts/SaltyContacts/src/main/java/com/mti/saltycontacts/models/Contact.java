@@ -7,6 +7,8 @@ import android.util.Log;
 import com.mti.saltycontacts.R;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -133,17 +135,15 @@ public class Contact implements Parcelable {
         this._postalAddress = in.readString();
         this._picture_url = in.readString();
         this._phoneNumbers = new ArrayList<PhoneNumber>();
-//        this._phoneNumbers.clear();
-        for (int i = 0; i < this._phoneNumbers.size(); i++) {
-            PhoneNumber phoneNumber = in.readParcelable(PhoneNumber.class.getClassLoader());
-            this._phoneNumbers.add(phoneNumber);
-        }
         this._emailsAddress = new ArrayList<EmailAddress>();
-//        this._emailsAddress.clear();
-        for (int i = 0; i < this._emailsAddress.size(); i++) {
-            EmailAddress emailsAddress = in.readParcelable(EmailAddress.class.getClassLoader());
-            this._emailsAddress.add(emailsAddress);
-        }
+        in.readList(this._phoneNumbers, getClass().getClassLoader());
+//        Parcelable[] parcelablePhoneNumberArray = in.readParcelableArray(getClass().getClassLoader());
+//        PhoneNumber[] PhoneNumberArray = null;
+//        if (parcelablePhoneNumberArray != null) {
+//            PhoneNumberArray = Arrays.copyOf(parcelablePhoneNumberArray, parcelablePhoneNumberArray.length, PhoneNumber[].class);
+//        }
+//        Collections.addAll(this._phoneNumbers, PhoneNumberArray);
+        in.readList(this._emailsAddress, getClass().getClassLoader());
     }
 
     @Override
@@ -159,12 +159,8 @@ public class Contact implements Parcelable {
         dest.writeString(this._lastname);
         dest.writeString(this._postalAddress);
         dest.writeString(this._picture_url);
-        for (int i = 0; i < this._phoneNumbers.size(); i++) {
-            dest.writeParcelable(this._phoneNumbers.get(i), flags);
-        }
-        for (int i = 0; i < this._emailsAddress.size(); i++) {
-            dest.writeParcelable(this._emailsAddress.get(i), flags);
-        }
+        dest.writeList(this._phoneNumbers);
+        dest.writeList(this._emailsAddress);
     }
 
     public static final Creator<Contact> CREATOR = new Creator<Contact>() {

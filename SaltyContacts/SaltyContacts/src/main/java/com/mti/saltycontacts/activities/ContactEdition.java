@@ -44,7 +44,6 @@ import java.util.logging.Logger;
 public class ContactEdition extends Activity implements View.OnClickListener {
 
     Contact contact;
-
     EditText firstname_input;
     EditText lastname_input;
     EditText address_input;
@@ -68,7 +67,6 @@ public class ContactEdition extends Activity implements View.OnClickListener {
         Button save_button = (Button) findViewById(R.id.edition_save_button);
         save_button.setOnClickListener(this);
 
-
         Bundle bundle = this.getIntent().getExtras();
         if (bundle != null) {
             this.contact = dataManager.getContact(bundle.getLong("CONTACT_ID"));
@@ -77,38 +75,26 @@ public class ContactEdition extends Activity implements View.OnClickListener {
             this.contact = new Contact("", "", "", "");
         }
 
-        Tag tag = new Tag("tag");
-        PhoneNumber pn = new PhoneNumber("03030303", tag);
-        contact.addPhoneNumber(pn);
-
-        Tag tag2 = new Tag("tag");
-        PhoneNumber pn2 = new PhoneNumber("10101010", tag);
-        contact.addPhoneNumber(pn2);
-        phone_list = (LinearLayout) findViewById(R.id.edition_phone_list);
-
-        renderPhoneList();
-
-
         ImageButton add_phone_button = (ImageButton) findViewById(R.id.edition_add_phone_button);
         add_phone_button.setOnClickListener(this);
-
     }
 
     private void renderPhoneList() {
-        if (phone_list.getChildCount() > 0)
-            phone_list.removeAllViews();
+        if (this.phone_list.getChildCount() > 0) {
+            this.phone_list.removeAllViews();
+        }
 
         FragmentManager fm = getFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
-        for (int i = 0; i < contact.getPhoneNumbers().size(); i++) {
-            PhoneNumber pn = contact.getPhoneNumbers().get(i);
+        for (int i = 0; i < this.contact.getPhoneNumbers().size(); i++) {
+            PhoneNumber pn = this.contact.getPhoneNumbers().get(i);
             PhoneFragment pf = new PhoneFragment(pn);
             ft.add(R.id.edition_phone_list, pf);
         }
         ft.commit();
     }
 
-    private void addPhoneNumber(PhoneNumber number) {
+    private void addPhoneNumberFragment(PhoneNumber number) {
         FragmentManager fm = getFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
         PhoneFragment pf = new PhoneFragment(number);
@@ -163,7 +149,7 @@ public class ContactEdition extends Activity implements View.OnClickListener {
                 Tag tag = new Tag("tag");
                 PhoneNumber pn = new PhoneNumber("123123123", tag);
                 contact.addPhoneNumber(pn);
-                addPhoneNumber(pn);
+                this.addPhoneNumberFragment(pn);
 
                 break;
         }
@@ -179,26 +165,25 @@ public class ContactEdition extends Activity implements View.OnClickListener {
         private ImageButton validate_button;
 
         public PhoneFragment(PhoneNumber phone) {
-            phone_number = phone;
+            this.phone_number = phone;
         }
 
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
             View view = inflater.inflate(R.layout.phone_list, container, false);
-            display = (TextView) view.findViewById(R.id.phone_number_container);
-            display.setText(phone_number.getNumber());
+            this.display = (TextView) view.findViewById(R.id.phone_number_container);
+            this.display.setText(phone_number.getNumber());
 
-            input = (EditText) view.findViewById(R.id.phone_number_input);
+            this.input = (EditText) view.findViewById(R.id.phone_number_input);
 
-            edit_button = (ImageButton) view.findViewById(R.id.phone_edit_button);
-            edit_button.setOnClickListener(this);
+            this.edit_button = (ImageButton) view.findViewById(R.id.phone_edit_button);
+            this.edit_button.setOnClickListener(this);
 
-            delete_button = (ImageButton) view.findViewById(R.id.phone_delete_button);
-            delete_button.setOnClickListener(this);
+            this.delete_button = (ImageButton) view.findViewById(R.id.phone_delete_button);
+            this.delete_button.setOnClickListener(this);
 
-            validate_button = (ImageButton) view.findViewById(R.id.phone_validate_button);
-            validate_button.setOnClickListener(this);
-
+            this.validate_button = (ImageButton) view.findViewById(R.id.phone_validate_button);
+            this.validate_button.setOnClickListener(this);
 
             return view;
         }
@@ -218,23 +203,22 @@ public class ContactEdition extends Activity implements View.OnClickListener {
         public void onClick(View v) {
             switch (v.getId()) {
                 case R.id.phone_edit_button:
-                    display.setVisibility(View.GONE);
-                    input.setVisibility(View.VISIBLE);
-                    input.setText(phone_number.getNumber());
-                    validate_button.setVisibility(View.VISIBLE);
-                    edit_button.setVisibility(View.GONE);
-                    delete_button.setVisibility(View.GONE);
+                    this.display.setVisibility(View.GONE);
+                    this.input.setVisibility(View.VISIBLE);
+                    this.input.setText(phone_number.getNumber());
+                    this.validate_button.setVisibility(View.VISIBLE);
+                    this.edit_button.setVisibility(View.GONE);
+                    this.delete_button.setVisibility(View.GONE);
                     break;
                 case R.id.phone_validate_button:
-                    display.setVisibility(View.VISIBLE);
-                    input.setVisibility(View.GONE);
-                    phone_number.setNumber(input.getText().toString());
-                    display.setText(phone_number.getNumber());
-                    validate_button.setVisibility(View.GONE);
-                    edit_button.setVisibility(View.VISIBLE);
-                    delete_button.setVisibility(View.VISIBLE);
-                    InputMethodManager imm = (InputMethodManager)getSystemService(
-                            Context.INPUT_METHOD_SERVICE);
+                    this.display.setVisibility(View.VISIBLE);
+                    this.input.setVisibility(View.GONE);
+                    this.phone_number.setNumber(input.getText().toString());
+                    this.display.setText(phone_number.getNumber());
+                    this.validate_button.setVisibility(View.GONE);
+                    this.edit_button.setVisibility(View.VISIBLE);
+                    this.delete_button.setVisibility(View.VISIBLE);
+                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                     imm.hideSoftInputFromWindow(input.getWindowToken(), 0);
                     break;
             }
