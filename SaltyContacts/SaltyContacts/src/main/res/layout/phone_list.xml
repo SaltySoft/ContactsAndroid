@@ -1,32 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="horizontal" android:layout_width="match_parent"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
     <ImageView
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:src="@drawable/ic_launcher"/>
+        android:src="@drawable/ic_launcher" />
 
     <TextView
         android:id="@+id/phone_number_container"
 
-        android:layout_height="fill_parent"
+        android:layout_height="wrap_content"
         android:layout_width="0dp"
-        android:layout_weight="4"
+        android:layout_weight="5"
         android:layout_gravity="center"
         android:gravity="center"
         android:text="0000000000"
-        android:visibility="visible"/>
+        android:visibility="visible" />
 
     <EditText
         android:id="@+id/phone_number_input"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="4"
+        android:layout_weight="5"
         android:visibility="gone"
-        />
+        android:inputType="phone" />
+
+    <ImageButton
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/phone_edit_button"
+        android:src="@android:drawable/ic_menu_edit"
+        android:layout_weight="1" />
+
+    <ImageButton
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/phone_delete_button"
+        android:src="@android:drawable/ic_menu_delete"
+        android:layout_weight="1" />
+
+    <ImageButton
+        android:layout_width="0dp"
+        android:layout_height="fill_parent"
+        android:id="@+id/phone_validate_button"
+        android:src="@android:drawable/checkbox_on_background"
+        android:visibility="gone"
+        android:layout_weight="1" />
+
+    phone_validate_button
 
 </LinearLayout>

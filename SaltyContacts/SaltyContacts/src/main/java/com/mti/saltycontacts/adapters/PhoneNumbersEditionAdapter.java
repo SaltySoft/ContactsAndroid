@@ -1,13 +1,17 @@
 package com.mti.saltycontacts.adapters;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.mti.saltycontacts.R;
 import com.mti.saltycontacts.models.Contact;
@@ -44,9 +48,9 @@ public class PhoneNumbersEditionAdapter extends ArrayAdapter<PhoneNumber> {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
 
-        ViewHolder holder;
+        final ViewHolder holder;
 
         if (convertView == null) {
             holder = new ViewHolder();
@@ -55,6 +59,8 @@ public class PhoneNumbersEditionAdapter extends ArrayAdapter<PhoneNumber> {
             convertView = inflater.inflate(this._ressource, parent, false);
             holder.textView = (TextView) convertView.findViewById(R.id.phone_number_container);
             holder.phoneInput = (EditText) convertView.findViewById(R.id.phone_number_input);
+            holder.deleteButton = (ImageButton) convertView.findViewById(R.id.phone_delete_button);
+            holder.editButton = (ImageButton) convertView.findViewById(R.id.phone_edit_button);
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
@@ -64,6 +70,26 @@ public class PhoneNumbersEditionAdapter extends ArrayAdapter<PhoneNumber> {
         holder.textView.setText(phone.getNumber());
         //holder.imageView.setImageResource(R.drawable.ic_launcher);
 
+        holder.deleteButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                PhoneNumber number = _adapterData.get(position);
+                _adapterData.remove(position);
+                notifyDataSetChanged();
+
+            }
+        });
+
+        holder.editButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                PhoneNumber pn =  _adapterData.get(position);
+                holder.textView.setVisibility(View.GONE);
+                holder.phoneInput.setVisibility(View.VISIBLE);
+                holder.phoneInput.setText(pn.getNumber());
+            }
+        });
+
         return convertView;
     }
     //
@@ -71,5 +97,7 @@ public class PhoneNumbersEditionAdapter extends ArrayAdapter<PhoneNumber> {
         TextView textView;
         ImageView imageView;
         EditText phoneInput;
+        ImageButton editButton;
+        ImageButton deleteButton;
     }
 }
