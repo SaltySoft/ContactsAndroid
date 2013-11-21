@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.util.Log;
+import android.view.DragEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -23,23 +24,28 @@ import android.widget.Button;
 import com.mti.saltycontacts.R;
 import com.mti.saltycontacts.adapters.ContactsListAdapter;
 import com.mti.saltycontacts.dataAccess.ContactsBDD;
+import com.mti.saltycontacts.dataAccess.DataManager;
 import com.mti.saltycontacts.models.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends Activity implements View.OnClickListener {
+    List<Contact> contacts;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        List<Contact> contacts;
-        ContactsBDD contactsBDD = new ContactsBDD(this);
-        contactsBDD.openForRead();
 
-        contacts = contactsBDD.getAllContacts();
-        contactsBDD.close();
+//        ContactsBDD contactsBDD = new ContactsBDD(this);
+//        contactsBDD.openForRead();
+//
+//        contacts = contactsBDD.getAllContacts();
+//        contactsBDD.close();
+
+        DataManager dataManager = DataManager.getInstance(MainActivity.this);
+        contacts = dataManager.getContacts();
 
 //        Tag tag1 = new Tag("Maison");
 //        Tag tag2 = new Tag("Perso");
@@ -68,6 +74,18 @@ public class MainActivity extends Activity implements View.OnClickListener {
                 Intent intent = new Intent(MainActivity.this, ContactShow.class);
                 intent.putExtra("CONTACT", contact);
                 startActivity(intent);
+            }
+        });
+
+        list.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int position, long id) {
+                Adapter adapter = adapterView.getAdapter();
+                Contact contact = (Contact) adapter.getItem(position);
+                Intent intent = new Intent(MainActivity.this, ContactEdition.class);
+                intent.putExtra("CONTACT_ID", contact.getId());
+                startActivity(intent);
+                return false;
             }
         });
     }

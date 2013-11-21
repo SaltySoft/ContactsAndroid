@@ -8,6 +8,7 @@ import android.util.Log;
  * Created by lefebv_b on 19/11/13.
  */
 public class Tag implements Parcelable {
+    private long id;
     private String _name;
 
     public Tag(String name) {
@@ -20,6 +21,14 @@ public class Tag implements Parcelable {
 
     public String getName() {
         return this._name;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 
     public Tag(Parcel in) {

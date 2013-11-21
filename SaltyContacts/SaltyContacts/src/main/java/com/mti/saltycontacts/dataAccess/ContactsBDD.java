@@ -6,6 +6,9 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.mti.saltycontacts.models.Contact;
+import com.mti.saltycontacts.models.EmailAddress;
+import com.mti.saltycontacts.models.PhoneNumber;
+import com.mti.saltycontacts.models.Tag;
 
 import java.util.ArrayList;
 
@@ -47,6 +50,16 @@ public class ContactsBDD {
 
     private ContactSQLite contacts_sqlite;
 
+    private ArrayList<Contact> contacts;
+
+    public ContactSQLite getContacts_sqlite() {
+        return contacts_sqlite;
+    }
+
+    public void setContacts_sqlite(ContactSQLite contacts_sqlite) {
+        this.contacts_sqlite = contacts_sqlite;
+    }
+
     public ContactsBDD(Context context) {
         contacts_sqlite = new ContactSQLite(context, NOM_BDD, null, VERSION);
     }
@@ -67,6 +80,45 @@ public class ContactsBDD {
         return bdd;
     }
 
+
+
+    public long insertOrUpdatePhoneNumber(PhoneNumber number) {
+        if (number.getId() == 0) {
+            ContentValues content = new ContentValues();
+            content.put(COL_PHONE_TAG_ID, number.getTag().getId());
+            long id = bdd.insert(TABLE_TAG, null, content);
+            number.setId(id);
+        } else {
+            ContentValues content = new ContentValues();
+            content.put(COL_PHONE_TAG_ID, number.getTag().getId());
+            long id = number.getId();
+            id = bdd.update(TABLE_PHONE, content, COL_PHONE_ID + " = " + id, null);
+            number.setId(id);
+        }
+        return number.getId();
+    }
+
+    public long insertOrUpdateTag(Tag tag) {
+        if (tag.getId() == 0) {
+            ContentValues content = new ContentValues();
+            content.put(COL_TAG_VALUE, tag.getName());
+            long id = bdd.insert(TABLE_TAG, null, content);
+            tag.setId(id);
+        } else {
+            ContentValues content = new ContentValues();
+            content.put(COL_TAG_VALUE, tag.getName());
+            long id = tag.getId();
+            id = bdd.update(TABLE_TAG, content, COL_TAG_ID + " = " + id, null);
+            tag.setId(id);
+        }
+        return tag.getId();
+
+    }
+
+    public long insertOrUpdateEmail(EmailAddress emailAddress) {
+        return 0;
+    }
+
     public long insertOrUpdateContact(Contact contact) {
         if (contact.getId() == 0) {
             ContentValues content = new ContentValues();
@@ -81,6 +133,7 @@ public class ContactsBDD {
             content.put(COL_CONTACT_LASTNAME, contact.getLastName());
             content.put(COL_CONTACT_ADDRESS, contact.getPostalAddress());
             long id = contact.getId();
+
             id = bdd.update(TABLE_CONTACTS, content, COL_CONTACT_ID + " = " + id, null);
             contact.setId(id);
         }
@@ -97,6 +150,7 @@ public class ContactsBDD {
                 COL_CONTACT_ID + " = " + id, null, null, null, COL_CONTACT_ID);
         return cursorToContact(c);
     }
+
 
     public Contact cursorToContact(Cursor c) {
         if (c.getCount() == 0) {

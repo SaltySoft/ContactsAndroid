@@ -8,6 +8,7 @@ import android.util.Log;
  * Created by lefebv_b on 19/11/13.
  */
 public class EmailAddress implements Parcelable {
+    private long id;
     private String _address;
     private Tag _tag;
 
@@ -30,6 +31,14 @@ public class EmailAddress implements Parcelable {
 
     public Tag getTag() {
         return this._tag;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 
     public EmailAddress(Parcel in) {

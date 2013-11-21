@@ -178,4 +178,12 @@ public class Contact implements Parcelable {
             return new Contact[size];
         }
     };
+
+    public void copy(Contact c) {
+        c._firstname = this._firstname;
+        c._lastname = this._lastname;
+        c._postalAddress = this._postalAddress;
+        c._phoneNumbers = this._phoneNumbers;
+        c._emailsAddress = this._emailsAddress;
+    }
 }

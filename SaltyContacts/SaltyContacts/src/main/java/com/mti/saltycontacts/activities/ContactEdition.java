@@ -33,6 +33,7 @@ import com.mti.saltycontacts.R;
 import com.mti.saltycontacts.adapters.ContactsListAdapter;
 import com.mti.saltycontacts.adapters.PhoneNumbersEditionAdapter;
 import com.mti.saltycontacts.dataAccess.ContactsBDD;
+import com.mti.saltycontacts.dataAccess.DataManager;
 import com.mti.saltycontacts.models.Contact;
 import com.mti.saltycontacts.models.PhoneNumber;
 import com.mti.saltycontacts.models.Tag;
@@ -48,11 +49,15 @@ public class ContactEdition extends Activity implements View.OnClickListener {
     EditText lastname_input;
     EditText address_input;
     LinearLayout phone_list;
-
+    DataManager dataManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        dataManager = DataManager.getInstance(ContactEdition.this);
+
+
         this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
         setContentView(R.layout.activity_contact_edition);
 
@@ -66,7 +71,7 @@ public class ContactEdition extends Activity implements View.OnClickListener {
 
         Bundle bundle = this.getIntent().getExtras();
         if (bundle != null) {
-            this.contact = (Contact) bundle.getParcelable("CONTACT");
+            this.contact = dataManager.getContact(bundle.getLong("CONTACT_ID"));
             this.fillForm();
         } else {
             this.contact = new Contact("", "", "", "");
@@ -148,13 +153,10 @@ public class ContactEdition extends Activity implements View.OnClickListener {
                 this.contact.setLastName(lastname_input.getText().toString());
                 this.contact.setPostalAddress(address_input.getText().toString());
 
-                ContactsBDD contactsBDD = new ContactsBDD(this);
-                contactsBDD.openForWrite();
-                contactsBDD.insertOrUpdateContact(this.contact);
+                contact = dataManager.persist(contact);
 
                 Intent intent = new Intent(ContactEdition.this, MainActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                intent.putExtra("contact_edited", this.contact);
                 startActivity(intent);
                 break;
             case R.id.edition_add_phone_button:
