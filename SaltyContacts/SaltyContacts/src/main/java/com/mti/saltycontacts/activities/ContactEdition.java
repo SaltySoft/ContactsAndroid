@@ -5,6 +5,7 @@ import android.app.ActionBar;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcelable;
@@ -16,6 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.os.Build;
 import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -88,13 +90,6 @@ public class ContactEdition extends Activity implements View.OnClickListener {
     }
 
     private void renderPhoneList() {
-//        PhoneNumber[] phone_numbers_array = new PhoneNumber[contact.getPhoneNumbers().size()];
-//        contact.getPhoneNumbers().toArray(phone_numbers_array);
-//        ListView list = (ListView) findViewById(R.id.edition_phone_list);
-//        PhoneNumbersEditionAdapter adapter = new PhoneNumbersEditionAdapter(this, R.layout.phone_list, phone_numbers_array);
-//        list.setAdapter(adapter);
-
-
         if (phone_list.getChildCount() > 0)
             phone_list.removeAllViews();
 
@@ -105,6 +100,14 @@ public class ContactEdition extends Activity implements View.OnClickListener {
             PhoneFragment pf = new PhoneFragment(pn);
             ft.add(R.id.edition_phone_list, pf);
         }
+        ft.commit();
+    }
+
+    private void addPhoneNumber(PhoneNumber number) {
+        FragmentManager fm = getFragmentManager();
+        FragmentTransaction ft = fm.beginTransaction();
+        PhoneFragment pf = new PhoneFragment(number);
+        ft.add(R.id.edition_phone_list, pf);
         ft.commit();
     }
 
@@ -158,7 +161,8 @@ public class ContactEdition extends Activity implements View.OnClickListener {
                 Tag tag = new Tag("tag");
                 PhoneNumber pn = new PhoneNumber("123123123", tag);
                 contact.addPhoneNumber(pn);
-                renderPhoneList();
+                addPhoneNumber(pn);
+
                 break;
         }
     }
@@ -227,6 +231,9 @@ public class ContactEdition extends Activity implements View.OnClickListener {
                     validate_button.setVisibility(View.GONE);
                     edit_button.setVisibility(View.VISIBLE);
                     delete_button.setVisibility(View.VISIBLE);
+                    InputMethodManager imm = (InputMethodManager)getSystemService(
+                            Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(input.getWindowToken(), 0);
                     break;
             }
         }
