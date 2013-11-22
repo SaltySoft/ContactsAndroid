@@ -116,12 +116,10 @@ public class ContactShow extends Activity implements View.OnClickListener {
                 Toast.makeText(ContactShow.this, "Click sur l'item = " + emailAddress.getAddress(),
                         Toast.LENGTH_LONG).show();
 
-//                Intent email = new Intent(Intent.ACTION_SEND);
-//                email.putExtra(Intent.EXTRA_EMAIL, new String[]{"youremail@yahoo.com"});
-//                email.putExtra(Intent.EXTRA_SUBJECT, "subject");
-//                email.putExtra(Intent.EXTRA_TEXT, "message");
-//                email.setType("message/rfc822");
-//                startActivity(Intent.createChooser(email, "Choose an Email client :"));
+                Intent email = new Intent(Intent.ACTION_SEND);
+                email.putExtra(Intent.EXTRA_EMAIL, new String[]{emailAddress.getAddress()});
+                email.setType("message/rfc822");
+                startActivity(Intent.createChooser(email, "Choose an Email client :"));
             }
         });
     }
