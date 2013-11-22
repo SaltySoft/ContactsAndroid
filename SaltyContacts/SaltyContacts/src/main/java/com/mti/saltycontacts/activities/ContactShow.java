@@ -19,8 +19,10 @@ import android.widget.Toast;
 
 import com.mti.saltycontacts.R;
 import com.mti.saltycontacts.adapters.ContactsListAdapter;
+import com.mti.saltycontacts.adapters.EmailsAdapter;
 import com.mti.saltycontacts.adapters.PhoneNumbersAdapter;
 import com.mti.saltycontacts.models.Contact;
+import com.mti.saltycontacts.models.EmailAddress;
 import com.mti.saltycontacts.models.PhoneNumber;
 
 /**
@@ -40,6 +42,7 @@ public class ContactShow extends Activity implements View.OnClickListener {
             this._contact = (Contact) bundle.getParcelable("CONTACT");
             this.fillContactShow();
             this.managePhoneNumbers();
+            this.manageEmailsAddress();
         } else {
             this._contact = null;
         }
@@ -85,12 +88,38 @@ public class ContactShow extends Activity implements View.OnClickListener {
                 Toast.makeText(ContactShow.this, "Click sur l'item = " + phoneNumber.getNumber(),
                         Toast.LENGTH_LONG).show();
                 try {
-                    Intent callIntent = new Intent(Intent.ACTION_CALL);
+//                    Intent callIntent = new Intent(Intent.ACTION_CALL);
+                    Intent callIntent = new Intent(Intent.ACTION_DIAL);
                     callIntent.setData(Uri.parse("tel:" + phoneNumber.getNumber()));
                     startActivity(callIntent);
                 } catch (ActivityNotFoundException e) {
                     Log.e("contactshow", "Call failed", e);
                 }
+            }
+        });
+    }
+
+    private void manageEmailsAddress() {
+        EmailAddress[] email_address_array = new EmailAddress[this._contact.getEmailListAddress().size()];
+        this._contact.getEmailListAddress().toArray(email_address_array);
+        ListView list = (ListView) findViewById(R.id.emails_address_list);
+
+        EmailsAdapter adapter = new EmailsAdapter(this, R.layout.emails_list, email_address_array);
+        list.setAdapter(adapter);
+
+        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view,
+                                    int pos, long l) {
+                Adapter adapter = adapterView.getAdapter();
+                EmailAddress emailAddress = (EmailAddress) adapter.getItem(pos);
+                Toast.makeText(ContactShow.this, "Click sur l'item = " + emailAddress.getAddress(),
+                        Toast.LENGTH_LONG).show();
+
+                Intent email = new Intent(Intent.ACTION_SEND);
+                email.putExtra(Intent.EXTRA_EMAIL, new String[]{emailAddress.getAddress()});
+                email.setType("message/rfc822");
+                startActivity(Intent.createChooser(email, "Choose an Email client :"));
             }
         });
     }

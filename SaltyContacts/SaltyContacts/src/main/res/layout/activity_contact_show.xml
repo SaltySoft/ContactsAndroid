@@ -164,7 +164,7 @@
                         android:orientation="vertical">
 
                         <ListView
-                            android:id="@+id/email_numbers_list"
+                            android:id="@+id/emails_address_list"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"></ListView>
                     </LinearLayout>

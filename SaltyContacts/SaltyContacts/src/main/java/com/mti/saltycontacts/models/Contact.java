@@ -68,7 +68,7 @@ public class Contact implements Parcelable {
         return this._phoneNumbers;
     }
 
-    public List<EmailAddress> getEmailAddress() {
+    public List<EmailAddress> getEmailListAddress() {
         return this._emailsAddress;
     }
 
