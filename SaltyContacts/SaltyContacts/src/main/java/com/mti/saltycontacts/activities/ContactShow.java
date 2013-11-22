@@ -1,12 +1,21 @@
 package com.mti.saltycontacts.activities;
 
 import android.app.Activity;
+import android.content.ActivityNotFoundException;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.telephony.PhoneStateListener;
+import android.telephony.TelephonyManager;
+import android.util.Log;
 import android.view.View;
+import android.widget.Adapter;
+import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.mti.saltycontacts.R;
 import com.mti.saltycontacts.adapters.ContactsListAdapter;
@@ -30,6 +39,7 @@ public class ContactShow extends Activity implements View.OnClickListener {
         if (bundle != null) {
             this._contact = (Contact) bundle.getParcelable("CONTACT");
             this.fillContactShow();
+            this.managePhoneNumbers();
         } else {
             this._contact = null;
         }
@@ -45,17 +55,44 @@ public class ContactShow extends Activity implements View.OnClickListener {
             TextView firstname = (TextView) findViewById(R.id.contact_show_firstname);
             TextView lastname = (TextView) findViewById(R.id.contact_show_lastname);
             TextView address = (TextView) findViewById(R.id.contact_show_address);
+            ImageView image = (ImageView) findViewById(R.id.contact_show_picture);
 
             firstname.setText(this._contact.getFirstName());
             lastname.setText(this._contact.getLastName());
             address.setText(this._contact.getPostalAddress());
-
-            PhoneNumber[] phone_numbers_array = new PhoneNumber[this._contact.getPhoneNumbers().size()];
-            this._contact.getPhoneNumbers().toArray(phone_numbers_array);
-            ListView list = (ListView) findViewById(R.id.phone_numbers_list);
-            PhoneNumbersAdapter adapter = new PhoneNumbersAdapter(this, R.layout.phone_numbers_list, phone_numbers_array);
-            list.setAdapter(adapter);
+//            image.setSrc
         }
+    }
+
+    private void managePhoneNumbers() {
+        PhoneNumber[] phone_numbers_array = new PhoneNumber[this._contact.getPhoneNumbers().size()];
+        this._contact.getPhoneNumbers().toArray(phone_numbers_array);
+        ListView list = (ListView) findViewById(R.id.phone_numbers_list);
+        PhoneNumbersAdapter adapter = new PhoneNumbersAdapter(this, R.layout.phone_numbers_list, phone_numbers_array);
+        list.setAdapter(adapter);
+
+        // add PhoneStateListener
+        PhoneCallListener phoneListener = new PhoneCallListener();
+        TelephonyManager telephonyManager = (TelephonyManager) this.getSystemService(this.TELEPHONY_SERVICE);
+        telephonyManager.listen(phoneListener, PhoneStateListener.LISTEN_CALL_STATE);
+
+        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view,
+                                    int pos, long l) {
+                Adapter adapter = adapterView.getAdapter();
+                PhoneNumber phoneNumber = (PhoneNumber) adapter.getItem(pos);
+                Toast.makeText(ContactShow.this, "Click sur l'item = " + phoneNumber.getNumber(),
+                        Toast.LENGTH_LONG).show();
+                try {
+                    Intent callIntent = new Intent(Intent.ACTION_CALL);
+                    callIntent.setData(Uri.parse("tel:" + phoneNumber.getNumber()));
+                    startActivity(callIntent);
+                } catch (ActivityNotFoundException e) {
+                    Log.e("contactshow", "Call failed", e);
+                }
+            }
+        });
     }
 
     @Override
@@ -71,6 +108,44 @@ public class ContactShow extends Activity implements View.OnClickListener {
                 intent2.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent2);
                 break;
+        }
+    }
+
+    //monitor phone call activities
+    private class PhoneCallListener extends PhoneStateListener {
+
+        private boolean isPhoneCalling = false;
+        String LOG_TAG = "LOGGING 123";
+
+        @Override
+        public void onCallStateChanged(int state, String incomingNumber) {
+
+            if (TelephonyManager.CALL_STATE_RINGING == state) {
+                // phone ringing
+                Log.i(LOG_TAG, "RINGING, number: " + incomingNumber);
+            }
+
+            if (TelephonyManager.CALL_STATE_OFFHOOK == state) {
+                // active
+                Log.i(LOG_TAG, "OFFHOOK");
+                isPhoneCalling = true;
+            }
+
+            if (TelephonyManager.CALL_STATE_IDLE == state) {
+                // run when class initial and phone call ended,
+                // need detect flag from CALL_STATE_OFFHOOK
+                Log.i(LOG_TAG, "IDLE");
+
+                if (isPhoneCalling) {
+                    Log.i(LOG_TAG, "restart app");
+                    // restart app
+                    Intent i = getBaseContext().getPackageManager().getLaunchIntentForPackage(getBaseContext().getPackageName());
+                    i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    startActivity(i);
+
+                    isPhoneCalling = false;
+                }
+            }
         }
     }
 }

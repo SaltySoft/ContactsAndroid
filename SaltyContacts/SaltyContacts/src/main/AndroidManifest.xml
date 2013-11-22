@@ -31,5 +31,6 @@
             android:label="@string/contact_show_title" >
         </activity>
     </application>
-
+    <uses-permission android:name="android.permission.CALL_PHONE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
 </manifest>

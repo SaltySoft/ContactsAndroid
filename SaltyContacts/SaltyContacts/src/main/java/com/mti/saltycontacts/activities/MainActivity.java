@@ -44,18 +44,30 @@ public class MainActivity extends Activity implements View.OnClickListener {
 //        contactsBDD.close();
 
         DataManager dataManager = DataManager.getInstance(MainActivity.this);
-        contacts = dataManager.getContacts();
+        this.contacts = dataManager.getContacts();
 
-//        Tag tag1 = new Tag("Maison");
-//        Tag tag2 = new Tag("Perso");
-//        EmailAddress emailAddress = new EmailAddress("vinc.lefebv@gmail.com", tag2);
-//        PhoneNumber phoneNumber = new PhoneNumber("01.02.03.04.05", tag1);
-//        Contact contact1 = new Contact("Vincent", "Lefebvre", "Paul Vaillant Villejuif", "");
-//        contact1.addPhoneNumber(phoneNumber);
-//        contact1.addEmailAddress(emailAddress);
-//        contacts = new ArrayList<Contact>();
-//        contacts.add(contact1);
-//
+        Tag tag1 = new Tag("Maison1");
+        Tag tag2 = new Tag("Maison2");
+        Tag tag3 = new Tag("Maison3");
+        Tag tag4 = new Tag("Perso1");
+        Tag tag5 = new Tag("Perso2");
+        Tag tag6 = new Tag("Perso3");
+        EmailAddress emailAddress1 = new EmailAddress("vinc.lefebv1@gmail.com", tag4);
+        EmailAddress emailAddress2 = new EmailAddress("vinc.lefebv2@gmail.com", tag5);
+        EmailAddress emailAddress3 = new EmailAddress("vinc.lefebv3@gmail.com", tag6);
+        PhoneNumber phoneNumber1 = new PhoneNumber("0102030405", tag1);
+        PhoneNumber phoneNumber2 = new PhoneNumber("0202020202", tag2);
+        PhoneNumber phoneNumber3 = new PhoneNumber("0303030303", tag3);
+        Contact contact1 = new Contact("Vincent", "Lefebvre", "Paul Vaillant Villejuif", "");
+        contact1.addPhoneNumber(phoneNumber1);
+        contact1.addPhoneNumber(phoneNumber2);
+        contact1.addPhoneNumber(phoneNumber3);
+        contact1.addEmailAddress(emailAddress1);
+        contact1.addEmailAddress(emailAddress2);
+        contact1.addEmailAddress(emailAddress3);
+        contacts = new ArrayList<Contact>();
+        contacts.add(contact1);
+
         Contact[] contacts_array = new Contact[contacts.size()];
         contacts.toArray(contacts_array);
         ListView list = (ListView) findViewById(R.id.my_contacts_list);
@@ -68,8 +80,8 @@ public class MainActivity extends Activity implements View.OnClickListener {
                                     int pos, long l) {
                 Adapter adapter = adapterView.getAdapter();
                 Contact contact = (Contact) adapter.getItem(pos);
-                Toast.makeText(MainActivity.this, "Click sur l'item = " + contact.getFullName(),
-                        Toast.LENGTH_LONG).show();
+//                Toast.makeText(MainActivity.this, "Click sur l'item = " + contact.getFullName(),
+//                        Toast.LENGTH_LONG).show();
                 Intent intent = new Intent(MainActivity.this, ContactShow.class);
                 intent.putExtra("CONTACT", contact);
                 startActivity(intent);

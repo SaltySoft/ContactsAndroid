@@ -19,11 +19,18 @@
             android:gravity="center"
             android:text="TAG" />
 
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_gravity="center"
+            android:src="@android:drawable/stat_sys_phone_call" />
+
         <TextView
             android:id="@+id/phone_numbers_list_text"
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
-            android:layout_weight="1"
+            android:layout_weight="2"
             android:layout_gravity="center_vertical"
             android:gravity="center"
             android:text="01.23.45.67.89" />
