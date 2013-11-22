@@ -199,6 +199,7 @@ public class ContactEdition extends Activity implements View.OnClickListener {
                     this.delete_button.setVisibility(View.GONE);
                     break;
                 case R.id.phone_delete_button:
+                    contact.removePhoneNumber(phone_number);
                     removeFragment(this);
                     break;
                 case R.id.phone_validate_button:

@@ -56,14 +56,20 @@ public class DataManager {
         contact.copy(c);
         contactsBDD.openForWrite();
         contact.setId(contactsBDD.insertOrUpdateContact(c));
-        for (PhoneNumber pn : c.getPhoneNumbers()) {
-            contactsBDD.insertOrUpdatePhoneNumber(pn, c);
+
+        List<PhoneNumber> current = c.getPhoneNumbers();
+
+        ArrayList<Long> phone_ids = new ArrayList<Long>();
+
+        for (PhoneNumber pn : current) {
+            pn.setId(contactsBDD.insertOrUpdatePhoneNumber(pn, c));
+            phone_ids.add(pn.getId());
         }
 
         ArrayList<PhoneNumber> phones = contactsBDD.getPhoneNumbers(c);
-        List<PhoneNumber> current = c.getPhoneNumbers();
+
         for (PhoneNumber pn : phones) {
-           if (!current.contains(pn)) {
+           if (!phone_ids.contains(pn.getId())) {
                contactsBDD.removePhoneNumber(pn);
            }
         }

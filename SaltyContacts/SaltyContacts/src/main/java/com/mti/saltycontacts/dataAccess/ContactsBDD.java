@@ -105,7 +105,7 @@ public class ContactsBDD {
                 content.put(COL_PHONE_VALUE, number.getNumber());
                 long id = number.getId();
                 id = bdd.update(TABLE_PHONE, content, COL_PHONE_ID + " = " + id, null);
-                number.setId(id);
+//                number.setId(id);
             }
             return number.getId();
         } else {
