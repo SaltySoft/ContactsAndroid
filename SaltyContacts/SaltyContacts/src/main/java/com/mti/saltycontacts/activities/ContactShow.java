@@ -139,8 +139,9 @@ public class ContactShow extends Activity implements View.OnClickListener {
                 if (isPhoneCalling) {
                     Log.i(LOG_TAG, "restart app");
                     // restart app
-                    Intent i = getBaseContext().getPackageManager().getLaunchIntentForPackage(getBaseContext().getPackageName());
+                    Intent i = new Intent(getApplicationContext(), ContactShow.class);
                     i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    i.putExtra("CONTACT", _contact);
                     startActivity(i);
 
                     isPhoneCalling = false;

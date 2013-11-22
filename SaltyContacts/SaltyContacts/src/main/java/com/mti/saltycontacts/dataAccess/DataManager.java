@@ -6,6 +6,7 @@ import com.mti.saltycontacts.models.Contact;
 import com.mti.saltycontacts.models.PhoneNumber;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Antoine on 11/21/13.
@@ -58,6 +59,15 @@ public class DataManager {
         for (PhoneNumber pn : c.getPhoneNumbers()) {
             contactsBDD.insertOrUpdatePhoneNumber(pn, c);
         }
+
+        ArrayList<PhoneNumber> phones = contactsBDD.getPhoneNumbers(c);
+        List<PhoneNumber> current = c.getPhoneNumbers();
+        for (PhoneNumber pn : phones) {
+           if (!current.contains(pn)) {
+               contactsBDD.removePhoneNumber(pn);
+           }
+        }
+
         contactsBDD.close();
         return c;
     }

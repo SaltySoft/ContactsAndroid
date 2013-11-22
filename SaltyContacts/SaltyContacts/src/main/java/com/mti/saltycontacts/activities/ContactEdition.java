@@ -1,45 +1,28 @@
 package com.mti.saltycontacts.activities;
 
 import android.app.Activity;
-import android.app.ActionBar;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
-import android.os.Parcelable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.os.Build;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.Adapter;
-import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.EditText;
-import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.mti.saltycontacts.R;
-import com.mti.saltycontacts.adapters.ContactsListAdapter;
-import com.mti.saltycontacts.adapters.PhoneNumbersEditionAdapter;
-import com.mti.saltycontacts.dataAccess.ContactsBDD;
 import com.mti.saltycontacts.dataAccess.DataManager;
 import com.mti.saltycontacts.models.Contact;
 import com.mti.saltycontacts.models.PhoneNumber;
 import com.mti.saltycontacts.models.Tag;
-
-import java.util.ArrayList;
-import java.util.logging.Logger;
 
 public class ContactEdition extends Activity implements View.OnClickListener {
 
@@ -100,6 +83,9 @@ public class ContactEdition extends Activity implements View.OnClickListener {
         PhoneFragment pf = new PhoneFragment(number);
         ft.add(R.id.edition_phone_list, pf);
         ft.commit();
+    }
+    private void removeFragment(Fragment f) {
+        this.getFragmentManager().beginTransaction().remove(f).commit();
     }
 
     private void fillForm() {
@@ -172,7 +158,7 @@ public class ContactEdition extends Activity implements View.OnClickListener {
 
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-            View view = inflater.inflate(R.layout.phone_list, container, false);
+            View view = inflater.inflate(R.layout.edition_phone_fragment, container, false);
             this.display = (TextView) view.findViewById(R.id.phone_number_container);
             this.display.setText(phone_number.getNumber());
 
@@ -211,6 +197,9 @@ public class ContactEdition extends Activity implements View.OnClickListener {
                     this.validate_button.setVisibility(View.VISIBLE);
                     this.edit_button.setVisibility(View.GONE);
                     this.delete_button.setVisibility(View.GONE);
+                    break;
+                case R.id.phone_delete_button:
+                    removeFragment(this);
                     break;
                 case R.id.phone_validate_button:
                     this.display.setVisibility(View.VISIBLE);
