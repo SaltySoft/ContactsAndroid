@@ -33,6 +33,7 @@ public class ContactEdition extends Activity implements View.OnClickListener {
     EditText address_input;
     LinearLayout phone_list;
     DataManager dataManager;
+    LinearLayout email_list;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,10 +49,13 @@ public class ContactEdition extends Activity implements View.OnClickListener {
         lastname_input = (EditText) findViewById(R.id.edition_lastname_input);
         address_input = (EditText) findViewById(R.id.edition_address_input);
         this.phone_list = (LinearLayout) findViewById(R.id.edition_phone_list);
+        email_list = (LinearLayout) findViewById(R.id.edition_email_list);
 
         Bundle bundle = this.getIntent().getExtras();
         if (bundle != null) {
             this.contact = dataManager.getContact(bundle.getLong("CONTACT_ID"));
+            EmailAddress address = new EmailAddress("address@someserver.co", new Tag("Tag"));
+            contact.addEmailAddress(address);
             this.fillForm();
         }
         if (contact == null) {
@@ -78,6 +82,28 @@ public class ContactEdition extends Activity implements View.OnClickListener {
         ft.commit();
     }
 
+    private void renderEmailList() {
+        if (this.email_list.getChildCount() > 0) {
+            this.email_list.removeAllViews();
+        }
+
+        FragmentManager fm = getFragmentManager();
+        FragmentTransaction ft = fm.beginTransaction();
+        for (EmailAddress address : contact.getEmailListAddress()) {
+            EmailFragment fragment = new EmailFragment(address);
+            ft.add(R.id.edition_email_list, fragment);
+        }
+        ft.commit();
+    }
+
+    private void addEmailFragment(EmailAddress address) {
+        FragmentManager fm = getFragmentManager();
+        FragmentTransaction ft = fm.beginTransaction();
+        EmailFragment fragment = new EmailFragment(address);
+        ft.add(R.id.edition_email_list, fragment);
+        ft.commit();
+    }
+
     private void addPhoneNumberFragment(PhoneNumber number) {
         FragmentManager fm = getFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
@@ -95,6 +121,7 @@ public class ContactEdition extends Activity implements View.OnClickListener {
             lastname_input.setText(this.contact.getLastName());
             address_input.setText(this.contact.getPostalAddress());
             renderPhoneList();
+            renderEmailList();
         }
     }
 
@@ -137,9 +164,15 @@ public class ContactEdition extends Activity implements View.OnClickListener {
         switch (v.getId()) {
             case R.id.edition_add_phone_button:
                 Tag tag = new Tag("tag");
-                PhoneNumber pn = new PhoneNumber("123123123", tag);
+                PhoneNumber pn = new PhoneNumber("", tag);
                 contact.addPhoneNumber(pn);
                 this.addPhoneNumberFragment(pn);
+                break;
+            case R.id.edition_add_email_button:
+                Tag emailtag = new Tag("tag");
+                EmailAddress address = new EmailAddress("", emailtag);
+                contact.addEmailAddress(address);
+                this.addEmailFragment(address);
                 break;
         }
     }
@@ -264,7 +297,7 @@ public class ContactEdition extends Activity implements View.OnClickListener {
         @Override
         public void onClick(View v) {
             switch (v.getId()) {
-                case R.id.phone_edit_button:
+                case R.id.email_edit_button:
                     this.display.setVisibility(View.GONE);
                     this.input.setVisibility(View.VISIBLE);
                     this.input.setText(email_address.getAddress());
@@ -272,11 +305,11 @@ public class ContactEdition extends Activity implements View.OnClickListener {
                     this.edit_button.setVisibility(View.GONE);
                     this.delete_button.setVisibility(View.GONE);
                     break;
-                case R.id.phone_delete_button:
+                case R.id.email_delete_button:
                     contact.removeEmailAddress(email_address);
                     removeFragment(this);
                     break;
-                case R.id.phone_validate_button:
+                case R.id.email_validate_button:
                     this.display.setVisibility(View.VISIBLE);
                     this.input.setVisibility(View.GONE);
                     this.email_address.setAddress(input.getText().toString());
