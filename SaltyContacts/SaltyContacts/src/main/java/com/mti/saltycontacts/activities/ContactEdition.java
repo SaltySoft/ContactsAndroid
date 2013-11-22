@@ -65,9 +65,6 @@ public class ContactEdition extends Activity implements View.OnClickListener {
         address_input = (EditText) findViewById(R.id.edition_address_input);
         this.phone_list = (LinearLayout) findViewById(R.id.edition_phone_list);
 
-        Button save_button = (Button) findViewById(R.id.edition_save_button);
-        save_button.setOnClickListener(this);
-
         Bundle bundle = this.getIntent().getExtras();
         if (bundle != null) {
             this.contact = dataManager.getContact(bundle.getLong("CONTACT_ID"));
@@ -127,28 +124,30 @@ public class ContactEdition extends Activity implements View.OnClickListener {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-        if (id == R.id.action_settings) {
-            return true;
+        switch (item.getItemId()) {
+            case R.id.action_save:
+                saveContact();
+                break;
+            case R.id.action_cancel:
+                finish();
+                break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void saveContact() {
+        this.contact.setFirstName(firstname_input.getText().toString());
+        this.contact.setLastName(lastname_input.getText().toString());
+        this.contact.setPostalAddress(address_input.getText().toString());
+
+        contact = dataManager.persist(contact);
+
+        finish();
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.edition_save_button:
-
-                this.contact.setFirstName(firstname_input.getText().toString());
-                this.contact.setLastName(lastname_input.getText().toString());
-                this.contact.setPostalAddress(address_input.getText().toString());
-
-                contact = dataManager.persist(contact);
-
-                Intent intent = new Intent(ContactEdition.this, MainActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(intent);
-                break;
             case R.id.edition_add_phone_button:
                 Tag tag = new Tag("tag");
                 PhoneNumber pn = new PhoneNumber("123123123", tag);
