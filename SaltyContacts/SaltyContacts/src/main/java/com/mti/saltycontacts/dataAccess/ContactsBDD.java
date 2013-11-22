@@ -155,6 +155,18 @@ public class ContactsBDD {
         return contact.getId();
     }
 
+    public long removePhoneNumber(PhoneNumber pn) {
+        return bdd.delete(TABLE_PHONE, COL_PHONE_ID + " = " + pn.getId(), null);
+    }
+
+    public long removeEmail(EmailAddress email) {
+        return bdd.delete(TABLE_EMAIL, COL_EMAIL_ID + " = " + email.getId(), null);
+    }
+
+    public long removeTag(Tag tag) {
+        return bdd.delete(TABLE_TAG, COL_TAG_ID + " = " + tag.getId(), null);
+    }
+
     public long removeContact(Contact contact) {
         return bdd.delete(TABLE_CONTACTS, COL_CONTACT_ID + " = " + contact.getId(), null);
     }

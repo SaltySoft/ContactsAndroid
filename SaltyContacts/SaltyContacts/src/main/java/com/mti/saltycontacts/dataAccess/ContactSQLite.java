@@ -77,16 +77,10 @@ public class ContactSQLite extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        try {
-//            db.execSQL("DROP TABLE " + TABLE_TAG);
-//            db.execSQL("DROP TABLE " + TABLE_EMAIL);
-//            db.execSQL("DROP TABLE " + TABLE_PHONE);
-            db.execSQL("DROP TABLE " + TABLE_CONTACTS);
-        } catch (Exception e) {
-            Log.d("DATABASE", e.getMessage().toString());
-        } finally {
-            this.onCreate(db);
-        }
-
+        db.execSQL("DROP TABLE " + TABLE_TAG);
+        db.execSQL("DROP TABLE " + TABLE_EMAIL);
+        db.execSQL("DROP TABLE " + TABLE_PHONE);
+        db.execSQL("DROP TABLE " + TABLE_CONTACTS);
+        this.onCreate(db);
     }
 }
