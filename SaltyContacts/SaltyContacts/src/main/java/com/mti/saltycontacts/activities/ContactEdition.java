@@ -21,6 +21,7 @@ import android.widget.TextView;
 import com.mti.saltycontacts.R;
 import com.mti.saltycontacts.dataAccess.DataManager;
 import com.mti.saltycontacts.models.Contact;
+import com.mti.saltycontacts.models.EmailAddress;
 import com.mti.saltycontacts.models.PhoneNumber;
 import com.mti.saltycontacts.models.Tag;
 
@@ -207,6 +208,79 @@ public class ContactEdition extends Activity implements View.OnClickListener {
                     this.input.setVisibility(View.GONE);
                     this.phone_number.setNumber(input.getText().toString());
                     this.display.setText(phone_number.getNumber());
+                    this.validate_button.setVisibility(View.GONE);
+                    this.edit_button.setVisibility(View.VISIBLE);
+                    this.delete_button.setVisibility(View.VISIBLE);
+                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(input.getWindowToken(), 0);
+                    break;
+            }
+        }
+    }
+
+    public class EmailFragment extends Fragment implements View.OnClickListener {
+
+        private EmailAddress email_address;
+        private EditText input;
+        private TextView display;
+        private ImageButton edit_button;
+        private ImageButton delete_button;
+        private ImageButton validate_button;
+
+        public EmailFragment(EmailAddress address) {
+            this.email_address = address;
+        }
+
+        @Override
+        public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+            View view = inflater.inflate(R.layout.edition_email_fragment, container, false);
+            this.display = (TextView) view.findViewById(R.id.email_container);
+            this.display.setText(email_address.getAddress());
+
+            this.input = (EditText) view.findViewById(R.id.email_input);
+
+            this.edit_button = (ImageButton) view.findViewById(R.id.email_edit_button);
+            this.edit_button.setOnClickListener(this);
+
+            this.delete_button = (ImageButton) view.findViewById(R.id.email_delete_button);
+            this.delete_button.setOnClickListener(this);
+
+            this.validate_button = (ImageButton) view.findViewById(R.id.email_validate_button);
+            this.validate_button.setOnClickListener(this);
+
+            return view;
+        }
+
+        @Override
+        public void onCreate(Bundle savedInstanceState) {
+            super.onCreate(savedInstanceState);
+        }
+
+        @Override
+        public void onPause() {
+            super.onPause();
+        }
+
+        @Override
+        public void onClick(View v) {
+            switch (v.getId()) {
+                case R.id.phone_edit_button:
+                    this.display.setVisibility(View.GONE);
+                    this.input.setVisibility(View.VISIBLE);
+                    this.input.setText(email_address.getAddress());
+                    this.validate_button.setVisibility(View.VISIBLE);
+                    this.edit_button.setVisibility(View.GONE);
+                    this.delete_button.setVisibility(View.GONE);
+                    break;
+                case R.id.phone_delete_button:
+                    contact.removeEmailAddress(email_address);
+                    removeFragment(this);
+                    break;
+                case R.id.phone_validate_button:
+                    this.display.setVisibility(View.VISIBLE);
+                    this.input.setVisibility(View.GONE);
+                    this.email_address.setAddress(input.getText().toString());
+                    this.display.setText(email_address.getAddress());
                     this.validate_button.setVisibility(View.GONE);
                     this.edit_button.setVisibility(View.VISIBLE);
                     this.delete_button.setVisibility(View.VISIBLE);

@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/container"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="fill_parent"
     tools:context=".ContactEdition"
     tools:ignore="MergeRootFrame">
 
@@ -88,25 +88,66 @@
         </LinearLayout>
 
         <LinearLayout
+            android:orientation="vertical"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent">
-
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_gravity="center"
+                android:background="@android:color/darker_gray"
+                android:textColor="@android:color/white"
+                android:text="Phone numbers" />
             <LinearLayout
                 android:orientation="vertical"
                 android:id="@+id/edition_phone_list"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="2">
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content">
             </LinearLayout>
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/edition_add_phone_button"
+                android:src="@android:drawable/ic_menu_add"
+                android:layout_gravity="right" />
         </LinearLayout>
 
-        <ImageButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/edition_add_phone_button"
-            android:src="@android:drawable/ic_menu_add"
-            android:layout_gravity="right" />
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent">
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_gravity="center"
+                android:background="@android:color/darker_gray"
+                android:textColor="@android:color/white"
+                android:text="Email" />
+            <LinearLayout
+                android:orientation="vertical"
+                android:id="@+id/edition_email_list"
+                android:layout_width="0dp"
+                android:layout_height="fill_parent">
+            </LinearLayout>
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/edition_add_email_button"
+                android:src="@android:drawable/ic_menu_add"
+                android:layout_gravity="right" />
+        </LinearLayout>
 
+
+        <Button
+            android:layout_gravity="bottom"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/holo_red_dark"
+            android:textColor="@android:color/white"
+            android:text="Delete contact"
+            />
 
     </LinearLayout>
 </ScrollView>

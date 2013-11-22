@@ -10,47 +10,47 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:layout_gravity="center"
-        android:src="@android:drawable/stat_sys_phone_call" />
+        android:src="@android:drawable/sym_action_email" />
 
     <TextView
-        android:id="@+id/phone_number_container"
-
+        android:id="@+id/email_container"
         android:layout_height="wrap_content"
         android:layout_width="0dp"
         android:layout_weight="5"
         android:layout_gravity="center"
         android:gravity="center"
-        android:text="0000000000"
+        android:text="email@server.com"
         android:visibility="visible" />
 
     <EditText
-        android:id="@+id/phone_number_input"
+        android:id="@+id/email_input"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="5"
         android:visibility="gone"
-        android:inputType="phone" />
+        android:inputType="textEmailAddress" />
 
     <ImageButton
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:id="@+id/phone_edit_button"
+        android:id="@+id/email_edit_button"
         android:src="@android:drawable/ic_menu_edit"
         android:layout_weight="1" />
 
     <ImageButton
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:id="@+id/phone_delete_button"
+        android:id="@+id/email_delete_button"
         android:src="@android:drawable/ic_menu_delete"
         android:layout_weight="1" />
 
     <ImageButton
         android:layout_width="0dp"
         android:layout_height="fill_parent"
-        android:id="@+id/phone_validate_button"
+        android:id="@+id/email_validate_button"
         android:src="@android:drawable/checkbox_on_background"
         android:visibility="gone"
         android:layout_weight="1" />
+
 
 </LinearLayout>
