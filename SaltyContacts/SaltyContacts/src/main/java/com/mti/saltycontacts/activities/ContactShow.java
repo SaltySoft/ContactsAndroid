@@ -63,7 +63,7 @@ public class ContactShow extends Activity implements View.OnClickListener {
         switch (v.getId()) {
             case R.id.show_edit_button:
                 Intent intent = new Intent(ContactShow.this, ContactEdition.class);
-                intent.putExtra("CONTACT", this._contact);
+                intent.putExtra("CONTACT_ID", this._contact.getId());
                 startActivity(intent);
                 break;
             case R.id.show_back_button:

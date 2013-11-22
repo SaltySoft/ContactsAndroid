@@ -19,6 +19,10 @@ public class PhoneNumber implements Parcelable {
         this._tag = tag;
     }
 
+    public PhoneNumber() {
+
+    }
+
     public void setNumber(String number) {
         this._number = number;
     }

@@ -41,6 +41,9 @@ public class DataManager {
         contactsBDD.openForRead();
         contacts = contactsBDD.getAllContacts();
         contactsBDD.close();
+        if (contacts == null) {
+            contacts = new ArrayList<Contact>();
+        }
     }
 
     public Contact persist(Contact contact) {
@@ -52,9 +55,9 @@ public class DataManager {
         contact.copy(c);
         contactsBDD.openForWrite();
         contact.setId(contactsBDD.insertOrUpdateContact(c));
-//        for (PhoneNumber pn : c.getPhoneNumbers()) {
-//
-//        }
+        for (PhoneNumber pn : c.getPhoneNumbers()) {
+            contactsBDD.insertOrUpdatePhoneNumber(pn, c);
+        }
         contactsBDD.close();
         return c;
     }

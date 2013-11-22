@@ -21,8 +21,8 @@ public class Contact implements Parcelable {
     private String _lastname;
     private String _postalAddress;
     private String _picture_url;
-    private List<PhoneNumber> _phoneNumbers;
-    private List<EmailAddress> _emailsAddress;
+    private ArrayList<PhoneNumber> _phoneNumbers;
+    private ArrayList<EmailAddress> _emailsAddress;
 
     public Contact() {
         this.id = 0;
@@ -94,6 +94,19 @@ public class Contact implements Parcelable {
 
     public void setId(long id) {
         this.id = id;
+    }
+
+
+    public void setPhoneNumbers(ArrayList<PhoneNumber> _phoneNumbers) {
+        this._phoneNumbers = _phoneNumbers;
+    }
+
+    public ArrayList<EmailAddress> getEmailsAddress() {
+        return _emailsAddress;
+    }
+
+    public void setEmailsAddress(ArrayList<EmailAddress> _emailsAddress) {
+        this._emailsAddress = _emailsAddress;
     }
 
     public boolean addPhoneNumber(PhoneNumber phoneNumber) {

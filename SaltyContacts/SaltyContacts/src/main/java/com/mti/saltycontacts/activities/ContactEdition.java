@@ -63,6 +63,7 @@ public class ContactEdition extends Activity implements View.OnClickListener {
         firstname_input = (EditText) findViewById(R.id.edition_firstname_input);
         lastname_input = (EditText) findViewById(R.id.edition_lastname_input);
         address_input = (EditText) findViewById(R.id.edition_address_input);
+        this.phone_list = (LinearLayout) findViewById(R.id.edition_phone_list);
 
         Button save_button = (Button) findViewById(R.id.edition_save_button);
         save_button.setOnClickListener(this);
@@ -71,9 +72,11 @@ public class ContactEdition extends Activity implements View.OnClickListener {
         if (bundle != null) {
             this.contact = dataManager.getContact(bundle.getLong("CONTACT_ID"));
             this.fillForm();
-        } else {
-            this.contact = new Contact("", "", "", "");
         }
+        if (contact == null) {
+            contact = new Contact();
+        }
+
 
         ImageButton add_phone_button = (ImageButton) findViewById(R.id.edition_add_phone_button);
         add_phone_button.setOnClickListener(this);
@@ -107,6 +110,7 @@ public class ContactEdition extends Activity implements View.OnClickListener {
             firstname_input.setText(this.contact.getFirstName());
             lastname_input.setText(this.contact.getLastName());
             address_input.setText(this.contact.getPostalAddress());
+            renderPhoneList();
         }
     }
 
@@ -150,7 +154,6 @@ public class ContactEdition extends Activity implements View.OnClickListener {
                 PhoneNumber pn = new PhoneNumber("123123123", tag);
                 contact.addPhoneNumber(pn);
                 this.addPhoneNumberFragment(pn);
-
                 break;
         }
     }
