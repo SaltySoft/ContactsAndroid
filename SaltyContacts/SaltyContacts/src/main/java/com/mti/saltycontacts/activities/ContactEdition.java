@@ -199,14 +199,12 @@ public class ContactEdition extends Activity implements View.OnClickListener {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.edition_add_phone_button:
-                Tag tag = new Tag("tag");
-                PhoneNumber pn = new PhoneNumber("", tag);
+                PhoneNumber pn = new PhoneNumber("", "Mobile");
                 contact.addPhoneNumber(pn);
                 this.addPhoneNumberFragment(pn);
                 break;
             case R.id.edition_add_email_button:
-                Tag emailtag = new Tag("tag");
-                EmailAddress address = new EmailAddress("", emailtag);
+                EmailAddress address = new EmailAddress("", "Personal");
                 contact.addEmailAddress(address);
                 this.addEmailFragment(address);
                 break;

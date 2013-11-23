@@ -21,7 +21,7 @@ import java.util.ArrayList;
  * Created by Antoine on 11/20/13.
  */
 public class ContactsBDD {
-    private static final int VERSION = 4;
+    private static final int VERSION = 5;
     private static final String NOM_BDD = "contacts.db";
 
 
@@ -42,8 +42,8 @@ public class ContactsBDD {
     private static final int NUM_EMAIL_COL_ID = 0;
     private static final String COL_EMAIL_CONTACT_ID = "CONTACT_ID";
     private static final int NUM_EMAIL_COL_CONTACT_ID = 1;
-    private static final String COL_EMAIL_TAG_ID = "TAG_ID";
-    private static final int NUM_EMAIL_COL_TAG_ID = 2;
+    private static final String COL_EMAIL_TAG = "TAG";
+    private static final int NUM_EMAIL_COL_TAG = 2;
     private static final String COL_EMAIL_VALUE = "VALUE";
     private static final int NUM_EMAIL_COL_VALUE = 3;
 
@@ -52,18 +52,10 @@ public class ContactsBDD {
     private static final int NUM_PHONE_COL_ID = 0;
     private static final String COL_PHONE_CONTACT_ID = "CONTACT_ID";
     private static final int NUM_PHONE_CONTACT_ID = 1;
-    private static final String COL_PHONE_TAG_ID = "TAG_ID";
-    private static final int NUM_PHONE_TAG_ID = 2;
+    private static final String COL_PHONE_TAG = "TAG";
+    private static final int NUM_PHONE_TAG = 2;
     private static final String COL_PHONE_VALUE = "VALUE";
     private static final int NUM_PHONE_VALUE = 3;
-
-    private static final String TABLE_TAG = "table_tags";
-    private static final String COL_TAG_ID = "ID";
-    private static final int NUM_TAG_COL_ID = 0;
-    private static final String COL_TAG_VALUE = "VALUE";
-    private static final int NUM_TAG_COL_VALUE = 1;
-    private static final String COL_TAG_TYPE = "TYPE";
-    private static final int NUM_TAG_COL_TYPE = 2;
 
 
     private SQLiteDatabase bdd;
@@ -101,22 +93,19 @@ public class ContactsBDD {
     }
 
 
-
     public long insertOrUpdatePhoneNumber(PhoneNumber number, Contact c) {
         if (number != null) {
             if (number.getId() == 0) {
                 ContentValues content = new ContentValues();
                 content.put(COL_PHONE_CONTACT_ID, c.getId());
-                if (number.getTag() != null)
-                    content.put(COL_PHONE_TAG_ID, number.getTag().getId());
-                else
-                    content.put(COL_PHONE_TAG_ID, 0);
+                content.put(COL_PHONE_TAG, number.getTag());
+
                 content.put(COL_PHONE_VALUE, number.getNumber());
                 long id = bdd.insert(TABLE_PHONE, null, content);
                 number.setId(id);
             } else {
                 ContentValues content = new ContentValues();
-                content.put(COL_PHONE_TAG_ID, number.getTag().getId());
+                content.put(COL_PHONE_TAG, number.getTag());
                 content.put(COL_PHONE_CONTACT_ID, c.getId());
                 content.put(COL_PHONE_VALUE, number.getNumber());
                 long id = number.getId();
@@ -128,40 +117,19 @@ public class ContactsBDD {
         }
     }
 
-    public long insertOrUpdateTag(Tag tag) {
-        if (tag.getId() == 0) {
-            ContentValues content = new ContentValues();
-            content.put(COL_TAG_VALUE, tag.getName());
-            content.put(COL_TAG_TYPE, tag.getType().getNumVal());
-            long id = bdd.insert(TABLE_TAG, null, content);
-            tag.setId(id);
-        } else {
-            ContentValues content = new ContentValues();
-            content.put(COL_TAG_VALUE, tag.getName());
-            content.put(COL_TAG_TYPE, tag.getType().getNumVal());
-            long id = tag.getId();
-            id = bdd.update(TABLE_TAG, content, COL_TAG_ID + " = " + id, null);
-            tag.setId(id);
-        }
-        return tag.getId();
-
-    }
-
     public long insertOrUpdateEmail(EmailAddress emailAddress, Contact c) {
         if (emailAddress != null) {
             if (emailAddress.getId() == 0) {
                 ContentValues content = new ContentValues();
                 content.put(COL_EMAIL_CONTACT_ID, c.getId());
-                if (emailAddress.getTag() != null)
-                    content.put(COL_EMAIL_TAG_ID, emailAddress.getTag().getId());
-                else
-                    content.put(COL_EMAIL_TAG_ID, 0);
+                content.put(COL_EMAIL_TAG, emailAddress.getTag());
+
                 content.put(COL_EMAIL_VALUE, emailAddress.getAddress());
                 long id = bdd.insert(TABLE_EMAIL, null, content);
                 emailAddress.setId(id);
             } else {
                 ContentValues content = new ContentValues();
-                content.put(COL_EMAIL_TAG_ID, emailAddress.getTag().getId());
+                content.put(COL_EMAIL_TAG, emailAddress.getTag());
                 content.put(COL_EMAIL_CONTACT_ID, c.getId());
                 content.put(COL_EMAIL_VALUE, emailAddress.getAddress());
                 long id = emailAddress.getId();
@@ -201,10 +169,6 @@ public class ContactsBDD {
 
     public long removeEmail(EmailAddress email) {
         return bdd.delete(TABLE_EMAIL, COL_EMAIL_ID + " = " + email.getId(), null);
-    }
-
-    public long removeTag(Tag tag) {
-        return bdd.delete(TABLE_TAG, COL_TAG_ID + " = " + tag.getId(), null);
     }
 
     public long removeContact(Contact contact) {
@@ -264,21 +228,19 @@ public class ContactsBDD {
 
     public ArrayList<PhoneNumber> getPhoneNumbers(Contact contact) {
         Cursor c = bdd.query(TABLE_PHONE, new String[]
-                {COL_PHONE_ID, COL_PHONE_CONTACT_ID, COL_PHONE_TAG_ID, COL_PHONE_VALUE},
+                {COL_PHONE_ID, COL_PHONE_CONTACT_ID, COL_PHONE_TAG, COL_PHONE_VALUE},
                 COL_PHONE_CONTACT_ID + " = " + contact.getId(), null, null, null, COL_PHONE_ID);
 
         if (c.getCount() == 0) {
             c.close();
-            return  new ArrayList<PhoneNumber>();
+            return new ArrayList<PhoneNumber>();
         }
 
         ArrayList<PhoneNumber> number_list = new ArrayList<PhoneNumber>();
         while (c.moveToNext()) {
             PhoneNumber number = new PhoneNumber();
             number.setId(c.getInt(NUM_CONTACT_COL_ID));
-//            number.setTag(c.getString(NUM_CONTACT_COL_FIRSTNAME));
-            Tag tag = new Tag("TAG");
-            number.setTag(tag);
+            number.setTag(c.getString(NUM_PHONE_TAG));
             number.setNumber(c.getString(NUM_PHONE_VALUE));
 
             number_list.add(number);
@@ -290,7 +252,7 @@ public class ContactsBDD {
 
     public ArrayList<EmailAddress> getEmailAddresses(Contact contact) {
         Cursor c = bdd.query(TABLE_EMAIL, new String[]
-                { COL_EMAIL_ID, COL_EMAIL_CONTACT_ID, COL_EMAIL_TAG_ID, COL_EMAIL_VALUE },
+                {COL_EMAIL_ID, COL_EMAIL_CONTACT_ID, COL_EMAIL_TAG, COL_EMAIL_VALUE},
                 COL_EMAIL_CONTACT_ID + " = " + contact.getId(), null, null, null, COL_EMAIL_ID);
 
         if (c.getCount() == 0) {
@@ -302,8 +264,7 @@ public class ContactsBDD {
         while (c.moveToNext()) {
             EmailAddress email = new EmailAddress();
             email.setId(c.getInt(NUM_EMAIL_COL_ID));
-            Tag tag = new Tag("TAG");
-            email.setTag(tag);
+            email.setTag(c.getString(NUM_EMAIL_COL_TAG));
             email.setAddress(c.getString(NUM_EMAIL_COL_VALUE));
             address_list.add(email);
         }
@@ -312,6 +273,5 @@ public class ContactsBDD {
         return address_list;
     }
 
-   
 
 }

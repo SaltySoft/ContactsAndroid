@@ -12,9 +12,9 @@ import com.mti.saltycontacts.R;
 public class PhoneNumber implements Parcelable {
     private long id;
     private String _number;
-    private Tag _tag;
+    private String _tag;
 
-    public PhoneNumber(String number, Tag tag) {
+    public PhoneNumber(String number, String tag) {
         this._number = number;
         this._tag = tag;
     }
@@ -27,7 +27,7 @@ public class PhoneNumber implements Parcelable {
         this._number = number;
     }
 
-    public void setTag(Tag tag) {
+    public void setTag(String tag) {
         this._tag = tag;
     }
 
@@ -35,7 +35,7 @@ public class PhoneNumber implements Parcelable {
         return this._number;
     }
 
-    public Tag getTag() {
+    public String getTag() {
         return this._tag;
     }
 
@@ -54,7 +54,7 @@ public class PhoneNumber implements Parcelable {
     //On va ici hydrater notre objet à partir du Parcel
     public void getFromParcel(Parcel in) {
         this._number = in.readString();
-        this._tag = in.readParcelable(Tag.class.getClassLoader());
+        this._tag = in.readString();
     }
 
     @Override
@@ -66,7 +66,7 @@ public class PhoneNumber implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         Log.v("PhoneNumberParcel", "writeToParcel..." + flags);
         dest.writeString(this._number);
-        dest.writeParcelable(this._tag, flags);
+        dest.writeString(this._tag);
     }
 
     public static final Creator<PhoneNumber> CREATOR = new Creator<PhoneNumber>() {

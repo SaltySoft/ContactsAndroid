@@ -60,7 +60,7 @@ public class PhoneNumbersAdapter extends ArrayAdapter<PhoneNumber> {
         }
 
         PhoneNumber phoneNumber = this._adapterData.get(position);
-        holder.textViewTag.setText(phoneNumber.getTag().getName());
+        holder.textViewTag.setText(phoneNumber.getTag());
         holder.textViewNumber.setText(phoneNumber.getNumber());
 
         return convertView;

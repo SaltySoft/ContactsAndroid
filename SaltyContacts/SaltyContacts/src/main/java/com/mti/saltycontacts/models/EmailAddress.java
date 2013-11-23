@@ -10,15 +10,15 @@ import android.util.Log;
 public class EmailAddress implements Parcelable {
     private long id;
     private String _address;
-    private Tag _tag;
+    private String _tag;
 
     public EmailAddress() {
         this._address = "";
-        this._tag = new Tag("");
+        this._tag = "";
         this.id = 0;
     }
 
-    public EmailAddress(String address, Tag tag) {
+    public EmailAddress(String address, String tag) {
         this._address = address;
         this._tag = tag;
     }
@@ -27,7 +27,7 @@ public class EmailAddress implements Parcelable {
         this._address = address;
     }
 
-    public void setTag(Tag tag) {
+    public void setTag(String tag) {
         this._tag = tag;
     }
 
@@ -35,7 +35,7 @@ public class EmailAddress implements Parcelable {
         return this._address;
     }
 
-    public Tag getTag() {
+    public String getTag() {
         return this._tag;
     }
 
@@ -54,7 +54,7 @@ public class EmailAddress implements Parcelable {
     //On va ici hydrater notre objet à partir du Parcel
     public void getFromParcel(Parcel in) {
         this._address = in.readString();
-        this._tag = in.readParcelable(Tag.class.getClassLoader());
+        this._tag = in.readString();
     }
 
     @Override
@@ -66,7 +66,7 @@ public class EmailAddress implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         Log.v("EmailAddressParcel", "writeToParcel..." + flags);
         dest.writeString(this._address);
-        dest.writeParcelable(this._tag, flags);
+        dest.writeString(this._tag);
     }
 
     public static final Creator<EmailAddress> CREATOR = new Creator<EmailAddress>() {

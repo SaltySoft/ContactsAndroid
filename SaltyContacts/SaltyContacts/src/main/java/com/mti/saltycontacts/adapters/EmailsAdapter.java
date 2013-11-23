@@ -60,7 +60,7 @@ public class EmailsAdapter extends ArrayAdapter<EmailAddress> {
         }
 
         EmailAddress emailAddress = this._adapterData.get(position);
-        holder.textViewTag.setText(emailAddress.getTag().getName());
+        holder.textViewTag.setText(emailAddress.getTag());
         holder.textViewAddress.setText(emailAddress.getAddress());
 
         return convertView;
