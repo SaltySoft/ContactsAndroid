@@ -24,6 +24,7 @@ import com.mti.saltycontacts.adapters.PhoneNumbersAdapter;
 import com.mti.saltycontacts.models.Contact;
 import com.mti.saltycontacts.models.EmailAddress;
 import com.mti.saltycontacts.models.PhoneNumber;
+import com.mti.saltycontacts.utils.Helper;
 
 /**
  * Created by lefebv_b on 20/11/13.
@@ -73,6 +74,7 @@ public class ContactShow extends Activity implements View.OnClickListener {
         ListView list = (ListView) findViewById(R.id.phone_numbers_list);
         PhoneNumbersAdapter adapter = new PhoneNumbersAdapter(this, R.layout.phone_numbers_list, phone_numbers_array);
         list.setAdapter(adapter);
+        Helper.getListViewSize(list);
 
         // add PhoneStateListener
         PhoneCallListener phoneListener = new PhoneCallListener();
@@ -106,6 +108,7 @@ public class ContactShow extends Activity implements View.OnClickListener {
 
         EmailsAdapter adapter = new EmailsAdapter(this, R.layout.emails_list, email_address_array);
         list.setAdapter(adapter);
+        Helper.getListViewSize(list);
 
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

@@ -58,10 +58,16 @@ public class MainActivity extends Activity implements View.OnClickListener {
 //        PhoneNumber phoneNumber1 = new PhoneNumber("0102030405", tag1);
 //        PhoneNumber phoneNumber2 = new PhoneNumber("0202020202", tag2);
 //        PhoneNumber phoneNumber3 = new PhoneNumber("0303030303", tag3);
+//        PhoneNumber phoneNumber4 = new PhoneNumber("0303030303", tag3);
+//        PhoneNumber phoneNumber5 = new PhoneNumber("0303030303", tag3);
+//        PhoneNumber phoneNumber6 = new PhoneNumber("0303030303", tag3);
 //        Contact contact1 = new Contact("Vincent", "Lefebvre", "Paul Vaillant Villejuif", "");
 //        contact1.addPhoneNumber(phoneNumber1);
 //        contact1.addPhoneNumber(phoneNumber2);
 //        contact1.addPhoneNumber(phoneNumber3);
+//        contact1.addPhoneNumber(phoneNumber4);
+//        contact1.addPhoneNumber(phoneNumber5);
+//        contact1.addPhoneNumber(phoneNumber6);
 //        contact1.addEmailAddress(emailAddress1);
 //        contact1.addEmailAddress(emailAddress2);
 //        contact1.addEmailAddress(emailAddress3);
