@@ -8,6 +8,8 @@ import android.os.Bundle;
 import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Adapter;
 import android.widget.AdapterView;
@@ -39,6 +41,7 @@ public class ContactShow extends Activity implements View.OnClickListener {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getActionBar().setDisplayHomeAsUpEnabled(true);
         setTheme(R.style.contactShowTheme);
         setContentView(R.layout.activity_contact_show);
 
@@ -55,11 +58,6 @@ public class ContactShow extends Activity implements View.OnClickListener {
         } else {
             this._contact = null;
         }
-        Button go_edit_button = (Button) findViewById(R.id.show_edit_button);
-        go_edit_button.setOnClickListener(this);
-
-        Button go_back_button = (Button) findViewById(R.id.show_back_button);
-        go_back_button.setOnClickListener(this);
     }
 
     @Override
@@ -70,6 +68,33 @@ public class ContactShow extends Activity implements View.OnClickListener {
         this.fillContactShow();
         this.managePhoneNumbers();
         this.manageEmailsAddress();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.contact_show, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            // Respond to the action bar's Up/Home button
+            case android.R.id.home:
+//                this.finish();
+                Intent intent2 = new Intent(ContactShow.this, MainActivity.class);
+                intent2.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent2);
+                return true;
+            case R.id.action_edit:
+                Intent intent = new Intent(ContactShow.this, ContactEdition.class);
+                intent.putExtra("CONTACT_ID", this._contact.getId());
+                startActivity(intent);
+                break;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     private void fillContactShow() {
@@ -148,16 +173,6 @@ public class ContactShow extends Activity implements View.OnClickListener {
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.show_edit_button:
-                Intent intent = new Intent(ContactShow.this, ContactEdition.class);
-                intent.putExtra("CONTACT_ID", this._contact.getId());
-                startActivity(intent);
-                break;
-            case R.id.show_back_button:
-                Intent intent2 = new Intent(ContactShow.this, MainActivity.class);
-                intent2.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(intent2);
-                break;
         }
     }
 
