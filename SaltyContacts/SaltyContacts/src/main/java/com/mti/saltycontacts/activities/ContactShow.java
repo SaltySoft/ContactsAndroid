@@ -180,15 +180,8 @@ public class ContactShow extends Activity implements View.OnClickListener {
             case R.id.contact_show_address:
                 String postalAddress = this._contact.getPostalAddress();
                 if (postalAddress != null && postalAddress != "") {
-                    String[] split_address = postalAddress.split(" ");
-                    postalAddress = "";
-                    for (String item : split_address) {
-                        if (postalAddress != "") {
-                            postalAddress += "+";
-                        }
-                        postalAddress += item;
-                    }
-                    String format = "geo:0,0?q=" + postalAddress;
+                    String newPostalAddress = postalAddress.replace(' ','+');
+                    String format = "geo:0,0?q=" + newPostalAddress;
                     Uri uri = Uri.parse(format);
                     Intent intent = new Intent(Intent.ACTION_VIEW, uri);
                     intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
