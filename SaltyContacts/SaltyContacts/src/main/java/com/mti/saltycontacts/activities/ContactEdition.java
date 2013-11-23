@@ -52,6 +52,7 @@ public class ContactEdition extends Activity implements View.OnClickListener {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getActionBar().setDisplayHomeAsUpEnabled(true);
 
         dataManager = DataManager.getInstance(ContactEdition.this);
 
@@ -153,7 +154,10 @@ public class ContactEdition extends Activity implements View.OnClickListener {
         pictureChooser.setImageBitmap(image);
     }
 
-
+    @Override
+    protected void onResume() {
+        super.onResume();
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -169,11 +173,10 @@ public class ContactEdition extends Activity implements View.OnClickListener {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
             case R.id.action_save:
                 saveContact();
-                break;
-            case R.id.action_cancel:
-                finish();
                 break;
         }
         return super.onOptionsItemSelected(item);
@@ -223,17 +226,19 @@ public class ContactEdition extends Activity implements View.OnClickListener {
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        switch (requestCode) {
-            case 0:
-                selectedImageUri = data.getData();
-                selectedPath = getPath(selectedImageUri);
-                setImage(selectedPath);
-                break;
-            case 1 :
-                selectedImageUri = data.getData();
-                selectedPath = getPath(selectedImageUri);
-                setImage(selectedPath);
-                break;
+        if (data != null) {
+            switch (requestCode) {
+                case 0:
+                    selectedImageUri = data.getData();
+                    selectedPath = getPath(selectedImageUri);
+                    setImage(selectedPath);
+                    break;
+                case 1 :
+                    selectedImageUri = data.getData();
+                    selectedPath = getPath(selectedImageUri);
+                    setImage(selectedPath);
+                    break;
+            }
         }
     }
 
@@ -266,7 +271,12 @@ public class ContactEdition extends Activity implements View.OnClickListener {
         public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
             View view = inflater.inflate(R.layout.edition_phone_fragment, container, false);
             this.display = (TextView) view.findViewById(R.id.phone_number_container);
-            this.display.setText(phone_number.getNumber());
+            if (phone_number.getNumber() != "") {
+                this.display.setText(phone_number.getNumber());
+            } else {
+                this.display.setText("Click on edit");
+            }
+
 
             this.input = (EditText) view.findViewById(R.id.phone_number_input);
 
