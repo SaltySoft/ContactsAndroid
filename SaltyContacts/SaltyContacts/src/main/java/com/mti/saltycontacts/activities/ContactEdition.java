@@ -12,6 +12,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.net.Uri;
 import android.os.Bundle;
@@ -33,6 +34,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.mti.saltycontacts.R;
+import com.mti.saltycontacts.business.ImageManager;
 import com.mti.saltycontacts.dataAccess.DataManager;
 import com.mti.saltycontacts.models.Contact;
 import com.mti.saltycontacts.models.EmailAddress;
@@ -40,6 +42,8 @@ import com.mti.saltycontacts.models.PhoneNumber;
 import com.mti.saltycontacts.models.Tag;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -158,11 +162,18 @@ public class ContactEdition extends Activity implements View.OnClickListener {
             Matrix matrix=new Matrix();
             pictureChooser.setImageMatrix(matrix);
 
-            pictureChooser.setImageURI((Uri.parse(new File(this.contact.getPictureUrl()).toString())));
+            setImage(this.contact.getPictureUrl());
             renderPhoneList();
             renderEmailList();
         }
     }
+
+    public void setImage(String url) {
+        Bitmap image = ImageManager.bitmapFromUrl(ContactEdition.this, url);
+        pictureChooser.setImageBitmap(image);
+    }
+
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -238,15 +249,17 @@ public class ContactEdition extends Activity implements View.OnClickListener {
             case 0:
                 selectedImageUri = data.getData();
                 selectedPath = getPath(selectedImageUri);
-                pictureChooser.setImageURI((Uri.parse(new File(selectedPath).toString())));
+                setImage(selectedPath);
                 break;
             case 1 :
                 selectedImageUri = data.getData();
                 selectedPath = getPath(selectedImageUri);
-                pictureChooser.setImageURI((Uri.parse(new File(selectedPath).toString())));
+                setImage(selectedPath);
                 break;
         }
     }
+
+
 
     public String getPath(Uri uri) {
 
