@@ -54,8 +54,8 @@ public class ContactEdition extends Activity implements View.OnClickListener {
         Bundle bundle = this.getIntent().getExtras();
         if (bundle != null) {
             this.contact = dataManager.getContact(bundle.getLong("CONTACT_ID"));
-            EmailAddress address = new EmailAddress("address@someserver.co", new Tag("Tag"));
-            contact.addEmailAddress(address);
+//            EmailAddress address = new EmailAddress("address@someserver.co", new Tag("Tag"));
+//            contact.addEmailAddress(address);
             this.fillForm();
         }
         if (contact == null) {
@@ -65,6 +65,8 @@ public class ContactEdition extends Activity implements View.OnClickListener {
 
         ImageButton add_phone_button = (ImageButton) findViewById(R.id.edition_add_phone_button);
         add_phone_button.setOnClickListener(this);
+        ImageButton add_email_button = (ImageButton) findViewById(R.id.edition_add_email_button);
+        add_email_button.setOnClickListener(this);
     }
 
     private void renderPhoneList() {

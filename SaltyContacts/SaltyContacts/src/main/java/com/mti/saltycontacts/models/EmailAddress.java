@@ -12,6 +12,12 @@ public class EmailAddress implements Parcelable {
     private String _address;
     private Tag _tag;
 
+    public EmailAddress() {
+        this._address = "";
+        this._tag = new Tag("");
+        this.id = 0;
+    }
+
     public EmailAddress(String address, Tag tag) {
         this._address = address;
         this._tag = tag;

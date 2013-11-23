@@ -32,9 +32,13 @@ public class ContactsBDD {
 
     private static final String TABLE_EMAIL = "table_emails";
     private static final String COL_EMAIL_ID = "ID";
+    private static final int NUM_EMAIL_COL_ID = 0;
     private static final String COL_EMAIL_CONTACT_ID = "CONTACT_ID";
+    private static final int NUM_EMAIL_COL_CONTACT_ID = 1;
     private static final String COL_EMAIL_TAG_ID = "TAG_ID";
+    private static final int NUM_EMAIL_COL_TAG_ID = 2;
     private static final String COL_EMAIL_VALUE = "VALUE";
+    private static final int NUM_EMAIL_COL_VALUE = 3;
 
     private static final String TABLE_PHONE = "table_phones";
     private static final String COL_PHONE_ID = "ID";
@@ -105,7 +109,6 @@ public class ContactsBDD {
                 content.put(COL_PHONE_VALUE, number.getNumber());
                 long id = number.getId();
                 id = bdd.update(TABLE_PHONE, content, COL_PHONE_ID + " = " + id, null);
-//                number.setId(id);
             }
             return number.getId();
         } else {
@@ -130,8 +133,30 @@ public class ContactsBDD {
 
     }
 
-    public long insertOrUpdateEmail(EmailAddress emailAddress) {
-        return 0;
+    public long insertOrUpdateEmail(EmailAddress emailAddress, Contact c) {
+        if (emailAddress != null) {
+            if (emailAddress.getId() == 0) {
+                ContentValues content = new ContentValues();
+                content.put(COL_EMAIL_CONTACT_ID, c.getId());
+                if (emailAddress.getTag() != null)
+                    content.put(COL_EMAIL_TAG_ID, emailAddress.getTag().getId());
+                else
+                    content.put(COL_EMAIL_TAG_ID, 0);
+                content.put(COL_EMAIL_VALUE, emailAddress.getAddress());
+                long id = bdd.insert(TABLE_EMAIL, null, content);
+                emailAddress.setId(id);
+            } else {
+                ContentValues content = new ContentValues();
+                content.put(COL_EMAIL_TAG_ID, emailAddress.getTag().getId());
+                content.put(COL_EMAIL_CONTACT_ID, c.getId());
+                content.put(COL_EMAIL_VALUE, emailAddress.getAddress());
+                long id = emailAddress.getId();
+                id = bdd.update(TABLE_EMAIL, content, COL_EMAIL_ID + " = " + id, null);
+            }
+            return emailAddress.getId();
+        } else {
+            return 0;
+        }
     }
 
     public long insertOrUpdateContact(Contact contact) {
@@ -148,9 +173,8 @@ public class ContactsBDD {
             content.put(COL_CONTACT_LASTNAME, contact.getLastName());
             content.put(COL_CONTACT_ADDRESS, contact.getPostalAddress());
             long id = contact.getId();
-
             id = bdd.update(TABLE_CONTACTS, content, COL_CONTACT_ID + " = " + id, null);
-            contact.setId(id);
+
         }
         return contact.getId();
     }
@@ -213,6 +237,7 @@ public class ContactsBDD {
             contact.setPostalAddress(c.getString(NUM_CONTACT_COL_ADDRESS));
 
             contact.setPhoneNumbers(getPhoneNumbers(contact));
+            contact.setEmailsAddress(getEmailAddresses(contact));
             contact_list.add(contact);
         }
         c.close();
@@ -242,9 +267,31 @@ public class ContactsBDD {
         }
         c.close();
 
-
-
         return number_list;
+    }
+
+    public ArrayList<EmailAddress> getEmailAddresses(Contact contact) {
+        Cursor c = bdd.query(TABLE_EMAIL, new String[]
+                { COL_EMAIL_ID, COL_EMAIL_CONTACT_ID, COL_EMAIL_TAG_ID, COL_EMAIL_VALUE },
+                COL_EMAIL_CONTACT_ID + " = " + contact.getId(), null, null, null, COL_EMAIL_ID);
+
+        if (c.getCount() == 0) {
+            c.close();
+            return new ArrayList<EmailAddress>();
+        }
+
+        ArrayList<EmailAddress> address_list = new ArrayList<EmailAddress>();
+        while (c.moveToNext()) {
+            EmailAddress email = new EmailAddress();
+            email.setId(c.getInt(NUM_EMAIL_COL_ID));
+            Tag tag = new Tag("TAG");
+            email.setTag(tag);
+            email.setAddress(c.getString(NUM_EMAIL_COL_VALUE));
+            address_list.add(email);
+        }
+        c.close();
+
+        return address_list;
     }
 
 }

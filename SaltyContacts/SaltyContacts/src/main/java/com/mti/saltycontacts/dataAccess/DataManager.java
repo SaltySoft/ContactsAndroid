@@ -3,6 +3,7 @@ package com.mti.saltycontacts.dataAccess;
 import android.content.Context;
 
 import com.mti.saltycontacts.models.Contact;
+import com.mti.saltycontacts.models.EmailAddress;
 import com.mti.saltycontacts.models.PhoneNumber;
 
 import java.util.ArrayList;
@@ -72,6 +73,23 @@ public class DataManager {
            if (!phone_ids.contains(pn.getId())) {
                contactsBDD.removePhoneNumber(pn);
            }
+        }
+
+        List<EmailAddress> current_addresses = c.getEmailListAddress();
+        ArrayList<Long> email_ids = new ArrayList<Long>();
+
+        for (EmailAddress address: current_addresses) {
+            address.setId(contactsBDD.insertOrUpdateEmail(address, c));
+            email_ids.add(address.getId());
+        }
+
+        ArrayList<EmailAddress> addresses = contactsBDD.getEmailAddresses(c);
+
+
+        for (EmailAddress address : addresses) {
+            if (!email_ids.contains(address.getId())) {
+                contactsBDD.removeEmail(address);
+            }
         }
 
         contactsBDD.close();
