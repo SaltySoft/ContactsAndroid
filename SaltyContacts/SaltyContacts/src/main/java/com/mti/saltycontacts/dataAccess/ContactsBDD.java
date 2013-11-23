@@ -21,7 +21,7 @@ import java.util.ArrayList;
  * Created by Antoine on 11/20/13.
  */
 public class ContactsBDD {
-    private static final int VERSION = 3;
+    private static final int VERSION = 4;
     private static final String NOM_BDD = "contacts.db";
 
 
@@ -59,7 +59,12 @@ public class ContactsBDD {
 
     private static final String TABLE_TAG = "table_tags";
     private static final String COL_TAG_ID = "ID";
+    private static final int NUM_TAG_COL_ID = 0;
     private static final String COL_TAG_VALUE = "VALUE";
+    private static final int NUM_TAG_COL_VALUE = 1;
+    private static final String COL_TAG_TYPE = "TYPE";
+    private static final int NUM_TAG_COL_TYPE = 2;
+
 
     private SQLiteDatabase bdd;
 
@@ -127,11 +132,13 @@ public class ContactsBDD {
         if (tag.getId() == 0) {
             ContentValues content = new ContentValues();
             content.put(COL_TAG_VALUE, tag.getName());
+            content.put(COL_TAG_TYPE, tag.getType().getNumVal());
             long id = bdd.insert(TABLE_TAG, null, content);
             tag.setId(id);
         } else {
             ContentValues content = new ContentValues();
             content.put(COL_TAG_VALUE, tag.getName());
+            content.put(COL_TAG_TYPE, tag.getType().getNumVal());
             long id = tag.getId();
             id = bdd.update(TABLE_TAG, content, COL_TAG_ID + " = " + id, null);
             tag.setId(id);

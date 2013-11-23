@@ -10,9 +10,28 @@ import android.util.Log;
 public class Tag implements Parcelable {
     private long id;
     private String _name;
+    private int type;
+
+    public static enum Types {
+        EMAIL(0), PHONE(1);
+
+        private int numVal;
+
+        Types(int numVal) {
+            this.numVal = numVal;
+        }
+
+        public int getNumVal() {
+            return numVal;
+        }
+    }
 
     public Tag(String name) {
         this._name = name;
+        this.type = 0;
+    }
+    public Tag() {
+        this.type = 0;
     }
 
     public void setName(String name) {
@@ -29,6 +48,28 @@ public class Tag implements Parcelable {
 
     public void setId(long id) {
         this.id = id;
+    }
+
+    /**
+     * Gets the type of the tag (email or phone). Email by default.
+     * @return Types
+     */
+    public Types getType() {
+        switch (type) {
+            case 0:
+                return Types.EMAIL;
+            case 1:
+                return Types.PHONE;
+        }
+        return Types.EMAIL;
+    }
+
+    /**
+     * Sets the type of the tag (Tag.Types.EMAIL || Tag.Types.PHONE).
+     * @param Tag.Types type
+     */
+    public void setType(Types type) {
+        this.type = type.getNumVal();
     }
 
     public Tag(Parcel in) {
