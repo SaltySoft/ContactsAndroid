@@ -46,34 +46,6 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
         dataManager = DataManager.getInstance(MainActivity.this);
         this.contacts = dataManager.getContacts();
-
-//        Tag tag1 = new Tag("Maison1");
-//        Tag tag2 = new Tag("Maison2");
-//        Tag tag3 = new Tag("Maison3");
-//        Tag tag4 = new Tag("Perso1");
-//        Tag tag5 = new Tag("Perso2");
-//        Tag tag6 = new Tag("Perso3");
-//        EmailAddress emailAddress1 = new EmailAddress("vinc.lefebv1@gmail.com", tag4);
-//        EmailAddress emailAddress2 = new EmailAddress("vinc.lefebv2@gmail.com", tag5);
-//        EmailAddress emailAddress3 = new EmailAddress("vinc.lefebv3@gmail.com", tag6);
-//        PhoneNumber phoneNumber1 = new PhoneNumber("0102030405", tag1);
-//        PhoneNumber phoneNumber2 = new PhoneNumber("0202020202", tag2);
-//        PhoneNumber phoneNumber3 = new PhoneNumber("0303030303", tag3);
-//        PhoneNumber phoneNumber4 = new PhoneNumber("0303030303", tag3);
-//        PhoneNumber phoneNumber5 = new PhoneNumber("0303030303", tag3);
-//        PhoneNumber phoneNumber6 = new PhoneNumber("0303030303", tag3);
-//        Contact contact1 = new Contact("Vincent", "Lefebvre", "Paul Vaillant Villejuif", "");
-//        contact1.addPhoneNumber(phoneNumber1);
-//        contact1.addPhoneNumber(phoneNumber2);
-//        contact1.addPhoneNumber(phoneNumber3);
-//        contact1.addPhoneNumber(phoneNumber4);
-//        contact1.addPhoneNumber(phoneNumber5);
-//        contact1.addPhoneNumber(phoneNumber6);
-//        contact1.addEmailAddress(emailAddress1);
-//        contact1.addEmailAddress(emailAddress2);
-//        contact1.addEmailAddress(emailAddress3);
-//        contacts = new ArrayList<Contact>();
-//        contacts.add(contact1);
     }
 
 

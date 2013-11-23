@@ -3,6 +3,7 @@ package com.mti.saltycontacts.activities;
 import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.telephony.PhoneStateListener;
@@ -23,6 +24,7 @@ import com.mti.saltycontacts.R;
 import com.mti.saltycontacts.adapters.ContactsListAdapter;
 import com.mti.saltycontacts.adapters.EmailsAdapter;
 import com.mti.saltycontacts.adapters.PhoneNumbersAdapter;
+import com.mti.saltycontacts.business.ImageManager;
 import com.mti.saltycontacts.dataAccess.DataManager;
 import com.mti.saltycontacts.models.Contact;
 import com.mti.saltycontacts.models.EmailAddress;
@@ -107,7 +109,8 @@ public class ContactShow extends Activity implements View.OnClickListener {
             firstname.setText(this._contact.getFirstName());
             lastname.setText(this._contact.getLastName());
             address.setText(this._contact.getPostalAddress());
-//            image.setSrc
+            Bitmap bitmap = ImageManager.bitmapFromUrl(ContactShow.this, this._contact.getPictureUrl());
+            image.setImageBitmap(bitmap);
         }
     }
 

@@ -144,7 +144,7 @@ public class ContactEdition extends Activity implements View.OnClickListener {
             address_input.setText(this.contact.getPostalAddress());
             selectedPath = this.contact.getPictureUrl();
 
-            Matrix matrix=new Matrix();
+            Matrix matrix = new Matrix();
             pictureChooser.setImageMatrix(matrix);
 
             setImage(this.contact.getPictureUrl());
