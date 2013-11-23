@@ -12,7 +12,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.graphics.Matrix;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -34,7 +33,6 @@ import com.mti.saltycontacts.dataAccess.DataManager;
 import com.mti.saltycontacts.models.Contact;
 import com.mti.saltycontacts.models.EmailAddress;
 import com.mti.saltycontacts.models.PhoneNumber;
-import com.mti.saltycontacts.models.Tag;
 
 public class ContactEdition extends Activity implements View.OnClickListener {
 
@@ -71,7 +69,7 @@ public class ContactEdition extends Activity implements View.OnClickListener {
         Bundle bundle = this.getIntent().getExtras();
         if (bundle != null) {
             this.contact = dataManager.getContact(bundle.getLong("CONTACT_ID"));
-//            EmailAddress address = new EmailAddress("address@someserver.co", new Tag("Tag"));
+//            EmailAddress address = new EmailAddress("address@someserver.co", "");
 //            contact.addEmailAddress(address);
             this.fillForm();
         }
@@ -143,10 +141,6 @@ public class ContactEdition extends Activity implements View.OnClickListener {
             lastname_input.setText(this.contact.getLastName());
             address_input.setText(this.contact.getPostalAddress());
             selectedPath = this.contact.getPictureUrl();
-
-            Matrix matrix=new Matrix();
-            pictureChooser.setImageMatrix(matrix);
-
             setImage(this.contact.getPictureUrl());
             renderPhoneList();
             renderEmailList();

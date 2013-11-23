@@ -1,14 +1,9 @@
 package com.mti.saltycontacts.dataAccess;
 
-import android.app.Application;
-import android.content.ContentValues;
 import android.content.Context;
 import android.database.DatabaseErrorHandler;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.util.Log;
-
-import com.mti.saltycontacts.models.Tag;
 
 /**
  * Created by Antoine on 11/20/13.
