@@ -12,13 +12,10 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.provider.MediaStore;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -31,8 +28,6 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import com.mti.saltycontacts.R;
 import com.mti.saltycontacts.business.ImageManager;
 import com.mti.saltycontacts.dataAccess.DataManager;
@@ -40,16 +35,6 @@ import com.mti.saltycontacts.models.Contact;
 import com.mti.saltycontacts.models.EmailAddress;
 import com.mti.saltycontacts.models.PhoneNumber;
 import com.mti.saltycontacts.models.Tag;
-
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.net.MalformedURLException;
-import java.net.URL;
 
 public class ContactEdition extends Activity implements View.OnClickListener {
 
