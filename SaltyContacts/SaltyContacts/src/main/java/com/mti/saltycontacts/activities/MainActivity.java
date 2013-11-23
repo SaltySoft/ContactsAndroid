@@ -46,6 +46,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
         dataManager = DataManager.getInstance(MainActivity.this);
         this.contacts = dataManager.getContacts();
+
     }
 
 
