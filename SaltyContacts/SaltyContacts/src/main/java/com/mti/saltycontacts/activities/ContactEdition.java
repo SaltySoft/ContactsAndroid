@@ -16,6 +16,7 @@ import android.graphics.Matrix;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -23,11 +24,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
+
 import com.mti.saltycontacts.R;
 import com.mti.saltycontacts.business.ImageManager;
 import com.mti.saltycontacts.dataAccess.DataManager;
@@ -233,7 +238,7 @@ public class ContactEdition extends Activity implements View.OnClickListener {
                     selectedPath = getPath(selectedImageUri);
                     setImage(selectedPath);
                     break;
-                case 1 :
+                case 1:
                     selectedImageUri = data.getData();
                     selectedPath = getPath(selectedImageUri);
                     setImage(selectedPath);
@@ -241,7 +246,6 @@ public class ContactEdition extends Activity implements View.OnClickListener {
             }
         }
     }
-
 
 
     public String getPath(Uri uri) {
@@ -333,7 +337,7 @@ public class ContactEdition extends Activity implements View.OnClickListener {
         }
     }
 
-    public class EmailFragment extends Fragment implements View.OnClickListener {
+    public class EmailFragment extends Fragment implements View.OnClickListener, AdapterView.OnItemSelectedListener {
 
         private EmailAddress email_address;
         private EditText input;
@@ -341,6 +345,7 @@ public class ContactEdition extends Activity implements View.OnClickListener {
         private ImageButton edit_button;
         private ImageButton delete_button;
         private ImageButton validate_button;
+        private Spinner tag_spinner;
 
         public EmailFragment(EmailAddress address) {
             this.email_address = address;
@@ -362,6 +367,15 @@ public class ContactEdition extends Activity implements View.OnClickListener {
 
             this.validate_button = (ImageButton) view.findViewById(R.id.email_validate_button);
             this.validate_button.setOnClickListener(this);
+
+            this.tag_spinner = (Spinner) view.findViewById(R.id.tag_spinner);
+            ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this.getActivity().getApplicationContext(),
+                    R.array.emails_defaults_tags, R.layout.simple_spinner_item);
+
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+            tag_spinner.setAdapter(adapter);
+            tag_spinner.setOnItemSelectedListener(this);
 
             return view;
         }
@@ -403,6 +417,31 @@ public class ContactEdition extends Activity implements View.OnClickListener {
                     imm.hideSoftInputFromWindow(input.getWindowToken(), 0);
                     break;
             }
+        }
+
+        @Override
+        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+            String elt = (String) parent.getItemAtPosition(position);
+            String[] old_array = getResources().getStringArray(R.array.emails_defaults_tags);
+            if (elt.equals(old_array[old_array.length - 1])) {
+
+                String[] new_array = new String[old_array.length + 1];
+                for (int i = 0; i < old_array.length; i++) {
+                    new_array[i] = old_array[i];
+                }
+                new_array[new_array.length - 1] = "Nouveau";
+                ArrayAdapter<CharSequence> adapter = new ArrayAdapter<CharSequence>(this.getActivity().getApplicationContext(),
+                      R.layout.simple_spinner_item, new_array);
+                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                tag_spinner.setAdapter(adapter);
+                tag_spinner.setSelection(old_array.length);
+
+            }
+        }
+
+        @Override
+        public void onNothingSelected(AdapterView<?> parent) {
+
         }
     }
 
