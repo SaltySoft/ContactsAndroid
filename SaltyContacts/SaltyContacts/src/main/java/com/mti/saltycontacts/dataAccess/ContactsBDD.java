@@ -1,9 +1,14 @@
 package com.mti.saltycontacts.dataAccess;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.app.DialogFragment;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.os.Bundle;
 
 import com.mti.saltycontacts.models.Contact;
 import com.mti.saltycontacts.models.EmailAddress;
@@ -299,5 +304,7 @@ public class ContactsBDD {
 
         return address_list;
     }
+
+   
 
 }

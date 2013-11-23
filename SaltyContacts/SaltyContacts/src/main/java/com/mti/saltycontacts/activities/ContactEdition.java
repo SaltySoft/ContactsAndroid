@@ -1,15 +1,20 @@
 package com.mti.saltycontacts.activities;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.app.DialogFragment;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -21,6 +26,7 @@ import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -33,6 +39,12 @@ import com.mti.saltycontacts.models.PhoneNumber;
 import com.mti.saltycontacts.models.Tag;
 
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.MalformedURLException;
+import java.net.URL;
 
 public class ContactEdition extends Activity implements View.OnClickListener {
 
@@ -43,7 +55,7 @@ public class ContactEdition extends Activity implements View.OnClickListener {
     LinearLayout phone_list;
     DataManager dataManager;
     LinearLayout email_list;
-    ImageButton pictureChooser;
+    ImageView pictureChooser;
 
     Uri selectedImageUri;
     String selectedPath;
@@ -63,7 +75,7 @@ public class ContactEdition extends Activity implements View.OnClickListener {
         address_input = (EditText) findViewById(R.id.edition_address_input);
         this.phone_list = (LinearLayout) findViewById(R.id.edition_phone_list);
         email_list = (LinearLayout) findViewById(R.id.edition_email_list);
-        pictureChooser = (ImageButton) findViewById(R.id.edition_user_image_button);
+        pictureChooser = (ImageView) findViewById(R.id.edition_user_image_button);
         pictureChooser.setOnClickListener(this);
 
         Bundle bundle = this.getIntent().getExtras();
@@ -140,8 +152,8 @@ public class ContactEdition extends Activity implements View.OnClickListener {
             firstname_input.setText(this.contact.getFirstName());
             lastname_input.setText(this.contact.getLastName());
             address_input.setText(this.contact.getPostalAddress());
-            Uri pictureUri = Uri.fromFile(new File(contact.getPictureUrl()));
-            pictureChooser.setImageURI(pictureUri);
+            selectedPath = this.contact.getPictureUrl();
+            pictureChooser.setImageURI((Uri.parse(new File(this.contact.getPictureUrl()).toString())));
             renderPhoneList();
             renderEmailList();
         }
@@ -175,7 +187,7 @@ public class ContactEdition extends Activity implements View.OnClickListener {
         this.contact.setFirstName(firstname_input.getText().toString());
         this.contact.setLastName(lastname_input.getText().toString());
         this.contact.setPostalAddress(address_input.getText().toString());
-        this.contact.setPictureUrl(selectedImageUri.getPath());
+        this.contact.setPictureUrl(selectedPath);
 
         contact = dataManager.persist(contact);
 
@@ -198,46 +210,47 @@ public class ContactEdition extends Activity implements View.OnClickListener {
                 this.addEmailFragment(address);
                 break;
             case R.id.edition_user_image_button:
-                openGallery(10);
+                ChoosePictureDialogFragment fragment = new ChoosePictureDialogFragment();
+                fragment.show(getFragmentManager(), "ChoosePictureDialog");
                 break;
         }
     }
 
     public void openGallery(int req_code) {
-        Intent intent = new Intent();
-
+        Intent intent = new Intent(Intent.ACTION_PICK);
         intent.setType("image/*");
+        startActivityForResult(intent, 1);
+    }
 
-        intent.setAction(Intent.ACTION_GET_CONTENT);
-
-        startActivityForResult(Intent.createChooser(intent, "Select contact picture "), req_code);
+    public void openCamera(int req_code) {
+        Intent takePicture = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        startActivityForResult(takePicture, 0);
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (resultCode == RESULT_OK) {
-            if (data.getData() != null) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode) {
+            case 0:
                 selectedImageUri = data.getData();
-            } else {
-                Log.d("selectedPath1 : ", "Came here its null !");
-                Toast.makeText(getApplicationContext(), "failed to get Image!", 500).show();
-            }
-
-            if (requestCode == 100 && resultCode == RESULT_OK) {
-                Bitmap photo = (Bitmap) data.getExtras().get("data");
-                pictureChooser.setImageURI(selectedImageUri);
-                selectedPath = selectedImageUri.getPath();
-                Log.d("selectedPath1 : ", selectedPath);
-            }
-            if (requestCode == 10) {
-                selectedPath = selectedImageUri.getPath();
+                selectedPath = getPath(selectedImageUri);
                 pictureChooser.setImageURI((Uri.parse(new File(selectedPath).toString())));
-
-                Log.d("selectedPath1 : ", selectedPath);
-
-            }
-
+                break;
+            case 1 :
+                selectedImageUri = data.getData();
+                selectedPath = getPath(selectedImageUri);
+                pictureChooser.setImageURI((Uri.parse(new File(selectedPath).toString())));
+                break;
         }
+    }
 
+    public String getPath(Uri uri) {
+
+        String[] projection = {MediaStore.Images.Media.DATA};
+        Cursor cursor = managedQuery(uri, projection, null, null, null);
+        int column_index = cursor
+                .getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+        cursor.moveToFirst();
+        return cursor.getString(column_index);
     }
 
     public class PhoneFragment extends Fragment implements View.OnClickListener {
@@ -384,6 +397,27 @@ public class ContactEdition extends Activity implements View.OnClickListener {
                     imm.hideSoftInputFromWindow(input.getWindowToken(), 0);
                     break;
             }
+        }
+    }
+
+    public class ChoosePictureDialogFragment extends DialogFragment {
+        @Override
+        public Dialog onCreateDialog(Bundle savedInstanceState) {
+            // Use the Builder class for convenient dialog construction
+            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+            builder.setMessage("How do you want to get your picture ?")
+                    .setPositiveButton("Camera", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            openCamera(0);
+                        }
+                    })
+                    .setNegativeButton("Gallery", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            openGallery(1);
+                        }
+                    });
+            // Create the AlertDialog object and return it
+            return builder.create();
         }
     }
 }

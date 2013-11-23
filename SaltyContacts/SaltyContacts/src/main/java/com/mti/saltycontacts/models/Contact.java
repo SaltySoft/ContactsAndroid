@@ -88,7 +88,7 @@ public class Contact implements Parcelable {
         this._picture_url = pictureUrl;
     }
 
-    public long getId() {
+    public Long getId() {
         return this.id;
     }
 
