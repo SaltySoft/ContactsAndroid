@@ -31,6 +31,7 @@ import java.util.List;
 
 public class MainActivity extends Activity implements View.OnClickListener {
     List<Contact> contacts;
+    DataManager dataManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,7 +44,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
 //        contacts = contactsBDD.getAllContacts();
 //        contactsBDD.close();
 
-        DataManager dataManager = DataManager.getInstance(MainActivity.this);
+        dataManager = DataManager.getInstance(MainActivity.this);
         this.contacts = dataManager.getContacts();
 
 //        Tag tag1 = new Tag("Maison1");
@@ -68,6 +69,14 @@ public class MainActivity extends Activity implements View.OnClickListener {
 //        contacts = new ArrayList<Contact>();
 //        contacts.add(contact1);
 
+
+    }
+
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
         Contact[] contacts_array = new Contact[contacts.size()];
         contacts.toArray(contacts_array);
         ListView list = (ListView) findViewById(R.id.my_contacts_list);
@@ -80,8 +89,6 @@ public class MainActivity extends Activity implements View.OnClickListener {
                                     int pos, long l) {
                 Adapter adapter = adapterView.getAdapter();
                 Contact contact = (Contact) adapter.getItem(pos);
-//                Toast.makeText(MainActivity.this, "Click sur l'item = " + contact.getFullName(),
-//                        Toast.LENGTH_LONG).show();
                 Intent intent = new Intent(MainActivity.this, ContactShow.class);
                 intent.putExtra("CONTACT", contact);
                 startActivity(intent);
@@ -100,7 +107,6 @@ public class MainActivity extends Activity implements View.OnClickListener {
             }
         });
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

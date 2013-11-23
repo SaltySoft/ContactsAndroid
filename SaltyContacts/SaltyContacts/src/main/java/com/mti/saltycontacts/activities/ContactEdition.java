@@ -12,6 +12,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.Matrix;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -153,6 +154,10 @@ public class ContactEdition extends Activity implements View.OnClickListener {
             lastname_input.setText(this.contact.getLastName());
             address_input.setText(this.contact.getPostalAddress());
             selectedPath = this.contact.getPictureUrl();
+
+            Matrix matrix=new Matrix();
+            pictureChooser.setImageMatrix(matrix);
+
             pictureChooser.setImageURI((Uri.parse(new File(this.contact.getPictureUrl()).toString())));
             renderPhoneList();
             renderEmailList();
