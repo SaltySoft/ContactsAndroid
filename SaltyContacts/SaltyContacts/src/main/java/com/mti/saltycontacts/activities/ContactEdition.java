@@ -5,7 +5,13 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Context;
+import android.content.Intent;
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -17,6 +23,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.mti.saltycontacts.R;
 import com.mti.saltycontacts.dataAccess.DataManager;
@@ -24,6 +31,8 @@ import com.mti.saltycontacts.models.Contact;
 import com.mti.saltycontacts.models.EmailAddress;
 import com.mti.saltycontacts.models.PhoneNumber;
 import com.mti.saltycontacts.models.Tag;
+
+import java.io.File;
 
 public class ContactEdition extends Activity implements View.OnClickListener {
 
@@ -34,6 +43,10 @@ public class ContactEdition extends Activity implements View.OnClickListener {
     LinearLayout phone_list;
     DataManager dataManager;
     LinearLayout email_list;
+    ImageButton pictureChooser;
+
+    Uri selectedImageUri;
+    String selectedPath;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +63,8 @@ public class ContactEdition extends Activity implements View.OnClickListener {
         address_input = (EditText) findViewById(R.id.edition_address_input);
         this.phone_list = (LinearLayout) findViewById(R.id.edition_phone_list);
         email_list = (LinearLayout) findViewById(R.id.edition_email_list);
+        pictureChooser = (ImageButton) findViewById(R.id.edition_user_image_button);
+        pictureChooser.setOnClickListener(this);
 
         Bundle bundle = this.getIntent().getExtras();
         if (bundle != null) {
@@ -67,6 +82,8 @@ public class ContactEdition extends Activity implements View.OnClickListener {
         add_phone_button.setOnClickListener(this);
         ImageButton add_email_button = (ImageButton) findViewById(R.id.edition_add_email_button);
         add_email_button.setOnClickListener(this);
+
+
     }
 
     private void renderPhoneList() {
@@ -113,6 +130,7 @@ public class ContactEdition extends Activity implements View.OnClickListener {
         ft.add(R.id.edition_phone_list, pf);
         ft.commit();
     }
+
     private void removeFragment(Fragment f) {
         this.getFragmentManager().beginTransaction().remove(f).commit();
     }
@@ -122,6 +140,8 @@ public class ContactEdition extends Activity implements View.OnClickListener {
             firstname_input.setText(this.contact.getFirstName());
             lastname_input.setText(this.contact.getLastName());
             address_input.setText(this.contact.getPostalAddress());
+            Uri pictureUri = Uri.fromFile(new File(contact.getPictureUrl()));
+            pictureChooser.setImageURI(pictureUri);
             renderPhoneList();
             renderEmailList();
         }
@@ -155,6 +175,7 @@ public class ContactEdition extends Activity implements View.OnClickListener {
         this.contact.setFirstName(firstname_input.getText().toString());
         this.contact.setLastName(lastname_input.getText().toString());
         this.contact.setPostalAddress(address_input.getText().toString());
+        this.contact.setPictureUrl(selectedImageUri.getPath());
 
         contact = dataManager.persist(contact);
 
@@ -176,7 +197,47 @@ public class ContactEdition extends Activity implements View.OnClickListener {
                 contact.addEmailAddress(address);
                 this.addEmailFragment(address);
                 break;
+            case R.id.edition_user_image_button:
+                openGallery(10);
+                break;
         }
+    }
+
+    public void openGallery(int req_code) {
+        Intent intent = new Intent();
+
+        intent.setType("image/*");
+
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+
+        startActivityForResult(Intent.createChooser(intent, "Select contact picture "), req_code);
+    }
+
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == RESULT_OK) {
+            if (data.getData() != null) {
+                selectedImageUri = data.getData();
+            } else {
+                Log.d("selectedPath1 : ", "Came here its null !");
+                Toast.makeText(getApplicationContext(), "failed to get Image!", 500).show();
+            }
+
+            if (requestCode == 100 && resultCode == RESULT_OK) {
+                Bitmap photo = (Bitmap) data.getExtras().get("data");
+                pictureChooser.setImageURI(selectedImageUri);
+                selectedPath = selectedImageUri.getPath();
+                Log.d("selectedPath1 : ", selectedPath);
+            }
+            if (requestCode == 10) {
+                selectedPath = selectedImageUri.getPath();
+                pictureChooser.setImageURI((Uri.parse(new File(selectedPath).toString())));
+
+                Log.d("selectedPath1 : ", selectedPath);
+
+            }
+
+        }
+
     }
 
     public class PhoneFragment extends Fragment implements View.OnClickListener {

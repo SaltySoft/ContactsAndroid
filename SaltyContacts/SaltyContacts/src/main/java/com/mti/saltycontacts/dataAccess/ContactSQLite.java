@@ -15,6 +15,7 @@ public class ContactSQLite extends SQLiteOpenHelper {
     private static final String COL_CONTACT_FIRSTNAME = "FIRSTNAME";
     private static final String COL_CONTACT_LASTNAME = "LASTNAME";
     private static final String COL_CONTACT_ADDRESS = "ADDRESS";
+    private static final String COL_CONTACT_PICTURE_URL = "PICTURE_URL";
 
     private static final String TABLE_EMAIL = "table_emails";
     private static final String COL_EMAIL_ID = "ID";
@@ -38,7 +39,8 @@ public class ContactSQLite extends SQLiteOpenHelper {
             + " (" + COL_CONTACT_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
             + COL_CONTACT_FIRSTNAME + " TEXT NOT NULL, "
             + COL_CONTACT_LASTNAME + " TEXT NOT NULL, "
-            + COL_CONTACT_ADDRESS + " TEXT NOT NULL); ";
+            + COL_CONTACT_ADDRESS + " TEXT NOT NULL, "
+            + COL_CONTACT_PICTURE_URL + " TEXT);";
     private static final String CREATE_EMAIL_TABLE =
             "CREATE TABLE "
                     + TABLE_EMAIL

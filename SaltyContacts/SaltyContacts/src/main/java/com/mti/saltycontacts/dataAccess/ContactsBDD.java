@@ -16,7 +16,7 @@ import java.util.ArrayList;
  * Created by Antoine on 11/20/13.
  */
 public class ContactsBDD {
-    private static final int VERSION = 2;
+    private static final int VERSION = 3;
     private static final String NOM_BDD = "contacts.db";
 
 
@@ -29,6 +29,8 @@ public class ContactsBDD {
     private static final int NUM_CONTACT_COL_LASTNAME = 2;
     private static final String COL_CONTACT_ADDRESS = "ADDRESS";
     private static final int NUM_CONTACT_COL_ADDRESS = 3;
+    private static final String COL_CONTACT_PICTURE_URL = "PICTURE_URL";
+    private static final int NUM_CONTACT_COL_PICTURE_URL = 4;
 
     private static final String TABLE_EMAIL = "table_emails";
     private static final String COL_EMAIL_ID = "ID";
@@ -165,6 +167,7 @@ public class ContactsBDD {
             content.put(COL_CONTACT_FIRSTNAME, contact.getFirstName());
             content.put(COL_CONTACT_LASTNAME, contact.getLastName());
             content.put(COL_CONTACT_ADDRESS, contact.getPostalAddress());
+            content.put(COL_CONTACT_PICTURE_URL, contact.getPictureUrl());
             long id = bdd.insert(TABLE_CONTACTS, null, content);
             contact.setId(id);
         } else {
@@ -172,6 +175,7 @@ public class ContactsBDD {
             content.put(COL_CONTACT_FIRSTNAME, contact.getFirstName());
             content.put(COL_CONTACT_LASTNAME, contact.getLastName());
             content.put(COL_CONTACT_ADDRESS, contact.getPostalAddress());
+            content.put(COL_CONTACT_PICTURE_URL, contact.getPictureUrl());
             long id = contact.getId();
             id = bdd.update(TABLE_CONTACTS, content, COL_CONTACT_ID + " = " + id, null);
 
@@ -214,13 +218,14 @@ public class ContactsBDD {
         contact.setFirstName(c.getString(NUM_CONTACT_COL_FIRSTNAME));
         contact.setLastName(c.getString(NUM_CONTACT_COL_LASTNAME));
         contact.setPostalAddress(c.getString(NUM_CONTACT_COL_ADDRESS));
+        contact.setPictureUrl(c.getString(NUM_CONTACT_COL_PICTURE_URL));
         c.close();
         return contact;
     }
 
     public ArrayList<Contact> getAllContacts() {
         Cursor c = bdd.query(TABLE_CONTACTS, new String[]
-                {COL_CONTACT_ID, COL_CONTACT_FIRSTNAME, COL_CONTACT_LASTNAME, COL_CONTACT_ADDRESS},
+                {COL_CONTACT_ID, COL_CONTACT_FIRSTNAME, COL_CONTACT_LASTNAME, COL_CONTACT_ADDRESS, COL_CONTACT_PICTURE_URL},
                 null, null, null, null, COL_CONTACT_ID);
 
         if (c.getCount() == 0) {
@@ -235,6 +240,7 @@ public class ContactsBDD {
             contact.setFirstName(c.getString(NUM_CONTACT_COL_FIRSTNAME));
             contact.setLastName(c.getString(NUM_CONTACT_COL_LASTNAME));
             contact.setPostalAddress(c.getString(NUM_CONTACT_COL_ADDRESS));
+            contact.setPictureUrl(c.getString(NUM_CONTACT_COL_PICTURE_URL));
 
             contact.setPhoneNumbers(getPhoneNumbers(contact));
             contact.setEmailsAddress(getEmailAddresses(contact));
