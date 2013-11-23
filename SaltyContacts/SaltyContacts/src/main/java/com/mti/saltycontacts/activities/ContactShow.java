@@ -21,6 +21,7 @@ import com.mti.saltycontacts.R;
 import com.mti.saltycontacts.adapters.ContactsListAdapter;
 import com.mti.saltycontacts.adapters.EmailsAdapter;
 import com.mti.saltycontacts.adapters.PhoneNumbersAdapter;
+import com.mti.saltycontacts.dataAccess.DataManager;
 import com.mti.saltycontacts.models.Contact;
 import com.mti.saltycontacts.models.EmailAddress;
 import com.mti.saltycontacts.models.PhoneNumber;
@@ -30,7 +31,10 @@ import com.mti.saltycontacts.utils.Helper;
  * Created by lefebv_b on 20/11/13.
  */
 public class ContactShow extends Activity implements View.OnClickListener {
+
+    private Long _contact_id;
     private Contact _contact;
+    DataManager _dataManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,9 +42,13 @@ public class ContactShow extends Activity implements View.OnClickListener {
         setTheme(R.style.contactShowTheme);
         setContentView(R.layout.activity_contact_show);
 
+        this._dataManager = DataManager.getInstance(ContactShow.this);
+
         Bundle bundle = this.getIntent().getExtras();
         if (bundle != null) {
-            this._contact = (Contact) bundle.getParcelable("CONTACT");
+//            this._contact = (Contact) bundle.getParcelable("CONTACT");
+            this._contact_id = bundle.getLong("CONTACT_ID");
+            this._contact = this._dataManager.getContact(this._contact_id);
             this.fillContactShow();
             this.managePhoneNumbers();
             this.manageEmailsAddress();
@@ -52,6 +60,16 @@ public class ContactShow extends Activity implements View.OnClickListener {
 
         Button go_back_button = (Button) findViewById(R.id.show_back_button);
         go_back_button.setOnClickListener(this);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        this._contact = this._dataManager.getContact(this._contact_id);
+        this.fillContactShow();
+        this.managePhoneNumbers();
+        this.manageEmailsAddress();
     }
 
     private void fillContactShow() {

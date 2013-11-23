@@ -74,8 +74,6 @@ public class MainActivity extends Activity implements View.OnClickListener {
 //        contact1.addEmailAddress(emailAddress3);
 //        contacts = new ArrayList<Contact>();
 //        contacts.add(contact1);
-
-
     }
 
 
@@ -96,7 +94,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
                 Adapter adapter = adapterView.getAdapter();
                 Contact contact = (Contact) adapter.getItem(pos);
                 Intent intent = new Intent(MainActivity.this, ContactShow.class);
-                intent.putExtra("CONTACT", contact);
+                intent.putExtra("CONTACT_ID", contact.getId());
                 startActivity(intent);
             }
         });
@@ -152,5 +150,4 @@ public class MainActivity extends Activity implements View.OnClickListener {
                 break;
         }
     }
-
 }
