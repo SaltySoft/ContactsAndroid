@@ -9,7 +9,6 @@ import android.widget.TextView;
 
 import com.mti.saltycontacts.R;
 import com.mti.saltycontacts.models.EmailAddress;
-import com.mti.saltycontacts.models.PhoneNumber;
 
 import java.util.ArrayList;
 import java.util.Collections;

@@ -14,14 +14,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Adapter;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.mti.saltycontacts.R;
-import com.mti.saltycontacts.adapters.ContactsListAdapter;
 import com.mti.saltycontacts.adapters.EmailsAdapter;
 import com.mti.saltycontacts.adapters.PhoneNumbersAdapter;
 import com.mti.saltycontacts.business.ImageManager;
@@ -38,6 +36,7 @@ public class ContactShow extends Activity implements View.OnClickListener {
 
     private Long _contact_id;
     private Contact _contact;
+    private TextView _address;
     DataManager _dataManager;
 
     @Override
@@ -48,6 +47,8 @@ public class ContactShow extends Activity implements View.OnClickListener {
         setContentView(R.layout.activity_contact_show);
 
         this._dataManager = DataManager.getInstance(ContactShow.this);
+        this._address = (TextView) findViewById(R.id.contact_show_address);
+        this._address.setOnClickListener(this);
 
         Bundle bundle = this.getIntent().getExtras();
         if (bundle != null) {
@@ -103,12 +104,12 @@ public class ContactShow extends Activity implements View.OnClickListener {
         if (this._contact != null) {
             TextView firstname = (TextView) findViewById(R.id.contact_show_firstname);
             TextView lastname = (TextView) findViewById(R.id.contact_show_lastname);
-            TextView address = (TextView) findViewById(R.id.contact_show_address);
+
             ImageView image = (ImageView) findViewById(R.id.contact_show_picture);
 
             firstname.setText(this._contact.getFirstName());
             lastname.setText(this._contact.getLastName());
-            address.setText(this._contact.getPostalAddress());
+            this._address.setText(this._contact.getPostalAddress());
             Bitmap bitmap = ImageManager.bitmapFromUrl(ContactShow.this, this._contact.getPictureUrl());
             image.setImageBitmap(bitmap);
         }
@@ -176,6 +177,17 @@ public class ContactShow extends Activity implements View.OnClickListener {
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+            case R.id.contact_show_address:
+                String postalAddress = this._contact.getPostalAddress();
+                if (postalAddress != null && postalAddress != "") {
+                    String newPostalAddress = postalAddress.replace(' ','+');
+                    String format = "geo:0,0?q=" + newPostalAddress;
+                    Uri uri = Uri.parse(format);
+                    Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    startActivity(intent);
+                }
+                break;
         }
     }
 

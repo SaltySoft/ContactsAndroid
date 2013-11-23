@@ -1,30 +1,20 @@
 package com.mti.saltycontacts.activities;
 
 import android.app.Activity;
-import android.app.ActionBar;
-import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcelable;
-import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
-import android.os.Build;
 import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.Toast;
-
-import android.widget.Button;
 
 import com.mti.saltycontacts.R;
 import com.mti.saltycontacts.adapters.ContactsListAdapter;
-import com.mti.saltycontacts.dataAccess.ContactsBDD;
 import com.mti.saltycontacts.dataAccess.DataManager;
-import com.mti.saltycontacts.models.*;
+import com.mti.saltycontacts.models.Contact;
 
 import java.util.ArrayList;
 import java.util.List;
