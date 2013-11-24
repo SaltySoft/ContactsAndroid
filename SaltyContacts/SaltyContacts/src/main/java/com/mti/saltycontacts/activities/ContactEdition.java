@@ -32,6 +32,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.mti.saltycontacts.R;
 import com.mti.saltycontacts.business.ImageManager;
@@ -194,14 +195,23 @@ public class ContactEdition extends Activity implements View.OnClickListener {
     }
 
     private void saveContact() {
-        this.contact.setFirstName(firstname_input.getText().toString());
-        this.contact.setLastName(lastname_input.getText().toString());
-        this.contact.setPostalAddress(address_input.getText().toString());
-        this.contact.setPictureUrl(selectedPath);
+        String firstname = firstname_input.getText().toString();
+        String lastname = lastname_input.getText().toString();
+        String postalAddress = address_input.getText().toString();
 
-        contact = dataManager.persist(contact);
+        if (firstname.length() == 0 && lastname.length() == 0) {
+            Toast.makeText(ContactEdition.this, "Enter a name for this contact.",
+                    Toast.LENGTH_LONG).show();
+            this.contact.setFirstName(firstname);
+        } else {
+            this.contact.setLastName(lastname);
+            this.contact.setPostalAddress(postalAddress);
+            this.contact.setPictureUrl(selectedPath);
 
-        finish();
+            contact = dataManager.persist(contact);
+
+            finish();
+        }
     }
 
     @Override
@@ -221,7 +231,7 @@ public class ContactEdition extends Activity implements View.OnClickListener {
                 ChoosePictureDialogFragment fragment = new ChoosePictureDialogFragment();
                 fragment.show(getFragmentManager(), "ChoosePictureDialog");
                 break;
-            case  R.id.delete_contact_button:
+            case R.id.delete_contact_button:
                 QuestionDialog dialog = new QuestionDialog("Are you sure you want do delete this contact ?", "Yes", "No", new QuestionDialog.QuestionHandler() {
                     @Override
                     public void positiveAction() {
@@ -281,7 +291,7 @@ public class ContactEdition extends Activity implements View.OnClickListener {
         return cursor.getString(column_index);
     }
 
-    public class PhoneFragment extends Fragment implements View.OnClickListener, AdapterView.OnItemSelectedListener ,TagFragment {
+    public class PhoneFragment extends Fragment implements View.OnClickListener, AdapterView.OnItemSelectedListener, TagFragment {
 
         private PhoneNumber phone_number;
         private EditText input;
@@ -297,7 +307,7 @@ public class ContactEdition extends Activity implements View.OnClickListener {
         }
 
         @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,  Bundle savedInstanceState) {
+        public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
             View view = inflater.inflate(R.layout.edition_phone_fragment, container, false);
 
             old_array = getResources().getStringArray(R.array.phone_defaults_tags);
