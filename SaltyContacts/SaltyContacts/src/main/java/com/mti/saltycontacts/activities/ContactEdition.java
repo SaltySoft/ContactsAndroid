@@ -81,8 +81,6 @@ public class ContactEdition extends Activity implements View.OnClickListener {
         Bundle bundle = this.getIntent().getExtras();
         if (bundle != null) {
             this.contact = dataManager.getContact(bundle.getLong("CONTACT_ID"));
-//            EmailAddress address = new EmailAddress("address@someserver.co", "");
-//            contact.addEmailAddress(address);
             this.fillForm();
         }
         if (contact == null) {
@@ -201,7 +199,7 @@ public class ContactEdition extends Activity implements View.OnClickListener {
         String postalAddress = address_input.getText().toString();
 
         if (firstname.length() == 0 && lastname.length() == 0) {
-            Toast.makeText(ContactEdition.this, "Enter a name for this contact.",
+            Toast.makeText(ContactEdition.this, R.string.error_name_empty,
                     Toast.LENGTH_LONG).show();
         } else {
             this.contact.setFirstName(firstname);
@@ -219,12 +217,12 @@ public class ContactEdition extends Activity implements View.OnClickListener {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.edition_add_phone_button:
-                PhoneNumber pn = new PhoneNumber("", "Mobile");
+                PhoneNumber pn = new PhoneNumber("", getString(R.string.default_phone_tag));
                 contact.addPhoneNumber(pn);
                 this.addPhoneNumberFragment(pn);
                 break;
             case R.id.edition_add_email_button:
-                EmailAddress address = new EmailAddress("", "Personal");
+                EmailAddress address = new EmailAddress("", getString(R.string.default_email_tag));
                 contact.addEmailAddress(address);
                 this.addEmailFragment(address);
                 break;
@@ -233,7 +231,10 @@ public class ContactEdition extends Activity implements View.OnClickListener {
                 fragment.show(getFragmentManager(), "ChoosePictureDialog");
                 break;
             case R.id.delete_contact_button:
-                QuestionDialog dialog = new QuestionDialog("Are you sure you want do delete this contact ?", "Yes", "No", new QuestionDialog.QuestionHandler() {
+                QuestionDialog dialog = new QuestionDialog(getString(R.string.delete_confirm_message),
+                        getString(R.string.delete_confirm_positive),
+                        getString(R.string.delete_confirm_negative),
+                        new QuestionDialog.QuestionHandler() {
                     @Override
                     public void positiveAction() {
                         dataManager.removeContact(contact);
@@ -317,9 +318,9 @@ public class ContactEdition extends Activity implements View.OnClickListener {
             if (phone_number.getNumber() != "") {
                 this.display.setText(phone_number.getNumber());
             } else {
-                this.display.setText("Click on edit");
+                this.display.setText(getString(R.string.edit_mail_phone_hint));
             }
-
+            this.display.setOnClickListener(this);
 
             this.input = (EditText) view.findViewById(R.id.phone_number_input);
 
@@ -375,6 +376,14 @@ public class ContactEdition extends Activity implements View.OnClickListener {
         public void onClick(View v) {
             switch (v.getId()) {
                 case R.id.phone_edit_button:
+                    this.display.setVisibility(View.GONE);
+                    this.input.setVisibility(View.VISIBLE);
+                    this.input.setText(phone_number.getNumber());
+                    this.validate_button.setVisibility(View.VISIBLE);
+                    this.edit_button.setVisibility(View.GONE);
+                    this.delete_button.setVisibility(View.GONE);
+                    break;
+                case R.id.phone_number_container:
                     this.display.setVisibility(View.GONE);
                     this.input.setVisibility(View.VISIBLE);
                     this.input.setText(phone_number.getNumber());
@@ -456,7 +465,13 @@ public class ContactEdition extends Activity implements View.OnClickListener {
             old_array = getResources().getStringArray(R.array.emails_defaults_tags);
 
             this.display = (TextView) view.findViewById(R.id.email_container);
-            this.display.setText(email_address.getAddress());
+
+            if (email_address.getAddress() != "") {
+                this.display.setText(email_address.getAddress());
+            } else {
+                this.display.setText(getString(R.string.edit_mail_phone_hint));
+            }
+           this.display.setOnClickListener(this);
 
             this.input = (EditText) view.findViewById(R.id.email_input);
 
@@ -511,6 +526,14 @@ public class ContactEdition extends Activity implements View.OnClickListener {
         public void onClick(View v) {
             switch (v.getId()) {
                 case R.id.email_edit_button:
+                    this.display.setVisibility(View.GONE);
+                    this.input.setVisibility(View.VISIBLE);
+                    this.input.setText(email_address.getAddress());
+                    this.validate_button.setVisibility(View.VISIBLE);
+                    this.edit_button.setVisibility(View.GONE);
+                    this.delete_button.setVisibility(View.GONE);
+                    break;
+                case R.id.email_container:
                     this.display.setVisibility(View.GONE);
                     this.input.setVisibility(View.VISIBLE);
                     this.input.setText(email_address.getAddress());
@@ -576,13 +599,13 @@ public class ContactEdition extends Activity implements View.OnClickListener {
         public Dialog onCreateDialog(Bundle savedInstanceState) {
             // Use the Builder class for convenient dialog construction
             AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-            builder.setMessage("How do you want to get your picture ?")
-                    .setPositiveButton("Camera", new DialogInterface.OnClickListener() {
+            builder.setMessage(getString(R.string.picture_get_question))
+                    .setPositiveButton(getString(R.string.picture_from_camera_response), new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
                             openCamera(0);
                         }
                     })
-                    .setNegativeButton("Gallery", new DialogInterface.OnClickListener() {
+                    .setNegativeButton(getString(R.string.picture_from_gallery_response), new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
                             openGallery(1);
                         }

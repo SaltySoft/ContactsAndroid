@@ -3,11 +3,8 @@ package com.mti.saltycontacts.dataAccess;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.database.Cursor;
-import android.os.AsyncTask;
 import android.provider.ContactsContract;
-import android.util.Log;
 
-import com.mti.saltycontacts.activities.MainActivity;
 import com.mti.saltycontacts.models.Contact;
 import com.mti.saltycontacts.models.EmailAddress;
 import com.mti.saltycontacts.models.PhoneNumber;

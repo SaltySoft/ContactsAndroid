@@ -24,7 +24,16 @@
     <string name="firstname_label">Firstname</string>
     <string name="lastname_label">Lastname</string>
     <string name="address_label">Address</string>
-
+    <string name="error_name_empty">Enter a name for this contact.</string>
+    <string name="default_phone_tag">Mobile</string>
+    <string name="default_email_tag">Personal</string>
+    <string name="delete_confirm_message">Are you sure you want do delete this contact ?</string>
+    <string name="delete_confirm_positive">Yes</string>
+    <string name="delete_confirm_negative">No</string>
+    <string name="edit_mail_phone_hint">Tap to edit</string>
+    <string name="picture_get_question">How do you want to get your picture ?</string>
+    <string name="picture_from_gallery_response">Gallery</string>
+    <string name="picture_from_camera_response">Camera</string>
 
     <!-- STANDARD ACTIONS -->
     <string name="action_edit">Save</string>
