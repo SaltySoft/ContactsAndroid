@@ -3,9 +3,11 @@ package com.mti.saltycontacts.dataAccess;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.database.Cursor;
+import android.os.AsyncTask;
 import android.provider.ContactsContract;
 import android.util.Log;
 
+import com.mti.saltycontacts.activities.MainActivity;
 import com.mti.saltycontacts.models.Contact;
 import com.mti.saltycontacts.models.EmailAddress;
 import com.mti.saltycontacts.models.PhoneNumber;
@@ -53,8 +55,8 @@ public class DataManager {
 
         final int idIndex = cur.getColumnIndex(ContactsContract.Contacts._ID);
 
-
         while (cur.moveToNext()) {
+
             Contact contact;
             String name = cur.getString(nameIndex);
             String id = cur.getString(idIndex);
