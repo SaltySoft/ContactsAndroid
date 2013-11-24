@@ -248,7 +248,6 @@ public class ContactEdition extends Activity implements View.OnClickListener {
                 });
                 dialog.show(getFragmentManager(), "DeletionDialog");
 
-
                 break;
         }
     }

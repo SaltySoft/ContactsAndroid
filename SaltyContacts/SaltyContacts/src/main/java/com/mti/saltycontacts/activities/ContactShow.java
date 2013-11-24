@@ -17,7 +17,6 @@ import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.mti.saltycontacts.R;
 import com.mti.saltycontacts.adapters.EmailsAdapter;
@@ -74,8 +73,6 @@ public class ContactShow extends Activity implements View.OnClickListener {
             this.managePhoneNumbers();
             this.manageEmailsAddress();
         }
-
-
     }
 
     @Override
@@ -116,9 +113,6 @@ public class ContactShow extends Activity implements View.OnClickListener {
 
             if (this._contact.getPictureUrl() != "") {
                 Bitmap bitmap = ImageManager.bitmapFromUrl(ContactShow.this, this._contact.getPictureUrl());
-                image.setImageBitmap(bitmap);
-            } else {
-                Bitmap bitmap = ImageManager.bitmapFromUrl(ContactShow.this, "@android:drawable/ic_menu_camera");
                 image.setImageBitmap(bitmap);
             }
         }
@@ -173,7 +167,7 @@ public class ContactShow extends Activity implements View.OnClickListener {
                 Intent email = new Intent(Intent.ACTION_SEND);
                 email.putExtra(Intent.EXTRA_EMAIL, new String[]{emailAddress.getAddress()});
                 email.setType("message/rfc822");
-                startActivity(Intent.createChooser(email, "Choose an Email client :"));
+                startActivity(Intent.createChooser(email, getString(R.string.email_call_message)));
             }
         });
     }
@@ -199,7 +193,7 @@ public class ContactShow extends Activity implements View.OnClickListener {
     private class PhoneCallListener extends PhoneStateListener {
 
         private boolean isPhoneCalling = false;
-        String LOG_TAG = "LOGGING 123";
+        String LOG_TAG = "contactshow";
 
         @Override
         public void onCallStateChanged(int state, String incomingNumber) {
