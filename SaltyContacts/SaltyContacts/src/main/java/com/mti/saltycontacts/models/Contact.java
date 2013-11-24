@@ -169,12 +169,6 @@ public class Contact implements Parcelable {
         this._phoneNumbers = new ArrayList<PhoneNumber>();
         this._emailsAddress = new ArrayList<EmailAddress>();
         in.readList(this._phoneNumbers, getClass().getClassLoader());
-//        Parcelable[] parcelablePhoneNumberArray = in.readParcelableArray(getClass().getClassLoader());
-//        PhoneNumber[] PhoneNumberArray = null;
-//        if (parcelablePhoneNumberArray != null) {
-//            PhoneNumberArray = Arrays.copyOf(parcelablePhoneNumberArray, parcelablePhoneNumberArray.length, PhoneNumber[].class);
-//        }
-//        Collections.addAll(this._phoneNumbers, PhoneNumberArray);
         in.readList(this._emailsAddress, getClass().getClassLoader());
     }
 

@@ -35,12 +35,6 @@ public class MainActivity extends Activity implements View.OnClickListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-//        ContactsBDD contactsBDD = new ContactsBDD(this);
-//        contactsBDD.openForRead();
-//
-//        contacts = contactsBDD.getAllContacts();
-//        contactsBDD.close();
-
         dataManager = DataManager.getInstance(MainActivity.this);
         this.contacts = dataManager.getContacts();
 

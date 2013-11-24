@@ -43,7 +43,6 @@ public class ContactShow extends Activity implements View.OnClickListener {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getActionBar().setDisplayHomeAsUpEnabled(true);
-//        setTheme(R.style.contactShowTheme);
         setContentView(R.layout.activity_contact_show);
 
         this._dataManager = DataManager.getInstance(ContactShow.this);
@@ -52,7 +51,6 @@ public class ContactShow extends Activity implements View.OnClickListener {
 
         Bundle bundle = this.getIntent().getExtras();
         if (bundle != null) {
-//            this._contact = (Contact) bundle.getParcelable("CONTACT");
             this._contact_id = bundle.getLong("CONTACT_ID");
             this._contact = this._dataManager.getContact(this._contact_id);
             this.fillContactShow();
@@ -91,9 +89,7 @@ public class ContactShow extends Activity implements View.OnClickListener {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            // Respond to the action bar's Up/Home button
             case android.R.id.home:
-//                this.finish();
                 Intent intent2 = new Intent(ContactShow.this, MainActivity.class);
                 intent2.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent2);
@@ -147,10 +143,7 @@ public class ContactShow extends Activity implements View.OnClickListener {
                                     int pos, long l) {
                 Adapter adapter = adapterView.getAdapter();
                 PhoneNumber phoneNumber = (PhoneNumber) adapter.getItem(pos);
-//                Toast.makeText(ContactShow.this, "Click sur l'item = " + phoneNumber.getNumber(),
-//                        Toast.LENGTH_LONG).show();
                 try {
-//                    Intent callIntent = new Intent(Intent.ACTION_CALL);
                     Intent callIntent = new Intent(Intent.ACTION_DIAL);
                     callIntent.setData(Uri.parse("tel:" + phoneNumber.getNumber()));
                     startActivity(callIntent);
@@ -176,8 +169,6 @@ public class ContactShow extends Activity implements View.OnClickListener {
                                     int pos, long l) {
                 Adapter adapter = adapterView.getAdapter();
                 EmailAddress emailAddress = (EmailAddress) adapter.getItem(pos);
-//                Toast.makeText(ContactShow.this, "Click sur l'item = " + emailAddress.getAddress(),
-//                        Toast.LENGTH_LONG).show();
 
                 Intent email = new Intent(Intent.ACTION_SEND);
                 email.putExtra(Intent.EXTRA_EMAIL, new String[]{emailAddress.getAddress()});

@@ -68,7 +68,6 @@ public class PhoneNumbersEditionAdapter extends ArrayAdapter<PhoneNumber> {
 
         PhoneNumber phone = this._adapterData.get(position);
         holder.textView.setText(phone.getNumber());
-        //holder.imageView.setImageResource(R.drawable.ic_launcher);
 
         holder.deleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -92,7 +91,7 @@ public class PhoneNumbersEditionAdapter extends ArrayAdapter<PhoneNumber> {
 
         return convertView;
     }
-    //
+
     private class ViewHolder {
         TextView textView;
         ImageView imageView;
