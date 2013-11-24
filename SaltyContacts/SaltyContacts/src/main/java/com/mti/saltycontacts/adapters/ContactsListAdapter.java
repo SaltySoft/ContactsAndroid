@@ -1,6 +1,7 @@
 package com.mti.saltycontacts.adapters;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -63,8 +64,11 @@ public class ContactsListAdapter extends ArrayAdapter<Contact> {
         Contact contact = this._adapterData.get(position);
         holder.textView.setText(contact.getFullName());
 
-        if (!contact.getPictureUrl().equals("")) {
-            holder.imageView.setImageBitmap(ImageManager.bitmapFromUrl(_context, contact.getPictureUrl()));
+        Bitmap b = ImageManager.bitmapFromUrl(_context, contact.getPictureUrl());
+        if (b != null) {
+            holder.imageView.setImageBitmap(b);
+        } else {
+            holder.imageView.setImageResource(android.R.drawable.ic_menu_camera);
         }
         return convertView;
     }
