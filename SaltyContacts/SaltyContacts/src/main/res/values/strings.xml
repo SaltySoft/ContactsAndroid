@@ -8,6 +8,8 @@
     <string name="title_activity_contact_edition">ContactEdition</string>
 
 
+
+
     <!-- Contact Show ACTIVITY -->
     <string name="contact_show_title">Show Title</string>
     <string name="postal_address_label">Postal address</string>
@@ -24,7 +26,10 @@
     <!-- STANDARD ACTIONS -->
     <string name="action_edit">Save</string>
     <string name="action_save">Save</string>
+    <string name="action_ok">Ok</string>
     <string name="action_cancel">Cancel</string>
 
 
+    <!-- TAG DIALOG -->
+    <string name="tag_input">Enter a custom tag</string>
 </resources>

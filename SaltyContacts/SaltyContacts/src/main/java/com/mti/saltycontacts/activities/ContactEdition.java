@@ -336,7 +336,7 @@ public class ContactEdition extends Activity implements View.OnClickListener {
         }
     }
 
-    public class EmailFragment extends Fragment implements View.OnClickListener, AdapterView.OnItemSelectedListener {
+    public class EmailFragment extends Fragment implements View.OnClickListener, AdapterView.OnItemSelectedListener, TagFragment {
 
         private EmailAddress email_address;
         private EditText input;
@@ -345,6 +345,7 @@ public class ContactEdition extends Activity implements View.OnClickListener {
         private ImageButton delete_button;
         private ImageButton validate_button;
         private Spinner tag_spinner;
+        private String[] old_array;
 
         public EmailFragment(EmailAddress address) {
             this.email_address = address;
@@ -353,6 +354,9 @@ public class ContactEdition extends Activity implements View.OnClickListener {
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
             View view = inflater.inflate(R.layout.edition_email_fragment, container, false);
+
+            old_array = getResources().getStringArray(R.array.emails_defaults_tags);
+
             this.display = (TextView) view.findViewById(R.id.email_container);
             this.display.setText(email_address.getAddress());
 
@@ -375,6 +379,22 @@ public class ContactEdition extends Activity implements View.OnClickListener {
 
             tag_spinner.setAdapter(adapter);
             tag_spinner.setOnItemSelectedListener(this);
+
+            //Setting tag at startup
+            Boolean custom_tag = true;
+            int tag_to_select = -1;
+            for (int i = 0; i < old_array.length; i++) {
+                if (old_array[i].equals(email_address.getTag())) {
+                    custom_tag = false;
+                    tag_to_select = i;
+                }
+            }
+            if (custom_tag) {
+                this.addTag(email_address.getTag());
+            } else {
+                tag_spinner.setSelection(tag_to_select);
+            }
+
 
             return view;
         }
@@ -421,25 +441,34 @@ public class ContactEdition extends Activity implements View.OnClickListener {
         @Override
         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
             String elt = (String) parent.getItemAtPosition(position);
-            String[] old_array = getResources().getStringArray(R.array.emails_defaults_tags);
+
             if (elt.equals(old_array[old_array.length - 1])) {
-
-                String[] new_array = new String[old_array.length + 1];
-                for (int i = 0; i < old_array.length; i++) {
-                    new_array[i] = old_array[i];
-                }
-                new_array[new_array.length - 1] = "Nouveau";
-                ArrayAdapter<CharSequence> adapter = new ArrayAdapter<CharSequence>(this.getActivity().getApplicationContext(),
-                      R.layout.simple_spinner_item, new_array);
-                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                tag_spinner.setAdapter(adapter);
-                tag_spinner.setSelection(old_array.length);
-
+                TagDialog dialog = new TagDialog(this);
+                dialog.show(getActivity().getFragmentManager(), "TagCustomizer");
+            } else {
+                email_address.setTag(elt);
             }
         }
 
         @Override
         public void onNothingSelected(AdapterView<?> parent) {
+
+        }
+
+        @Override
+        public void addTag(String value) {
+            String[] new_array = new String[old_array.length + 1];
+            for (int i = 0; i < old_array.length; i++) {
+                new_array[i] = old_array[i];
+            }
+            new_array[new_array.length - 1] = value;
+            email_address.setTag(value);
+            ArrayAdapter<CharSequence> adapter = new ArrayAdapter<CharSequence>(this.getActivity().getApplicationContext(),
+                    R.layout.simple_spinner_item, new_array);
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            tag_spinner.setAdapter(adapter);
+            tag_spinner.setSelection(old_array.length);
+
 
         }
     }
@@ -460,6 +489,41 @@ public class ContactEdition extends Activity implements View.OnClickListener {
                             openGallery(1);
                         }
                     });
+            // Create the AlertDialog object and return it
+            return builder.create();
+        }
+    }
+
+    public class TagDialog extends DialogFragment {
+        TagFragment context;
+
+        EditText tag_value;
+
+        public TagDialog(TagFragment context) {
+            this.context = context;
+        }
+
+        @Override
+        public Dialog onCreateDialog(Bundle savedInstanceState) {
+            // Use the Builder class for convenient dialog construction
+            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+            LayoutInflater inflater = getActivity().getLayoutInflater();
+
+            final View view = inflater.inflate(R.layout.tag_dialog, null);
+            builder.setView(view)
+                    .setPositiveButton(R.string.action_ok, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int id) {
+                            tag_value = (EditText) view.findViewById(R.id.tag_input);
+                            context.addTag(tag_value.getText().toString());
+                        }
+                    })
+                    .setNegativeButton(R.string.action_cancel, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            // User cancelled the dialog
+                        }
+                    });
+
             // Create the AlertDialog object and return it
             return builder.create();
         }
