@@ -2,6 +2,7 @@ package com.mti.saltycontacts.activities;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.view.Menu;
@@ -9,7 +10,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Adapter;
 import android.widget.AdapterView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 
 import com.mti.saltycontacts.R;
 import com.mti.saltycontacts.adapters.ContactsListAdapter;
@@ -22,6 +25,10 @@ import java.util.List;
 public class MainActivity extends Activity implements View.OnClickListener {
     List<Contact> contacts;
     DataManager dataManager;
+
+    LinearLayout loading_layout;
+    ListView list;
+    ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +50,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
     @Override
     protected void onResume() {
         super.onResume();
+        this.contacts = dataManager.getContacts();
         refresh();
 
     }
@@ -50,9 +58,11 @@ public class MainActivity extends Activity implements View.OnClickListener {
     private void refresh() {
         Contact[] contacts_array = new Contact[contacts.size()];
         contacts.toArray(contacts_array);
-        ListView list = (ListView) findViewById(R.id.my_contacts_list);
+        list = (ListView) findViewById(R.id.my_contacts_list);
+        loading_layout = (LinearLayout) findViewById(R.id.loading_content);
         ContactsListAdapter adapter = new ContactsListAdapter(this, R.layout.contacts_list, contacts_array);
         list.setAdapter(adapter);
+        progressBar = (ProgressBar) findViewById(R.id.progress_bar);
 
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -107,7 +117,8 @@ public class MainActivity extends Activity implements View.OnClickListener {
                 startActivity(intent);
                 return true;
             case R.id.action_import_contacts:
-                dataManager.fillContacts();
+                ProgressAsyncTask contact_loader = new ProgressAsyncTask();
+                contact_loader.execute();
                 refresh();
                 return true;
         }
@@ -120,5 +131,37 @@ public class MainActivity extends Activity implements View.OnClickListener {
             default:
                 break;
         }
+    }
+
+    public class ProgressAsyncTask extends AsyncTask<Void, Integer, Void> {
+
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            loading_layout.setVisibility(View.VISIBLE);
+            list.setVisibility(View.GONE);
+            progressBar.setMax(100);
+        }
+
+        public void progress(int value) {
+            this.publishProgress(value);
+            progressBar.setProgress(value);
+        }
+
+        @Override
+        protected Void doInBackground(Void... params) {
+            dataManager.fillContacts();
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            loading_layout.setVisibility(View.GONE);
+            list.setVisibility(View.VISIBLE);
+        }
+
+
     }
 }

@@ -9,6 +9,7 @@
 
     <string name="action_import_contacts">Import contacts</string>
 
+    <string name="loading_from_contacts">Importing contacts... This may take a while.</string>
 
 
 
