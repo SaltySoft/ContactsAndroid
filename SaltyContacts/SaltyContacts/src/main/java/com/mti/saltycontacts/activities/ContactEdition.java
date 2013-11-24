@@ -374,6 +374,7 @@ public class ContactEdition extends Activity implements View.OnClickListener {
 
         @Override
         public void onClick(View v) {
+            InputMethodManager imm;
             switch (v.getId()) {
                 case R.id.phone_edit_button:
                     this.display.setVisibility(View.GONE);
@@ -382,6 +383,8 @@ public class ContactEdition extends Activity implements View.OnClickListener {
                     this.validate_button.setVisibility(View.VISIBLE);
                     this.edit_button.setVisibility(View.GONE);
                     this.delete_button.setVisibility(View.GONE);
+                    imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.showSoftInput(input, InputMethodManager.SHOW_IMPLICIT);
                     break;
                 case R.id.phone_number_container:
                     this.display.setVisibility(View.GONE);
@@ -390,6 +393,8 @@ public class ContactEdition extends Activity implements View.OnClickListener {
                     this.validate_button.setVisibility(View.VISIBLE);
                     this.edit_button.setVisibility(View.GONE);
                     this.delete_button.setVisibility(View.GONE);
+                    imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.showSoftInput(input, InputMethodManager.SHOW_IMPLICIT);
                     break;
                 case R.id.phone_delete_button:
                     contact.removePhoneNumber(phone_number);
@@ -403,7 +408,7 @@ public class ContactEdition extends Activity implements View.OnClickListener {
                     this.validate_button.setVisibility(View.GONE);
                     this.edit_button.setVisibility(View.VISIBLE);
                     this.delete_button.setVisibility(View.VISIBLE);
-                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                     imm.hideSoftInputFromWindow(input.getWindowToken(), 0);
                     break;
 
@@ -524,6 +529,7 @@ public class ContactEdition extends Activity implements View.OnClickListener {
 
         @Override
         public void onClick(View v) {
+            InputMethodManager imm;
             switch (v.getId()) {
                 case R.id.email_edit_button:
                     this.display.setVisibility(View.GONE);
@@ -532,6 +538,8 @@ public class ContactEdition extends Activity implements View.OnClickListener {
                     this.validate_button.setVisibility(View.VISIBLE);
                     this.edit_button.setVisibility(View.GONE);
                     this.delete_button.setVisibility(View.GONE);
+                    imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.showSoftInput(input, InputMethodManager.SHOW_IMPLICIT);
                     break;
                 case R.id.email_container:
                     this.display.setVisibility(View.GONE);
@@ -540,6 +548,8 @@ public class ContactEdition extends Activity implements View.OnClickListener {
                     this.validate_button.setVisibility(View.VISIBLE);
                     this.edit_button.setVisibility(View.GONE);
                     this.delete_button.setVisibility(View.GONE);
+                    imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.showSoftInput(input, InputMethodManager.SHOW_IMPLICIT);
                     break;
                 case R.id.email_delete_button:
                     contact.removeEmailAddress(email_address);
@@ -553,7 +563,7 @@ public class ContactEdition extends Activity implements View.OnClickListener {
                     this.validate_button.setVisibility(View.GONE);
                     this.edit_button.setVisibility(View.VISIBLE);
                     this.delete_button.setVisibility(View.VISIBLE);
-                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                     imm.hideSoftInputFromWindow(input.getWindowToken(), 0);
                     break;
             }
