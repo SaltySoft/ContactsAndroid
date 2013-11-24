@@ -202,8 +202,8 @@ public class ContactEdition extends Activity implements View.OnClickListener {
         if (firstname.length() == 0 && lastname.length() == 0) {
             Toast.makeText(ContactEdition.this, "Enter a name for this contact.",
                     Toast.LENGTH_LONG).show();
-            this.contact.setFirstName(firstname);
         } else {
+            this.contact.setFirstName(firstname);
             this.contact.setLastName(lastname);
             this.contact.setPostalAddress(postalAddress);
             this.contact.setPictureUrl(selectedPath);
