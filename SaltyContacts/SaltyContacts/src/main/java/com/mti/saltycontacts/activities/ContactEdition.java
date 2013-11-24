@@ -25,6 +25,7 @@ import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -38,6 +39,7 @@ import com.mti.saltycontacts.dataAccess.DataManager;
 import com.mti.saltycontacts.models.Contact;
 import com.mti.saltycontacts.models.EmailAddress;
 import com.mti.saltycontacts.models.PhoneNumber;
+import com.mti.saltycontacts.views.QuestionDialog;
 
 public class ContactEdition extends Activity implements View.OnClickListener {
 
@@ -49,6 +51,7 @@ public class ContactEdition extends Activity implements View.OnClickListener {
     DataManager dataManager;
     LinearLayout email_list;
     ImageButton pictureChooser;
+    Button deletionButton;
 
     Uri selectedImageUri;
     String selectedPath;
@@ -71,6 +74,8 @@ public class ContactEdition extends Activity implements View.OnClickListener {
         email_list = (LinearLayout) findViewById(R.id.edition_email_list);
         pictureChooser = (ImageButton) findViewById(R.id.edition_user_image_button);
         pictureChooser.setOnClickListener(this);
+        deletionButton = (Button) findViewById(R.id.delete_contact_button);
+        deletionButton.setOnClickListener(this);
 
         Bundle bundle = this.getIntent().getExtras();
         if (bundle != null) {
@@ -215,6 +220,23 @@ public class ContactEdition extends Activity implements View.OnClickListener {
             case R.id.edition_user_image_button:
                 ChoosePictureDialogFragment fragment = new ChoosePictureDialogFragment();
                 fragment.show(getFragmentManager(), "ChoosePictureDialog");
+                break;
+            case  R.id.delete_contact_button:
+                QuestionDialog dialog = new QuestionDialog("Are you sure you want do delete this contact ?", "Yes", "No", new QuestionDialog.QuestionHandler() {
+                    @Override
+                    public void positiveAction() {
+                        dataManager.removeContact(contact);
+                        finish();
+                    }
+
+                    @Override
+                    public void negativeAction() {
+
+                    }
+                });
+                dialog.show(getFragmentManager(), "DeletionDialog");
+
+
                 break;
         }
     }
@@ -363,6 +385,7 @@ public class ContactEdition extends Activity implements View.OnClickListener {
                     InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                     imm.hideSoftInputFromWindow(input.getWindowToken(), 0);
                     break;
+
             }
         }
 
@@ -591,4 +614,6 @@ public class ContactEdition extends Activity implements View.OnClickListener {
             return builder.create();
         }
     }
+
+
 }

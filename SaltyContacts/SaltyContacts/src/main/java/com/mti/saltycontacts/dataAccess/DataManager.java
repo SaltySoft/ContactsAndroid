@@ -70,15 +70,15 @@ public class DataManager {
         ArrayList<PhoneNumber> phones = contactsBDD.getPhoneNumbers(c);
 
         for (PhoneNumber pn : phones) {
-           if (!phone_ids.contains(pn.getId())) {
-               contactsBDD.removePhoneNumber(pn);
-           }
+            if (!phone_ids.contains(pn.getId())) {
+                contactsBDD.removePhoneNumber(pn);
+            }
         }
 
         List<EmailAddress> current_addresses = c.getEmailListAddress();
         ArrayList<Long> email_ids = new ArrayList<Long>();
 
-        for (EmailAddress address: current_addresses) {
+        for (EmailAddress address : current_addresses) {
             address.setId(contactsBDD.insertOrUpdateEmail(address, c));
             email_ids.add(address.getId());
         }
@@ -96,9 +96,24 @@ public class DataManager {
         return c;
     }
 
+    public void removeContact(Contact contact) {
+        contactsBDD.openForWrite();
+
+        for (EmailAddress address : contact.getEmailListAddress()) {
+            contactsBDD.removeEmail(address);
+        }
+
+        for (PhoneNumber pn : contact.getPhoneNumbers()) {
+            contactsBDD.removePhoneNumber(pn);
+        }
+        contactsBDD.removeContact(contact);
+        contacts.remove(contact);
+        contactsBDD.close();
+    }
+
     public Contact getContact(long id) {
-        for(Contact d : contacts){
-            if(d.getId() == id)
+        for (Contact d : contacts) {
+            if (d.getId() == id)
                 return d;
         }
         return null;
