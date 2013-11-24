@@ -322,10 +322,11 @@ public class ContactEdition extends Activity implements View.OnClickListener {
             this.validate_button.setOnClickListener(this);
 
             this.tag_spinner = (Spinner) view.findViewById(R.id.tag_spinner);
+
             ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this.getActivity().getApplicationContext(),
                     R.array.phone_defaults_tags, R.layout.simple_spinner_item);
 
-            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            adapter.setDropDownViewResource(R.layout.simple_spinner_dropdown_item);
 
             tag_spinner.setAdapter(adapter);
             tag_spinner.setOnItemSelectedListener(this);
@@ -399,7 +400,7 @@ public class ContactEdition extends Activity implements View.OnClickListener {
             phone_number.setTag(value);
             ArrayAdapter<CharSequence> adapter = new ArrayAdapter<CharSequence>(this.getActivity().getApplicationContext(),
                     R.layout.simple_spinner_item, new_array);
-            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            adapter.setDropDownViewResource(R.layout.simple_spinner_dropdown_item);
             tag_spinner.setAdapter(adapter);
             tag_spinner.setSelection(old_array.length);
         }
@@ -461,7 +462,7 @@ public class ContactEdition extends Activity implements View.OnClickListener {
             ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this.getActivity().getApplicationContext(),
                     R.array.emails_defaults_tags, R.layout.simple_spinner_item);
 
-            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            adapter.setDropDownViewResource(R.layout.simple_spinner_dropdown_item);
 
             tag_spinner.setAdapter(adapter);
             tag_spinner.setOnItemSelectedListener(this);
@@ -551,7 +552,7 @@ public class ContactEdition extends Activity implements View.OnClickListener {
             email_address.setTag(value);
             ArrayAdapter<CharSequence> adapter = new ArrayAdapter<CharSequence>(this.getActivity().getApplicationContext(),
                     R.layout.simple_spinner_item, new_array);
-            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            adapter.setDropDownViewResource(R.layout.simple_spinner_dropdown_item);
             tag_spinner.setAdapter(adapter);
             tag_spinner.setSelection(old_array.length);
 
