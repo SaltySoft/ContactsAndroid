@@ -5,4 +5,11 @@
         <item>Pro</item>
         <item>Customized...</item>
     </string-array>
+
+    <string-array name="phone_defaults_tags">
+        <item>Mobile</item>
+        <item>Home</item>
+        <item>Work</item>
+        <item>Customized...</item>
+    </string-array>
 </resources>

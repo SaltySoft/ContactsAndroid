@@ -257,7 +257,7 @@ public class ContactEdition extends Activity implements View.OnClickListener {
         return cursor.getString(column_index);
     }
 
-    public class PhoneFragment extends Fragment implements View.OnClickListener {
+    public class PhoneFragment extends Fragment implements View.OnClickListener, AdapterView.OnItemSelectedListener ,TagFragment {
 
         private PhoneNumber phone_number;
         private EditText input;
@@ -265,14 +265,19 @@ public class ContactEdition extends Activity implements View.OnClickListener {
         private ImageButton edit_button;
         private ImageButton delete_button;
         private ImageButton validate_button;
+        private Spinner tag_spinner;
+        private String[] old_array;
 
         public PhoneFragment(PhoneNumber phone) {
             this.phone_number = phone;
         }
 
         @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        public View onCreateView(LayoutInflater inflater, ViewGroup container,  Bundle savedInstanceState) {
             View view = inflater.inflate(R.layout.edition_phone_fragment, container, false);
+
+            old_array = getResources().getStringArray(R.array.phone_defaults_tags);
+
             this.display = (TextView) view.findViewById(R.id.phone_number_container);
             if (phone_number.getNumber() != "") {
                 this.display.setText(phone_number.getNumber());
@@ -291,6 +296,30 @@ public class ContactEdition extends Activity implements View.OnClickListener {
 
             this.validate_button = (ImageButton) view.findViewById(R.id.phone_validate_button);
             this.validate_button.setOnClickListener(this);
+
+            this.tag_spinner = (Spinner) view.findViewById(R.id.tag_spinner);
+            ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this.getActivity().getApplicationContext(),
+                    R.array.phone_defaults_tags, R.layout.simple_spinner_item);
+
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+            tag_spinner.setAdapter(adapter);
+            tag_spinner.setOnItemSelectedListener(this);
+
+            //Setting tag at startup
+            Boolean custom_tag = true;
+            int tag_to_select = -1;
+            for (int i = 0; i < old_array.length; i++) {
+                if (old_array[i].equals(phone_number.getTag())) {
+                    custom_tag = false;
+                    tag_to_select = i;
+                }
+            }
+            if (custom_tag) {
+                this.addTag(phone_number.getTag());
+            } else {
+                tag_spinner.setSelection(tag_to_select);
+            }
 
             return view;
         }
@@ -333,6 +362,38 @@ public class ContactEdition extends Activity implements View.OnClickListener {
                     imm.hideSoftInputFromWindow(input.getWindowToken(), 0);
                     break;
             }
+        }
+
+        @Override
+        public void addTag(String value) {
+            String[] new_array = new String[old_array.length + 1];
+            for (int i = 0; i < old_array.length; i++) {
+                new_array[i] = old_array[i];
+            }
+            new_array[new_array.length - 1] = value;
+            phone_number.setTag(value);
+            ArrayAdapter<CharSequence> adapter = new ArrayAdapter<CharSequence>(this.getActivity().getApplicationContext(),
+                    R.layout.simple_spinner_item, new_array);
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            tag_spinner.setAdapter(adapter);
+            tag_spinner.setSelection(old_array.length);
+        }
+
+        @Override
+        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+            String elt = (String) parent.getItemAtPosition(position);
+
+            if (elt.equals(old_array[old_array.length - 1])) {
+                TagDialog dialog = new TagDialog(this);
+                dialog.show(getActivity().getFragmentManager(), "TagCustomizer");
+            } else {
+                phone_number.setTag(elt);
+            }
+        }
+
+        @Override
+        public void onNothingSelected(AdapterView<?> parent) {
+
         }
     }
 
