@@ -68,9 +68,16 @@ public class ContactShow extends Activity implements View.OnClickListener {
         super.onResume();
 
         this._contact = this._dataManager.getContact(this._contact_id);
-        this.fillContactShow();
-        this.managePhoneNumbers();
-        this.manageEmailsAddress();
+
+        if (this._contact == null) {
+            finish();
+        } else {
+            this.fillContactShow();
+            this.managePhoneNumbers();
+            this.manageEmailsAddress();
+        }
+
+
     }
 
     @Override

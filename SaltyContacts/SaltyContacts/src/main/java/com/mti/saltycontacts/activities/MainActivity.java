@@ -50,7 +50,6 @@ public class MainActivity extends Activity implements View.OnClickListener {
     @Override
     protected void onResume() {
         super.onResume();
-        this.contacts = dataManager.getContacts();
         refresh();
 
     }
