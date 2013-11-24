@@ -18,6 +18,7 @@ public class ContactSQLite extends SQLiteOpenHelper {
     private static final String COL_CONTACT_LASTNAME = "LASTNAME";
     private static final String COL_CONTACT_ADDRESS = "ADDRESS";
     private static final String COL_CONTACT_PICTURE_URL = "PICTURE_URL";
+    private static final String COL_CONTACT_ANDROID_ID = "ANDROID_ID";
 
     private static final String TABLE_EMAIL = "table_emails";
     private static final String COL_EMAIL_ID = "ID";
@@ -38,7 +39,10 @@ public class ContactSQLite extends SQLiteOpenHelper {
             + COL_CONTACT_FIRSTNAME + " TEXT NOT NULL, "
             + COL_CONTACT_LASTNAME + " TEXT NOT NULL, "
             + COL_CONTACT_ADDRESS + " TEXT NOT NULL, "
-            + COL_CONTACT_PICTURE_URL + " TEXT);";
+            + COL_CONTACT_PICTURE_URL + " TEXT, "
+            + COL_CONTACT_ANDROID_ID + " TEXT); ";
+
+
     private static final String CREATE_EMAIL_TABLE =
             "CREATE TABLE "
                     + TABLE_EMAIL
@@ -69,11 +73,6 @@ public class ContactSQLite extends SQLiteOpenHelper {
         db.execSQL(CREATE_CONTACT_TABLE);
         db.execSQL(CREATE_EMAIL_TABLE);
         db.execSQL(CREATE_PHONE_TABLE);
-
-
-
-
-
     }
 
     @Override

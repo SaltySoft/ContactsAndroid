@@ -7,8 +7,10 @@
         android:orderInCategory="100"
         android:showAsAction="always" />
 
-    <item android:id="@+id/action_settings"
-        android:title="@string/action_settings"
+
+
+    <item android:id="@+id/action_import_contacts"
+        android:title="@string/action_import_contacts"
         android:orderInCategory="100"
         android:showAsAction="never" />
 

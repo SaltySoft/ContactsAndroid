@@ -7,6 +7,8 @@
     <string name="action_add_contact">Add contact</string>
     <string name="title_activity_contact_edition">ContactEdition</string>
 
+    <string name="action_import_contacts">Import contacts</string>
+
 
 
 

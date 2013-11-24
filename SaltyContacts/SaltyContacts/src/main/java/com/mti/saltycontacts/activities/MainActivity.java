@@ -43,7 +43,11 @@ public class MainActivity extends Activity implements View.OnClickListener {
     @Override
     protected void onResume() {
         super.onResume();
+        refresh();
 
+    }
+
+    private void refresh() {
         Contact[] contacts_array = new Contact[contacts.size()];
         contacts.toArray(contacts_array);
         ListView list = (ListView) findViewById(R.id.my_contacts_list);
@@ -101,6 +105,10 @@ public class MainActivity extends Activity implements View.OnClickListener {
                 Intent intent = new Intent(this, ContactEdition.class);
                 intent.putExtra("CONTACT", new_contact);
                 startActivity(intent);
+                return true;
+            case R.id.action_import_contacts:
+                dataManager.fillContacts();
+                refresh();
                 return true;
         }
         return super.onOptionsItemSelected(item);

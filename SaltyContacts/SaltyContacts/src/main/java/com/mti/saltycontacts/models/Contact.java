@@ -17,12 +17,15 @@ import java.util.List;
 public class Contact implements Parcelable {
 
     private long id;
+    private String android_id;
     private String _firstname;
     private String _lastname;
     private String _postalAddress;
     private String _picture_url;
     private ArrayList<PhoneNumber> _phoneNumbers;
     private ArrayList<EmailAddress> _emailsAddress;
+
+    private boolean _modified = false;
 
     public Contact() {
         this.id = 0;
@@ -107,6 +110,22 @@ public class Contact implements Parcelable {
 
     public void setEmailsAddress(ArrayList<EmailAddress> _emailsAddress) {
         this._emailsAddress = _emailsAddress;
+    }
+
+    public boolean isModified() {
+        return _modified;
+    }
+
+    public void setModified(boolean _modified) {
+        this._modified = _modified;
+    }
+
+    public String getAndroidId() {
+        return android_id;
+    }
+
+    public void setAndroidId(String android_id) {
+        this.android_id = android_id;
     }
 
     public boolean addPhoneNumber(PhoneNumber phoneNumber) {
@@ -194,5 +213,7 @@ public class Contact implements Parcelable {
         c._postalAddress = this._postalAddress;
         c._phoneNumbers = this._phoneNumbers;
         c._emailsAddress = this._emailsAddress;
+        c.android_id = this.android_id;
+        c.id = this.id;
     }
 }
