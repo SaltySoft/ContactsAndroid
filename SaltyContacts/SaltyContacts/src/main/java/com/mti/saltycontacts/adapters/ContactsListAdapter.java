@@ -8,6 +8,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.mti.saltycontacts.business.ImageManager;
 import com.mti.saltycontacts.models.Contact;
 
 import com.mti.saltycontacts.R;
@@ -61,8 +62,10 @@ public class ContactsListAdapter extends ArrayAdapter<Contact> {
 
         Contact contact = this._adapterData.get(position);
         holder.textView.setText(contact.getFullName());
-        holder.imageView.setImageResource(R.drawable.ic_launcher);
 
+        if (!contact.getPictureUrl().equals("")) {
+            holder.imageView.setImageBitmap(ImageManager.bitmapFromUrl(_context, contact.getPictureUrl()));
+        }
         return convertView;
     }
 
