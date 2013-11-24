@@ -40,7 +40,16 @@ public class ImageManager {
             //Decode with inSampleSize
             BitmapFactory.Options o2 = new BitmapFactory.Options();
             o2.inSampleSize = scale;
-            return rotateBitmap(BitmapFactory.decodeStream(new FileInputStream(f), null, o2), getOrientation(context, url));
+            Bitmap result = rotateBitmap(BitmapFactory.decodeStream(new FileInputStream(f), null, o2), getOrientation(context, url));
+            Bitmap cropped_result;
+            if (result.getWidth() >= result.getHeight()) {
+                int displace = (result.getWidth() - result.getHeight()) / 2;
+                cropped_result = Bitmap.createBitmap(result, displace, 0, result.getHeight(), result.getHeight());
+            } else {
+                int displace = (result.getHeight() - result.getWidth()) / 2;
+                cropped_result = Bitmap.createBitmap(result, 0, displace, result.getWidth(), result.getWidth());
+            }
+            return cropped_result;
         } catch (FileNotFoundException e) {
         }
         return null;
