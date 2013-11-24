@@ -43,7 +43,7 @@ public class ContactShow extends Activity implements View.OnClickListener {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getActionBar().setDisplayHomeAsUpEnabled(true);
-        setTheme(R.style.contactShowTheme);
+//        setTheme(R.style.contactShowTheme);
         setContentView(R.layout.activity_contact_show);
 
         this._dataManager = DataManager.getInstance(ContactShow.this);
@@ -110,8 +110,14 @@ public class ContactShow extends Activity implements View.OnClickListener {
             firstname.setText(this._contact.getFirstName());
             lastname.setText(this._contact.getLastName());
             this._address.setText(this._contact.getPostalAddress());
-            Bitmap bitmap = ImageManager.bitmapFromUrl(ContactShow.this, this._contact.getPictureUrl());
-            image.setImageBitmap(bitmap);
+
+            if (this._contact.getPictureUrl() != "") {
+                Bitmap bitmap = ImageManager.bitmapFromUrl(ContactShow.this, this._contact.getPictureUrl());
+                image.setImageBitmap(bitmap);
+            } else {
+                Bitmap bitmap = ImageManager.bitmapFromUrl(ContactShow.this, "@android:drawable/ic_menu_camera");
+                image.setImageBitmap(bitmap);
+            }
         }
     }
 
@@ -134,8 +140,8 @@ public class ContactShow extends Activity implements View.OnClickListener {
                                     int pos, long l) {
                 Adapter adapter = adapterView.getAdapter();
                 PhoneNumber phoneNumber = (PhoneNumber) adapter.getItem(pos);
-                Toast.makeText(ContactShow.this, "Click sur l'item = " + phoneNumber.getNumber(),
-                        Toast.LENGTH_LONG).show();
+//                Toast.makeText(ContactShow.this, "Click sur l'item = " + phoneNumber.getNumber(),
+//                        Toast.LENGTH_LONG).show();
                 try {
 //                    Intent callIntent = new Intent(Intent.ACTION_CALL);
                     Intent callIntent = new Intent(Intent.ACTION_DIAL);
@@ -163,8 +169,8 @@ public class ContactShow extends Activity implements View.OnClickListener {
                                     int pos, long l) {
                 Adapter adapter = adapterView.getAdapter();
                 EmailAddress emailAddress = (EmailAddress) adapter.getItem(pos);
-                Toast.makeText(ContactShow.this, "Click sur l'item = " + emailAddress.getAddress(),
-                        Toast.LENGTH_LONG).show();
+//                Toast.makeText(ContactShow.this, "Click sur l'item = " + emailAddress.getAddress(),
+//                        Toast.LENGTH_LONG).show();
 
                 Intent email = new Intent(Intent.ACTION_SEND);
                 email.putExtra(Intent.EXTRA_EMAIL, new String[]{emailAddress.getAddress()});
@@ -180,7 +186,7 @@ public class ContactShow extends Activity implements View.OnClickListener {
             case R.id.contact_show_address:
                 String postalAddress = this._contact.getPostalAddress();
                 if (postalAddress != null && postalAddress != "") {
-                    String newPostalAddress = postalAddress.replace(' ','+');
+                    String newPostalAddress = postalAddress.replace(' ', '+');
                     String format = "geo:0,0?q=" + newPostalAddress;
                     Uri uri = Uri.parse(format);
                     Intent intent = new Intent(Intent.ACTION_VIEW, uri);

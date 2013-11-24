@@ -10,50 +10,42 @@
         android:layout_height="fill_parent"
         android:orientation="vertical">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center|center_vertical"
-            android:text="@string/contact_show_title"
-            android:textSize="30dp" />
-
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <ImageView
-                android:id="@+id/contact_show_picture"
-                android:src="@android:drawable/ic_menu_camera"
-                android:layout_height="150dp"
-                android:layout_width="100dp"
-                android:layout_marginTop="15dp"
-                android:layout_marginLeft="15dp"
-                android:layout_marginBottom="15dp" />
+            android:layout_height="wrap_content">
 
             <LinearLayout
-                android:layout_width="fill_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:layout_weight="2"
+                android:orientation="vertical"
+                android:layout_marginTop="15dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:layout_marginBottom="15dp">
 
                 <LinearLayout
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="5dp"
                     android:layout_marginTop="10dp"
-                    android:layout_marginRight="10dp">
+                    android:layout_marginRight="10dp"
+                    android:orientation="vertical">
 
                     <TextView
+                        style="@style/contactShowThemeLabels"
                         android:gravity="center"
-                        android:layout_weight="1"
-                        android:layout_width="0dp"
+                        android:layout_width="wrap_content"
                         android:layout_height="fill_parent"
                         android:text="@string/firstname_label" />
 
                     <TextView
+                        style="@style/contactShowThemeInfos"
                         android:id="@+id/contact_show_firstname"
-                        android:layout_weight="1"
-                        android:layout_width="0dp"
-                        android:layout_height="fill_parent" />
+                        android:layout_width="wrap_content"
+                        android:layout_height="fill_parent"
+                        android:text="Firstname" />
+
                 </LinearLayout>
 
                 <LinearLayout
@@ -61,20 +53,22 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="5dp"
                     android:layout_marginTop="10dp"
-                    android:layout_marginRight="10dp">
+                    android:layout_marginRight="10dp"
+                    android:orientation="vertical">
 
                     <TextView
+                        style="@style/contactShowThemeLabels"
                         android:gravity="center"
-                        android:layout_weight="1"
-                        android:layout_width="0dp"
+                        android:layout_width="wrap_content"
                         android:layout_height="fill_parent"
                         android:text="@string/lastname_label" />
 
                     <TextView
+                        style="@style/contactShowThemeInfos"
                         android:id="@+id/contact_show_lastname"
-                        android:layout_weight="1"
-                        android:layout_width="0dp"
-                        android:layout_height="fill_parent" />
+                        android:layout_width="wrap_content"
+                        android:layout_height="fill_parent"
+                        android:text="Lastname" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -82,73 +76,99 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="5dp"
                     android:layout_marginTop="10dp"
-                    android:layout_marginRight="10dp">
+                    android:layout_marginRight="10dp"
+                    android:orientation="vertical">
 
                     <TextView
+                        style="@style/contactShowThemeLabels"
                         android:gravity="center"
-                        android:layout_weight="1"
-                        android:layout_width="0dp"
+                        android:layout_width="wrap_content"
                         android:layout_height="fill_parent"
                         android:text="@string/postal_address_label" />
 
                     <TextView
+                        style="@style/contactShowThemeInfos"
                         android:id="@+id/contact_show_address"
-                        android:layout_weight="1"
-                        android:layout_width="0dp"
-                        android:layout_height="fill_parent" />
+                        android:layout_width="wrap_content"
+                        android:layout_height="fill_parent"
+                        android:text="Postal Address" />
                 </LinearLayout>
+            </LinearLayout>
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginBottom="5dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginRight="10dp"
-                    android:orientation="vertical">
+            <ImageView
+                android:id="@+id/contact_show_picture"
+                android:src="@android:drawable/ic_menu_camera"
+                android:adjustViewBounds="true"
+                android:scaleType="centerCrop"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:minHeight="150dp"
+                android:minWidth="150dp"
+                android:maxHeight="200dp"
+                android:maxWidth="200dp"
+                android:layout_weight="3"
+                android:layout_marginTop="15dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:layout_marginBottom="15dp" />
 
-                    <TextView
-                        android:gravity="center"
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:text="@string/phone_numbers_label" />
+        </LinearLayout>
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:orientation="vertical">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="10dp"
+            android:orientation="vertical">
 
-                        <ListView
-                            android:id="@+id/phone_numbers_list"
-                            android:layout_width="fill_parent"
-                            android:layout_height="fill_parent"></ListView>
-                    </LinearLayout>
-                </LinearLayout>
+            <TextView
+                android:gravity="center"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/phone_numbers_label"
+                android:layout_gravity="center"
+                android:background="@android:color/darker_gray"
+                android:textColor="@android:color/white" />
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginBottom="5dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginRight="10dp"
-                    android:orientation="vertical">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
 
-                    <TextView
-                        android:gravity="center"
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:text="@string/email_address_label" />
+                <ListView
+                    android:id="@+id/phone_numbers_list"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"></ListView>
+            </LinearLayout>
+        </LinearLayout>
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:orientation="vertical">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginRight="10dp"
+            android:orientation="vertical">
 
-                        <ListView
-                            android:id="@+id/emails_address_list"
-                            android:layout_width="fill_parent"
-                            android:layout_height="fill_parent"></ListView>
-                    </LinearLayout>
-                </LinearLayout>
+            <TextView
+                android:gravity="center"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/email_address_label"
+                android:layout_gravity="center"
+                android:background="@android:color/darker_gray"
+                android:textColor="@android:color/white" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <ListView
+                    android:id="@+id/emails_address_list"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"></ListView>
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>
