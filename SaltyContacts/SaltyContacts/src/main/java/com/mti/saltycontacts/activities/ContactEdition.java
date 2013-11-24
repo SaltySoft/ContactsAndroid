@@ -48,7 +48,7 @@ public class ContactEdition extends Activity implements View.OnClickListener {
     LinearLayout phone_list;
     DataManager dataManager;
     LinearLayout email_list;
-    ImageView pictureChooser;
+    ImageButton pictureChooser;
 
     Uri selectedImageUri;
     String selectedPath;
@@ -69,7 +69,7 @@ public class ContactEdition extends Activity implements View.OnClickListener {
         address_input = (EditText) findViewById(R.id.edition_address_input);
         this.phone_list = (LinearLayout) findViewById(R.id.edition_phone_list);
         email_list = (LinearLayout) findViewById(R.id.edition_email_list);
-        pictureChooser = (ImageView) findViewById(R.id.edition_user_image_button);
+        pictureChooser = (ImageButton) findViewById(R.id.edition_user_image_button);
         pictureChooser.setOnClickListener(this);
 
         Bundle bundle = this.getIntent().getExtras();
@@ -154,8 +154,10 @@ public class ContactEdition extends Activity implements View.OnClickListener {
     }
 
     public void setImage(String url) {
-        Bitmap image = ImageManager.bitmapFromUrl(ContactEdition.this, url);
-        pictureChooser.setImageBitmap(image);
+        if (url != "") {
+            Bitmap image = ImageManager.bitmapFromUrl(ContactEdition.this, url);
+            pictureChooser.setImageBitmap(image);
+        }
     }
 
     @Override

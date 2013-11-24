@@ -20,80 +20,100 @@
 
         <LinearLayout
             android:orientation="horizontal"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center">
-
-            <ImageView
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:id="@+id/edition_user_image_button"
-                android:layout_weight="1"
-                android:adjustViewBounds="true"
-                android:scaleType="fitCenter"
-
-                android:src="@android:drawable/ic_menu_camera"
-                android:layout_gravity="center" />
-        </LinearLayout>
-
-        <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content">
 
-            <TextView
-                android:gravity="center"
-                android:layout_weight="1"
-                android:layout_width="0dp"
-                android:layout_height="fill_parent"
-                android:text="@string/firstname_label" />
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:
+                android:layout_gravity="center">
 
-            <EditText
-                android:id="@+id/edition_firstname_input"
-                android:layout_weight="2"
+                <ImageButton
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:id="@+id/edition_user_image_button"
+                    android:adjustViewBounds="true"
+                    android:scaleType="centerCrop"
+
+                    android:src="@android:drawable/ic_menu_camera"
+                    android:layout_gravity="center" />
+            </LinearLayout>
+
+            <LinearLayout
                 android:layout_width="0dp"
-                android:layout_height="fill_parent" />
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_weight="2"
+                >
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content">
+
+                    <!--<TextView-->
+                    <!--android:gravity="center"-->
+                    <!--android:layout_weight="1"-->
+                    <!--android:layout_width="0dp"-->
+                    <!--android:layout_height="fill_parent"-->
+                    <!--android:text="@string/firstname_label" />-->
+
+                    <EditText
+                        android:id="@+id/edition_firstname_input"
+                        android:layout_weight="2"
+                        android:layout_width="0dp"
+                        android:layout_height="fill_parent"
+                        android:hint="@string/firstname_label" />
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content">
+
+                    <!--<TextView-->
+                    <!--android:gravity="center"-->
+                    <!--android:layout_weight="1"-->
+                    <!--android:layout_width="0dp"-->
+                    <!--android:layout_height="fill_parent"-->
+                    <!--android:text="@string/lastname_label" />-->
+
+                    <EditText
+                        android:id="@+id/edition_lastname_input"
+                        android:layout_weight="2"
+                        android:layout_width="0dp"
+                        android:layout_height="fill_parent"
+                        android:hint="@string/lastname_label" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content">
+
+                    <!--<TextView-->
+                    <!--android:gravity="center"-->
+                    <!--android:layout_weight="1"-->
+                    <!--android:layout_width="0dp"-->
+                    <!--android:layout_height="fill_parent"-->
+                    <!--android:text="@string/address_label" />-->
+
+                    <EditText
+                        android:id="@+id/edition_address_input"
+                        android:layout_weight="2"
+                        android:layout_width="0dp"
+                        android:layout_height="fill_parent"
+                        android:hint="@string/address_label" />
+                </LinearLayout>
+            </LinearLayout>
         </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content">
-
-            <TextView
-                android:gravity="center"
-                android:layout_weight="1"
-                android:layout_width="0dp"
-                android:layout_height="fill_parent"
-                android:text="@string/lastname_label" />
-
-            <EditText
-                android:id="@+id/edition_lastname_input"
-                android:layout_weight="2"
-                android:layout_width="0dp"
-                android:layout_height="fill_parent" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content">
-
-            <TextView
-                android:gravity="center"
-                android:layout_weight="1"
-                android:layout_width="0dp"
-                android:layout_height="fill_parent"
-                android:text="@string/address_label" />
-
-            <EditText
-                android:id="@+id/edition_address_input"
-                android:layout_weight="2"
-                android:layout_width="0dp"
-                android:layout_height="fill_parent" />
-        </LinearLayout>
 
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent">
+
             <TextView
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
@@ -102,14 +122,15 @@
                 android:background="@android:color/darker_gray"
                 android:textColor="@android:color/white"
                 android:text="Phone numbers" />
+
             <LinearLayout
                 android:orientation="vertical"
                 android:id="@+id/edition_phone_list"
                 android:layout_width="fill_parent"
-                android:layout_height="wrap_content">
-            </LinearLayout>
+                android:layout_height="wrap_content"></LinearLayout>
+
             <ImageButton
-                android:layout_width="wrap_content"
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/edition_add_phone_button"
                 android:src="@android:drawable/ic_menu_add"
@@ -120,6 +141,7 @@
             android:orientation="vertical"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent">
+
             <TextView
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
@@ -128,14 +150,15 @@
                 android:background="@android:color/darker_gray"
                 android:textColor="@android:color/white"
                 android:text="Email" />
+
             <LinearLayout
                 android:orientation="vertical"
                 android:id="@+id/edition_email_list"
                 android:layout_width="fill_parent"
-                android:layout_height="wrap_content">
-            </LinearLayout>
+                android:layout_height="wrap_content"></LinearLayout>
+
             <ImageButton
-                android:layout_width="wrap_content"
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/edition_add_email_button"
                 android:src="@android:drawable/ic_menu_add"
@@ -149,8 +172,7 @@
             android:layout_height="wrap_content"
             android:background="@android:color/holo_red_dark"
             android:textColor="@android:color/white"
-            android:text="Delete contact"
-            />
+            android:text="Delete contact" />
 
     </LinearLayout>
 </ScrollView>
