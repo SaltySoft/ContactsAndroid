@@ -48,7 +48,7 @@ public class Contact implements Parcelable {
     }
 
     public String getFullName() {
-        return this._lastname + " " + this._firstname;
+        return this._firstname + " " + this._lastname;
     }
 
     public String getFirstName() {
@@ -208,6 +208,7 @@ public class Contact implements Parcelable {
         c._phoneNumbers = this._phoneNumbers;
         c._emailsAddress = this._emailsAddress;
         c.android_id = this.android_id;
+        c._picture_url = this._picture_url;
         c.id = this.id;
     }
 }

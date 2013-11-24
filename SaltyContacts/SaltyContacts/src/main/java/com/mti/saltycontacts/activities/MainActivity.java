@@ -153,6 +153,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
             super.onPostExecute(aVoid);
             loading_layout.setVisibility(View.GONE);
             list.setVisibility(View.VISIBLE);
+            refresh();
         }
 
 
