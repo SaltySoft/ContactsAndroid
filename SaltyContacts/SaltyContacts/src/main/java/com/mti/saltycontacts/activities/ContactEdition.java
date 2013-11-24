@@ -198,8 +198,12 @@ public class ContactEdition extends Activity implements View.OnClickListener {
         String firstname = firstname_input.getText().toString();
         String lastname = lastname_input.getText().toString();
         String postalAddress = address_input.getText().toString();
-        if (firstname != "" && lastname != "") {
+
+        if (firstname.length() == 0 && lastname.length() == 0) {
+            Toast.makeText(ContactEdition.this, "Enter a name for this contact.",
+                    Toast.LENGTH_LONG).show();
             this.contact.setFirstName(firstname);
+        } else {
             this.contact.setLastName(lastname);
             this.contact.setPostalAddress(postalAddress);
             this.contact.setPictureUrl(selectedPath);
@@ -207,9 +211,6 @@ public class ContactEdition extends Activity implements View.OnClickListener {
             contact = dataManager.persist(contact);
 
             finish();
-        } else {
-            Toast.makeText(ContactEdition.this, "Enter a name for this contact.",
-                    Toast.LENGTH_LONG).show();
         }
     }
 
