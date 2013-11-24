@@ -1,12 +1,8 @@
 package com.mti.saltycontacts.dataAccess;
 
-import android.annotation.SuppressLint;
 import android.content.ContentResolver;
 import android.content.Context;
-import android.content.CursorLoader;
 import android.database.Cursor;
-import android.net.Uri;
-import android.os.Build;
 import android.provider.ContactsContract;
 import android.util.Log;
 
@@ -25,7 +21,7 @@ public class DataManager {
 
     private static DataManager instance;
     private Context _context;
-    private  HashMap<String, Contact> map = new HashMap<String, Contact>();
+    private HashMap<String, Contact> map = new HashMap<String, Contact>();
 
     public static DataManager getInstance(Context ctx) {
 
@@ -54,6 +50,7 @@ public class DataManager {
                 ContactsContract.Contacts.DISPLAY_NAME);
         final int nameIndex = cur.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME);
         final int hasPhoneIndex = cur.getColumnIndex(ContactsContract.Contacts.HAS_PHONE_NUMBER);
+
         final int idIndex = cur.getColumnIndex(ContactsContract.Contacts._ID);
 
 
@@ -93,12 +90,40 @@ public class DataManager {
                         }
                     }
                     if (add) {
-                        contact.addPhoneNumber(new PhoneNumber(number, label));
+                        PhoneNumber n = new PhoneNumber(number, label);
+
+                        if (n.getTag() == "" || n.getTag() == null) {
+                            n.setTag("Mobile");
+                        }
+                        contact.addPhoneNumber(n);
                         contact.setModified(true);
                     }
                 }
                 pCur.close();
             }
+
+            Cursor emailCur = cr.query(ContactsContract.CommonDataKinds.Email.CONTENT_URI, null, ContactsContract.CommonDataKinds.Email.CONTACT_ID + " = ?", new String[]{id}, null);
+
+            while (emailCur.moveToNext()) {
+                boolean add =true;
+                String email = emailCur.getString(emailCur.getColumnIndex(ContactsContract.CommonDataKinds.Email.DATA));
+                String label = emailCur.getString(emailCur.getColumnIndex(ContactsContract.CommonDataKinds.Email.LABEL));
+                for (EmailAddress e : contact.getEmailListAddress()) {
+                    if (e.getAddress().equals(email)) {
+                        add = false;
+                    }
+                }
+                if (add) {
+                    EmailAddress address = new EmailAddress(email, label);
+                    if (address.getTag() == "" || address.getTag() == null) {
+                        address.setTag("Personal");
+                    }
+                    contact.addEmailAddress(address);
+                    contact.setModified(true);
+                }
+            }
+
+            emailCur.close();
 
 
             if (contact.isModified()) {
